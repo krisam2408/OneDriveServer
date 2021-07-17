@@ -1,0 +1,24 @@
+﻿using GoogleExplorer.Extensions;
+
+namespace GoogleExplorer
+{
+    public enum MimeTypes
+    {
+        Null,
+        [MimeType("application/vnd.google-apps.folder")]
+        GoogleFolder,
+        [MimeType("application/vnd.google-apps.spreadsheet")]
+        GoogleSpreadSheet,
+        [MimeType("text/plain")]
+        Text,
+        [MimeType("application/pdf")]
+        PDF,
+        [MimeType("aplication/vnd.openxmlformats-officedocument.wordprocessingml.document")]
+        OfficeWord,
+        [MimeType("image/jpeg")]
+        JPG,
+        [MimeType("image/png")]
+        PNG,
+
+    }
+}

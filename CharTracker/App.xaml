@@ -1,0 +1,15 @@
+﻿<Application x:Class="CharTracker.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:CharTracker"
+             xmlns:core="clr-namespace:CharTracker.Core"
+             xmlns:model="clr-namespace:CharTracker.Model"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <model:Locator x:Key="Locator" />
+
+            <core:BoolConverter x:Key="Bool" />
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
