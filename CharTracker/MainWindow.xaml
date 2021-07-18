@@ -5,34 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CharTracker"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
-        DataContext="{Binding Terminal, Source={StaticResource Locator}}">
-    <Grid DataContext="{Binding Main}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Border BorderBrush="Black" BorderThickness="2" CornerRadius="8" Grid.Column="0" Grid.Row="0" Padding="4" Margin="4">
-            <TextBox Text="{Binding UpdateText}" IsEnabled="{Binding IsLogued}" BorderThickness="0" />
-        </Border>
-        <Border BorderBrush="Black" BorderThickness="2" CornerRadius="8" Grid.Column="0" Grid.Row="1" Padding="4" Margin="4">
-            <TextBlock Text="{Binding ReadText}" />
-        </Border>
-        <Border BorderBrush="Black" BorderThickness="2" CornerRadius="8" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Padding="4" Margin="4">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Button Content="LogIn" Grid.Row="0" Command="{Binding LogInCommand}" IsEnabled="{Binding IsLogued, Converter={StaticResource Bool}}" />
-                <Button Content="Save" Grid.Row="1" Command="{Binding UpdateCommand}" IsEnabled="{Binding IsLogued}" />
-                <Button Content="LogOut" Grid.Row="2" Command="{Binding LogOutCommand}" IsEnabled="{Binding IsLogued}" />
-            </Grid>
-        </Border>
-    </Grid>
+        DataContext="{Binding Terminal, Source={StaticResource Locator}}"
+        Title="Char Tracker" Height="{Binding WindowHeight}" Width="{Binding WindowWidth}"
+        WindowStyle="None"
+        Background="Transparent"
+        AllowsTransparency="True">
+    <Border Background="{StaticResource Dark}" CornerRadius="16" Padding="8,0,8,8">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="96" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Image Grid.Row="0" Grid.Column="0" Source="/Content/btn-dice.png" ToolTip="Char Tracker " />
+
+            <Frame Grid.Row="0" Grid.Column="1" Source="View/NavigationPage.xaml" />
+
+            <Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Source="{Binding Navigation.FrameDestination}" NavigationUIVisibility="Hidden" />
+        </Grid>
+    </Border>
 </Window>

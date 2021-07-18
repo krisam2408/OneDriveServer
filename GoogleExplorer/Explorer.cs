@@ -10,17 +10,22 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using GFile = Google.Apis.Drive.v3.Data.File;
+using File = System.IO.File;
 using GoogleExplorer.Extensions;
 using System.Diagnostics;
+using Google.Apis.Drive.v3.Data;
 
 namespace GoogleExplorer
 {
     public class Explorer
     {
-        private readonly string[] scopes = new string[] { Google.Apis.Drive.v3.DriveService.Scope.Drive };
+        private readonly string[] scopes = new string[] { DriveService.Scope.Drive };
+        private const string credentials = "credentials.json";
         
         public string ApplicationName { get; init; }
-        public string Credentials { get; set; }
+        public string UserMail { get; private set; }
+        public string CoreFolder { get { return $"{ApplicationName}-{UserMail}"; } }
+
 
         private DriveService DriveService { get; set; }
         
@@ -30,7 +35,7 @@ namespace GoogleExplorer
             {
                 UserCredential credential;
 
-                using FileStream fs = new FileStream("credentials.json", FileMode.Open, FileAccess.Read);
+                using FileStream fs = new FileStream(credentials, FileMode.Open, FileAccess.Read);
 
                 string credPath = "token.json";
 
@@ -47,6 +52,11 @@ namespace GoogleExplorer
                     HttpClientInitializer = credential,
                     ApplicationName = ApplicationName
                 });
+
+                AboutResource.GetRequest userRequest = DriveService.About.Get();
+                userRequest.Fields = "user";
+                About user = await userRequest.ExecuteAsync();
+                UserMail = user.User.EmailAddress;
             }
 
             return DriveService;
@@ -56,7 +66,7 @@ namespace GoogleExplorer
         {
             UserCredential credential;
 
-            using FileStream fs = new FileStream("credentials.json", FileMode.Open, FileAccess.Read);
+            using FileStream fs = new FileStream(credentials, FileMode.Open, FileAccess.Read);
 
             string credPath = "token.json";
 
@@ -76,24 +86,27 @@ namespace GoogleExplorer
             return result;
         }
 
-        private Explorer(string name, string credentials)
+        private Explorer(string name)
         {
             ApplicationName = name;
-            Credentials = credentials;
         }
 
-        public static async Task<Explorer> CreateAsync(string name, string credentials)
+        public static async Task<Explorer> CreateAsync(string name)
         {
+            Explorer explorer;
             try
             {
                 await File.ReadAllTextAsync(credentials);
+                explorer = new(name);
             }
             catch(FileNotFoundException)
             {
                 return null;
             }
 
-            return new(name, credentials);
+            await explorer.Authenticate();
+
+            return explorer;
         }
 
         public async Task Dispose()
@@ -298,7 +311,7 @@ namespace GoogleExplorer
             return null;
         }
 
-        public async Task CreateFolder(string name)
+        public async Task<string> CreateFolder(string name)
         {
             DriveService service = await Authenticate();
 
@@ -308,9 +321,14 @@ namespace GoogleExplorer
                 MimeType = MimeTypes.GoogleFolder.GetMimeType()
             };
 
-            service.Files
-                .Create(gfolder)
-                .Execute();
+            FilesResource.CreateRequest createRequest = service.Files
+                .Create(gfolder);
+
+            createRequest.Fields = "id";
+
+            GFile nfolder = createRequest.Execute();
+
+            return nfolder.Id;
         }
 
     }

@@ -16,6 +16,7 @@ namespace CharTracker
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            Terminal.Instance.Navigation = new();
             Terminal.Instance.Main = new();
             base.OnStartup(e);
         }

@@ -1,14 +1,13 @@
-﻿using CharTracker.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CharTracker.ViewModels;
 
 namespace CharTracker.Model
 {
     public class Terminal
     {
+        public int WindowWidth { get; init; }
+        public int WindowHeight { get; init; }
+
+        public NavigationViewModel Navigation { get; set; }
         public MainViewModel Main { get; set; }
 
         private static Terminal instance;
@@ -22,6 +21,10 @@ namespace CharTracker.Model
             }
         }
 
-        private Terminal() { }
+        private Terminal() 
+        {
+            WindowWidth = 800;
+            WindowHeight = 450;
+        }
     }
 }
