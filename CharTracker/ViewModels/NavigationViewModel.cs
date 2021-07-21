@@ -43,17 +43,24 @@ namespace CharTracker.ViewModels
         private Visibility menuVisible;
         public Visibility MenuVisibility { get { return menuVisible; } set { SetValue(ref menuVisible, value); } }
 
+        private Visibility indicatorVisible;
+        public Visibility IndicatorVisible { get { return indicatorVisible; } set { SetValue(ref indicatorVisible, value); } }
+
         public NavigationViewModel()
         {
             MaximizeButtonIcon = "0";
             Navigation(Pages.LogIn);
             IsMenuVisible(false);
+            IsLoading(false);
         }
 
         public void Navigation(Pages page)
         {
             switch(page)
             {
+                case Pages.Settings:
+                    FrameDestination = "View/SettingsPage.xaml";
+                    break;
                 case Pages.Campaigns:
                     FrameDestination = "View/CampaignsPage.xaml";
                     break;
@@ -66,6 +73,11 @@ namespace CharTracker.ViewModels
         public void IsMenuVisible(bool isVisible)
         {
             MenuVisibility = isVisible ? Visibility.Visible : Visibility.Hidden;
+        }
+
+        public void IsLoading(bool isVisible)
+        {
+            IndicatorVisible = isVisible ? Visibility.Visible : Visibility.Hidden;
         }
 
         private void AppClose(object parameter)
@@ -119,7 +131,7 @@ namespace CharTracker.ViewModels
 
         public enum Pages
         {
-            LogIn, Campaigns
+            LogIn, Settings, Campaigns
         }
     }
 }

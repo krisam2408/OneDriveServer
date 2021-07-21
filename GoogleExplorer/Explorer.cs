@@ -14,6 +14,8 @@ using File = System.IO.File;
 using GoogleExplorer.Extensions;
 using System.Diagnostics;
 using Google.Apis.Drive.v3.Data;
+using GoogleExplorer.DataTransfer;
+using Google.Apis.Upload;
 
 namespace GoogleExplorer
 {
@@ -25,7 +27,6 @@ namespace GoogleExplorer
         public string ApplicationName { get; init; }
         public string UserMail { get; private set; }
         public string CoreFolder { get { return $"{ApplicationName}-{UserMail}"; } }
-
 
         private DriveService DriveService { get; set; }
         
@@ -115,7 +116,7 @@ namespace GoogleExplorer
             DriveService = null;
         }
 
-        public async Task<GFile> GetFile(string name)
+        private async Task<GFile> GetFile(string name)
         {
             DriveService service = await Authenticate();
             FilesResource.ListRequest list = service.Files.List();
@@ -129,7 +130,7 @@ namespace GoogleExplorer
             return null;
         }
 
-        public async Task<GFile> GetFile(string name, string folder)
+        private async Task<GFile> GetFile(string name, string folder)
         {
             DriveService service = await Authenticate();
             FilesResource.ListRequest list = service.Files.List();
@@ -143,7 +144,7 @@ namespace GoogleExplorer
             return null;
         }
 
-        public async Task<GFile> GetFile(string name, MimeTypes mime)
+        private async Task<GFile> GetFile(string name, MimeTypes mime)
         {
             DriveService service = await Authenticate();
             FilesResource.ListRequest list = service.Files.List();
@@ -157,7 +158,7 @@ namespace GoogleExplorer
             return null;
         }
 
-        public async Task<GFile> GetFile(string name, string folder, MimeTypes mime)
+        private async Task<GFile> GetFile(string name, string folder, MimeTypes mime)
         {
             DriveService service = await Authenticate();
             FilesResource.ListRequest list = service.Files.List();
@@ -177,6 +178,40 @@ namespace GoogleExplorer
             }
 
             return null;
+        }
+
+        public async Task<FileMetadata[]> GetAllFilesAsync(string name)
+        {
+            string pageToken = null;
+            List<GFile> gfiles = new();
+
+            do
+            {
+                FilesResource.ListRequest list = DriveService.Files.List();
+                list.Fields = "nextPageToken, files(id, name, parents, mimeType)";
+                list.PageSize = 100;
+                
+                FileList glist = await list.ExecuteAsync();
+                pageToken = glist.NextPageToken;
+                gfiles.AddRange(glist.Files);
+
+            } while (pageToken != null && gfiles.Count < 3000);
+
+            if (gfiles != null && gfiles.Count > 0)
+            {
+                return gfiles.Where(f => f.Name == name)
+                    .Distinct(new FileEqualityComparer())
+                    .Select(f => new FileMetadata
+                    {
+                        ID = f.Id,
+                        Name = f.Name,
+                        MimeType = f.MimeType.GetMimeTypes(),
+                        ParentFolder = f.Parents.ToArray()
+                    })
+                    .ToArray();
+            }
+
+            return Array.Empty<FileMetadata>();
         }
 
         public async Task<string[]> ListFilesNames()
@@ -211,27 +246,27 @@ namespace GoogleExplorer
             Debug.WriteLine(request.ResponseBody);
         }
 
-        public async Task UploadFile(string name, string folder, byte[] fileBuffer, MimeTypes mime)
+        public async Task<FileMetadata> UploadFileAsync(string name, string folderId, byte[] fileBuffer, MimeTypes mime)
         {
-            DriveService service = await Authenticate();
-
-            GFile gfolder = await GetFile(folder, MimeTypes.GoogleFolder);
-
             GFile gfile = new()
             {
                 Name = name,
-                Parents = new List<string> { gfolder.Id }
+                Parents = new List<string> { folderId }
             };
 
             using MemoryStream ms = new(fileBuffer);
 
-            FilesResource.CreateMediaUpload request = service.Files
+            FilesResource.CreateMediaUpload request = DriveService.Files
                 .Create(gfile, ms, mime.GetMimeType());
 
-            request.Fields = "id";
-            request.Upload();
+            request.Fields = "files(id, name, parents, mimeType)";
+            await request.UploadAsync();
 
-            Debug.WriteLine(request.ResponseBody);
+            GFile nFile = request.Body;
+
+            // recuperar archivo desde Body
+
+            return new FileMetadata { ID = nFile.Id, Name = nFile.Name, MimeType = nFile.MimeType.GetMimeTypes(), ParentFolder = nFile.Parents.ToArray() };
         }
 
         public async Task<byte[]> DownloadFile(string name, string folder, MimeTypes mime)
@@ -311,24 +346,22 @@ namespace GoogleExplorer
             return null;
         }
 
-        public async Task<string> CreateFolder(string name)
+        public async Task<FileMetadata> CreateFolderAsync(string name)
         {
-            DriveService service = await Authenticate();
-
             GFile gfolder = new()
             {
                 Name = name,
                 MimeType = MimeTypes.GoogleFolder.GetMimeType()
             };
 
-            FilesResource.CreateRequest createRequest = service.Files
+            FilesResource.CreateRequest createRequest = DriveService.Files
                 .Create(gfolder);
 
             createRequest.Fields = "id";
 
-            GFile nfolder = createRequest.Execute();
+            GFile nfolder = await createRequest.ExecuteAsync();
 
-            return nfolder.Id;
+            return new FileMetadata { ID = nfolder.Id, Name = name, MimeType = MimeTypes.GoogleFolder };
         }
 
     }

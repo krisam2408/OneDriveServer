@@ -1,4 +1,8 @@
-﻿using GoogleExplorer;
+﻿using CharTracker.Core;
+using CharTracker.Model.Domain;
+using GoogleExplorer;
+using GoogleExplorer.DataTransfer;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +10,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using Timer = System.Timers.Timer;
-using GFile = Google.Apis.Drive.v3.Data.File;
 
 namespace CharTracker.Model
 {
@@ -47,15 +50,31 @@ namespace CharTracker.Model
             return Explorer.UserMail;
         }
 
-        public async Task GetFolder()
+        public async Task<ListItem[]> GetSettings()
         {
-            string coreFolder = Explorer.CoreFolder;
-            GFile gCore = await Explorer.GetFile(coreFolder, MimeTypes.GoogleFolder);
+            FileMetadata[] metadata = await Explorer.GetAllFilesAsync("retiraSettings.json");
 
-            if(gCore == null)
+            if(metadata.Length == 0)
             {
-                await Explorer.CreateFolder(coreFolder);
+                FileMetadata folderMetadata = await Explorer.CreateFolderAsync(Explorer.CoreFolder);
+                Settings setting = new()
+                { 
+                    Owner = Explorer.UserMail,
+                    FolderId = folderMetadata.ID
+                };
+                string settingJson = JsonConvert.SerializeObject(setting);
+                byte[] settingBuffer = Encoding.UTF8.GetBytes(settingJson);
+                metadata = new FileMetadata[1] { await Explorer.UploadFileAsync("retiraSettings.json", folderMetadata.ID, settingBuffer, MimeTypes.Text) };
             }
+
+            List<ListItem> output = new();
+            foreach(FileMetadata meta in metadata)
+            {
+                ListItem li = new(meta.ID, meta.Name);
+                li.SetContent(meta);
+            }
+
+            return output.ToArray();
         }
 
         private async Task Refresh(object sender, ElapsedEventArgs e)

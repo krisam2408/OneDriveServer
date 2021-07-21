@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CharTracker"
+        xmlns:controls="clr-namespace:CharTracker.View.UserControls"
         mc:Ignorable="d"
         DataContext="{Binding Terminal, Source={StaticResource Locator}}"
         Title="Char Tracker" Height="{Binding WindowHeight}" Width="{Binding WindowWidth}"
@@ -19,13 +20,16 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="96" />
                 <RowDefinition />
+                <RowDefinition Height="24" />
             </Grid.RowDefinitions>
 
-            <Image Grid.Row="0" Grid.Column="0" Source="/Content/btn-dice.png" ToolTip="Char Tracker " />
+            <Image Grid.Row="0" Grid.Column="0" Source="/Content/btn-dice.png" ToolTip="Char Tracker" Margin="0,8,0,0" HorizontalAlignment="Left" />
 
             <Frame Grid.Row="0" Grid.Column="1" Source="View/NavigationPage.xaml" />
 
             <Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Source="{Binding Navigation.FrameDestination}" NavigationUIVisibility="Hidden" />
+
+            <controls:LoadingSpinnerControl Grid.Column="1" Grid.Row="2" HorizontalAlignment="Right" Width="24" Visibility="{Binding Navigation.IndicatorVisible}" />
         </Grid>
     </Border>
 </Window>

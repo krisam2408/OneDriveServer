@@ -12,23 +12,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\ColorRose\ColorRoseLib\ColorRoseLib.csproj" />
     <ProjectReference Include="..\GoogleExplorer\GoogleExplorer.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="ColorRoseLib">
-      <HintPath>..\..\ColorRose\ColorRoseWPF\bin\Debug\net5.0-windows\ColorRoseLib.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Content\btn-dice.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Model\Domain\" />
   </ItemGroup>
 
 </Project>

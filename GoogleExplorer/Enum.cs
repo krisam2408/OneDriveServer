@@ -4,6 +4,7 @@ namespace GoogleExplorer
 {
     public enum MimeTypes
     {
+        [MimeType("")]
         Null,
         [MimeType("application/vnd.google-apps.folder")]
         GoogleFolder,

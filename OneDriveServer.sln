@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CharTracker", "CharTracker\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleExplorer", "GoogleExplorer\GoogleExplorer.csproj", "{41272AFC-E2BA-4885-81A1-9EDEE324520E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ColorRoseLib", "..\ColorRose\ColorRoseLib\ColorRoseLib.csproj", "{6C4F9724-90B3-4735-969F-8B9094D7D97B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{41272AFC-E2BA-4885-81A1-9EDEE324520E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{41272AFC-E2BA-4885-81A1-9EDEE324520E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{41272AFC-E2BA-4885-81A1-9EDEE324520E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C4F9724-90B3-4735-969F-8B9094D7D97B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C4F9724-90B3-4735-969F-8B9094D7D97B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C4F9724-90B3-4735-969F-8B9094D7D97B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C4F9724-90B3-4735-969F-8B9094D7D97B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

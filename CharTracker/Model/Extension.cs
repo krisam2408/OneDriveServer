@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MediaColor = System.Windows.Media.Color;
 using Color = System.Drawing.Color;
 
@@ -11,6 +7,17 @@ namespace CharTracker.Model
 {
     public static class Extension
     {
+        public static List<T> RemoveDuplicates<T>(this IEnumerable<T> list)
+        {
+            List<T> output = new();
+
+            foreach (T t in list)
+                if (!output.Contains(t))
+                    output.Add(t);
+
+            return output;
+        }
+
         public static ObservableCollection<T> ToObservableCollection<T>(this IEnumerable<T> list)
         {
             ObservableCollection<T> output = new();

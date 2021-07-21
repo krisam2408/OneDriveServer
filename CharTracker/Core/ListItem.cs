@@ -4,7 +4,7 @@ namespace CharTracker.Core
 {
     public class ListItem
     {
-        public int Key { get; private set; }
+        public string Key { get; private set; }
         public string Display { get; private set; }
 
         public string Content { get; private set; }
@@ -12,14 +12,14 @@ namespace CharTracker.Core
 
         public bool DefaultSelected { get; private set; }
 
-        public ListItem(int key, string display, bool selected = false)
+        public ListItem(string key, string display, bool selected = false)
         {
             Key = key;
             Display = display;
             DefaultSelected = selected;
         }
 
-        public void SetContet<T>(T infoContent)
+        public void SetContent<T>(T infoContent)
         {
             ContentType = infoContent.GetType().FullName;
             Content = infoContent.ToString();

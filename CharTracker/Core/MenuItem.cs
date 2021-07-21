@@ -7,6 +7,6 @@ namespace CharTracker.Core
         public Brush BackgroundColor { get; set; }
         public Brush TextColor { get; set; }
 
-        public MenuItem(int key, string display, bool selected = false) : base(key, display, selected) { }
+        public MenuItem(string key, string display, bool selected = false) : base(key, display, selected) { }
     }
 }

@@ -19,7 +19,7 @@
                 <RowDefinition Height="32" />
             </Grid.RowDefinitions>
             <StackPanel Grid.Column="0" Background="Transparent" core:MouseBehaviour.MouseUpCommand="{Binding AppMoveUpCommand}" core:MouseBehaviour.MouseDownCommand="{Binding AppMoveDownCommand}" core:MouseBehaviour.MouseDragCommand="{Binding AppMoveDragCommand}" core:MouseBehaviour.MouseLeaveCommand="{Binding AppMoveLeaveCommand}" />
-            <Button Content="®" Grid.Column="1" Style="{StaticResource WindowButton}" Command="{Binding AppMinimizeCommand}" />
+            <!--<Button Content="®" Grid.Column="1" Style="{StaticResource WindowButton}" Command="{Binding AppMinimizeCommand}" />-->
             <Button Content="{Binding MaximizeButtonIcon}" Grid.Column="2" Style="{StaticResource WindowButton}" Command="{Binding AppMaximizeCommand}" />
             <Button Content="Ó" Grid.Column="3" Style="{StaticResource WindowButton}" Command="{Binding AppCloseCommand}" />
         </Grid>
