@@ -32,8 +32,8 @@ namespace CharTracker.ViewModels
             } 
         }
 
-        private ObservableCollection<ListItem> campaigns;
-        public ObservableCollection<ListItem> Campaigns { get { return campaigns; } set { SetValue(ref campaigns, value); } }
+        private ObservableCollection<ListItem> campaignsList;
+        public ObservableCollection<ListItem> CampaignsList { get { return campaignsList; } set { SetValue(ref campaignsList, value); } }
 
         private ListItem selectedCampaign;
         public ListItem SelectedCampaign 
@@ -50,12 +50,28 @@ namespace CharTracker.ViewModels
         {
             get
             {
-                return new RelayCommand(async (s) =>
+                return new RelayCommand(async (e) =>
                 {
                     if(Terminal.IsEnabled)
                     {
                         Terminal.IsEnabled = false;
                         await LogIn();
+                        Terminal.IsEnabled = true;
+                    }
+                });
+            }
+        }
+
+        public ICommand GoToCreateCampaignCommand
+        {
+            get
+            {
+                return new RelayCommand((e) =>
+                {
+                    if(Terminal.IsEnabled)
+                    {
+                        Terminal.IsEnabled = false;
+                        Terminal.Instance.Navigation.Navigation(NavigationViewModel.Pages.CreateCampaign);
                         Terminal.IsEnabled = true;
                     }
                 });
@@ -89,14 +105,19 @@ namespace CharTracker.ViewModels
             int i = 0;
             foreach(Campaign c in campaigns)
             {
-                ListItem li = new(i.ToString(), c.Name);
+                ListItem li = new(i.ToString(), $"{c.Name} narrated by {c.Narrator}");
                 li.SetContent(c);
                 output.Add(li);
                 i++;
             }
 
-            Campaigns = output.ToObservableCollection();
+            CampaignsList = output.ToObservableCollection();
             Terminal.Instance.Navigation.Navigation(NavigationViewModel.Pages.Campaigns);
+        }
+
+        private void CreateCampaign()
+        {
+            
         }
     }
 }

@@ -12,7 +12,7 @@
             <ListView ItemsSource="{Binding SettingsList}" SelectedItem="{Binding SelectedSetting}" Background="Transparent" SelectionMode="Single">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderBrush="{StaticResource Light}" Background="Transparent" Margin="0,2" Padding="4" CornerRadius="8">
+                        <Border BorderBrush="{StaticResource Light}" Background="Transparent" Margin="0,2" Padding="4" CornerRadius="8" Cursor="Hand">
                             <TextBlock Text="{Binding Display}" Style="{StaticResource StandardText}" />
                         </Border>
                     </DataTemplate>

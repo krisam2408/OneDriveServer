@@ -12,6 +12,7 @@
             <SolidColorBrush x:Key="Dark">#24292E</SolidColorBrush>
             <SolidColorBrush x:Key="Gray">#343a40</SolidColorBrush>
             <SolidColorBrush x:Key="Light">#f8f9fa</SolidColorBrush>
+            <SolidColorBrush x:Key="DarkLight">#b8b9ba</SolidColorBrush>
             <SolidColorBrush x:Key="Blau">#007bff</SolidColorBrush>
             <SolidColorBrush x:Key="Indigo">#6610f2</SolidColorBrush>
             <SolidColorBrush x:Key="Lila">#6f42c1</SolidColorBrush>
@@ -25,7 +26,8 @@
 
             <Color x:Key="DarkColor">#24292E</Color>
             <Color x:Key="GrayColor">#343a40</Color>
-            <Color x:Key="LightColor">#f8f9fa</Color>
+            <Color x:Key="LightColor">#b8b9ba</Color>
+            <Color x:Key="DarkLightColor">#98999a</Color>
             <Color x:Key="BlauColor">#007bff</Color>
             <Color x:Key="IndigoColor">#6610f2</Color>
             <Color x:Key="LilaColor">#6f42c1</Color>
@@ -44,6 +46,54 @@
                     <Setter Property="Foreground" Value="{StaticResource Light}" />
                     <Setter Property="FontFamily" Value="Tahoma" />
                     <Setter Property="FontWeight" Value="Bold" />
+                </Style.Setters>
+            </Style>
+
+            <Style x:Key="WarningText" TargetType="TextBlock">
+                <Style.Setters>
+                    <Setter Property="Foreground" Value="{StaticResource Rot}" />
+                    <Setter Property="FontFamily" Value="Tahoma" />
+                    <Setter Property="FontWeight" Value="Light" />
+                    <Setter Property="FontStyle" Value="Italic" />
+                    <Setter Property="FontSize" Value="10" />
+                </Style.Setters>
+            </Style>
+
+            <Style x:Key="Entry" TargetType="TextBox">
+                <Style.Setters>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="TextBox">
+                                <Border Name="Back" Background="{StaticResource Light}" CornerRadius="8" MinWidth="120" Width="{TemplateBinding Width}" Padding="4">
+                                    <TextBox Background="Transparent" BorderThickness="0" Height="20" MinWidth="112" VerticalAlignment="Center" Foreground="{StaticResource Gray}" MaxLength="{TemplateBinding MaxLength}" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="Background" Value="{StaticResource DarkLight}" TargetName="Back" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style.Setters>
+            </Style>
+
+            <Style x:Key="Picker" TargetType="ComboBox">
+                <Style.Setters>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ComboBox">
+                                <Border Name="Back" Background="{StaticResource Light}" CornerRadius="8" MinWidth="120" Width="{TemplateBinding Width}" Padding="4">
+                                    <ComboBox Background="Transparent" BorderThickness="0" MinWidth="112" Height="20" ItemsSource="{TemplateBinding ItemsSource}" SelectedItem="{TemplateBinding SelectedItem}" DisplayMemberPath="{TemplateBinding DisplayMemberPath}" VerticalAlignment="Center" Foreground="{StaticResource Gray}" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="Background" Value="{StaticResource DarkLight}" TargetName="Back" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
                 </Style.Setters>
             </Style>
         </ResourceDictionary>

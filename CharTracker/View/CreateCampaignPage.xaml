@@ -1,0 +1,55 @@
+﻿<Page x:Class="CharTracker.View.CreateCampaignPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:CharTracker.View"
+      xmlns:controls="clr-namespace:CharTracker.View.UserControls"
+      xmlns:core="clr-namespace:CharTracker.Core"
+      mc:Ignorable="d"
+      DataContext="{Binding Terminal, Source={StaticResource Locator}}">
+    <Grid DataContext="{Binding CreateCampaign}" Margin="16,4">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="32" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Column="0" Grid.Row="0">
+            <TextBlock Text="New Campaign" Style="{StaticResource StandardText}" Margin="16,0,0,16" FontSize="24" />
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Campaign's Name :" Style="{StaticResource StandardText}" Margin="0,0,8,0" VerticalAlignment="Center" Width="136" />
+                <TextBox Text="{Binding CampaignsName}" core:TextBehaviour.TextChangedCommand="{Binding ValidateCampaignNameCommand}" Style="{StaticResource Entry}" Width="160" MaxLength="30" />
+            </StackPanel>
+            <TextBlock Text="That name is already used in this setting" Style="{StaticResource WarningText}" Visibility="{Binding CampaignWarningVisibility}" />
+
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                <TextBlock Text="Campaign's Game :" Style="{StaticResource StandardText}" Margin="0,0,8,0" VerticalAlignment="Center" Width="136" />
+                <ComboBox ItemsSource="{Binding GamesList}" SelectedItem="{Binding SelectedGame}" DisplayMemberPath="Display" Style="{StaticResource Picker}" MinWidth="160" />
+            </StackPanel>
+
+            <TextBlock Text="Add Player :" Style="{StaticResource StandardText}" Margin="0,0,8,0" />
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Player's Email:" Style="{StaticResource StandardText}" Margin="0,0,8,0" VerticalAlignment="Center" Width="136" />
+                <TextBox Text="{Binding PlayersEmail}" core:TextBehaviour.TextChangedCommand="{Binding ValidateCampaignNameCommand}" Style="{StaticResource Entry}" Width="160" IsEnabled="{Binding PlayerEnabled}" MaxLength="30" />
+            </StackPanel>
+            <TextBlock Text="That mail is not valid" Style="{StaticResource WarningText}" Visibility="{Binding EmailWarningVisibility}" />
+            <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                <TextBlock Text="Player's Template:" Style="{StaticResource StandardText}" Margin="0,0,8,0" VerticalAlignment="Center" Width="136" />
+                <ComboBox ItemsSource="{Binding TemplatesList}" SelectedItem="{Binding SelectedTemplate}" DisplayMemberPath="Display" Style="{StaticResource Picker}" MinWidth="160" IsEnabled="{Binding PlayerEnabled}" />
+            </StackPanel>
+            <controls:ImageButtonControl BorderBackground="{StaticResource Gruen}" BorderWidth="104" BorderHeight="32" Text="Add" Data="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" Margin="202,12,0,0" HorizontalAlignment="Left" Command="{Binding Terminal.CreateCampaign.AddPlayerCommand, Source={StaticResource Locator}}" IsEnabled="{Binding Terminal.CreateCampaign.PlayerEnabled, Source={StaticResource Locator}}" />
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Grid.Row="0">
+            <Border BorderBrush="{StaticResource Light}" BorderThickness="2" CornerRadius="8" MinHeight="216" Margin="0,40,0,0">
+            </Border>
+        </StackPanel>
+
+        <controls:ButtonControl Grid.Column="1" Grid.Row="1" Text="Create" BorderBackground="{StaticResource Blau}" BorderWidth="126" BorderHeight="32" HorizontalAlignment="Right" />
+
+    </Grid>
+</Page>

@@ -9,6 +9,7 @@ namespace CharTracker.Model
 
         public NavigationViewModel Navigation { get; set; }
         public MainViewModel Main { get; set; }
+        public CreateCampaignViewModel CreateCampaign { get; set; }
 
         private static Terminal instance;
         public static Terminal Instance

@@ -62,6 +62,10 @@ namespace CharTracker.ViewModels
                 case Pages.Campaigns:
                     FrameDestination = "View/CampaignsPage.xaml";
                     break;
+                case Pages.CreateCampaign:
+                    Terminal.Instance.CreateCampaign = new();
+                    FrameDestination = "View/CreateCampaignPage.xaml";
+                    break;
                 default:
                     FrameDestination = "View/LogInPage.xaml";
                     break;
@@ -138,7 +142,7 @@ namespace CharTracker.ViewModels
 
         public enum Pages
         {
-            LogIn, Settings, Campaigns
+            LogIn, Settings, Campaigns, CreateCampaign
         }
     }
 }

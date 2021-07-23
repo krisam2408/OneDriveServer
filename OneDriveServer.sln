@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleExplorer", "GoogleExp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ColorRoseLib", "..\ColorRose\ColorRoseLib\ColorRoseLib.csproj", "{6C4F9724-90B3-4735-969F-8B9094D7D97B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPGTemplates", "RPGTemplates\RPGTemplates.csproj", "{C3724733-CE53-4A15-B869-F37A3EA3F99A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{6C4F9724-90B3-4735-969F-8B9094D7D97B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C4F9724-90B3-4735-969F-8B9094D7D97B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C4F9724-90B3-4735-969F-8B9094D7D97B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3724733-CE53-4A15-B869-F37A3EA3F99A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3724733-CE53-4A15-B869-F37A3EA3F99A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3724733-CE53-4A15-B869-F37A3EA3F99A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3724733-CE53-4A15-B869-F37A3EA3F99A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
