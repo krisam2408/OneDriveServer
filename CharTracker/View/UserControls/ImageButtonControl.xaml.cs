@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,11 +19,11 @@ using MediaColor = System.Windows.Media.Color;
 namespace CharTracker.View.UserControls
 {
     /// <summary>
-    /// Interaction logic for ButtonControl.xaml
+    /// Interaction logic for ImageButtonControl.xaml
     /// </summary>
-    public partial class ButtonControl : UserControl
+    public partial class ImageButtonControl : UserControl
     {
-        public ButtonControl()
+        public ImageButtonControl()
         {
             InitializeComponent();
             DataContext = this;
@@ -35,11 +34,12 @@ namespace CharTracker.View.UserControls
         public SolidColorBrush DisabledBorderBackground { get { return SetDisabledColor(); } }
 
         public string Text { get; set; }
+        public string Data { get; set; }
 
         public double BorderWidth { get; set; }
         public double BorderHeight { get; set; }
 
-        public  static DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(ButtonControl));
+        public static DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(ImageButtonControl));
         public ICommand Command
         {
             get { return (ICommand)GetValue(CommandProperty); }

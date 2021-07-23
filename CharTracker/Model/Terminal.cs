@@ -26,5 +26,11 @@ namespace CharTracker.Model
             WindowWidth = 800;
             WindowHeight = 450;
         }
+
+        public static bool IsEnabled 
+        { 
+            get { return Instance.Navigation.IsEnabled; }
+            set { Instance.Navigation.IsEnabled = value; }
+        }
     }
 }

@@ -4,11 +4,20 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CharTracker.View"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="SettingsPage">
-
-    <Grid>
-        
-    </Grid>
+      mc:Ignorable="d"
+      DataContext="{Binding Terminal, Source={StaticResource Locator}}">
+    <StackPanel DataContext="{Binding Main}">
+        <TextBlock Text="Settings" Style="{StaticResource StandardText}" Margin="16,0,0,16" FontSize="24" />
+        <Border BorderBrush="{StaticResource Light}" BorderThickness="2" CornerRadius="4" Padding="4">
+            <ListView ItemsSource="{Binding SettingsList}" SelectedItem="{Binding SelectedSetting}" Background="Transparent" SelectionMode="Single">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="{StaticResource Light}" Background="Transparent" Margin="0,2" Padding="4" CornerRadius="8">
+                            <TextBlock Text="{Binding Display}" Style="{StaticResource StandardText}" />
+                        </Border>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Border>
+    </StackPanel>
 </Page>

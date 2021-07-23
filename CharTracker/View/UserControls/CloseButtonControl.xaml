@@ -4,9 +4,21 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CharTracker.View.UserControls"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+             xmlns:core="clr-namespace:CharTracker.Core"
+             mc:Ignorable="d" Margin="4,0">
+    <UserControl.Resources>
+        <Style x:Key="BtnBorder" TargetType="Border">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="False">
+                    <Setter Property="Background" Value="{StaticResource Rot}" />
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{Binding DataContext.DarkRot}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Border CornerRadius="8" Width="16" Height="16" Style="{StaticResource BtnBorder}" core:MouseBehaviour.MouseDownCommand="{Binding DataContext.Command, RelativeSource={RelativeSource Self}}" Cursor="Hand">
+        <Path Width="8" Height="8" Stretch="UniformToFill" Fill="{StaticResource Gray}" Stroke="{StaticResource Gray}" StrokeThickness="1" Data="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" />
+    </Border>
 </UserControl>

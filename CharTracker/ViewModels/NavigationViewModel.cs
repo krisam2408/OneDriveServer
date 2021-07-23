@@ -28,17 +28,15 @@ namespace CharTracker.ViewModels
         private bool IsWindowBeingDragged { get; set; }
         private Point WindowPosition { get; set; }
 
-        public ICommand AppCloseCommand { get { return new RelayCommand(e => AppClose(e)); } }
-        public ICommand AppMinimizeCommand { get { return new RelayCommand(e => AppMinimize(e)); } }
-        public ICommand AppMaximizeCommand { get { return new RelayCommand(e => AppMaximize(e)); } }
+        public ICommand AppCloseCommand { get { return new RelayCommand(e => AppClose()); } }
+        public ICommand AppMinimizeCommand { get { return new RelayCommand(e => AppMinimize()); } }
+        public ICommand AppMaximizeCommand { get { return new RelayCommand(e => AppMaximize()); } }
         public ICommand AppMoveUpCommand { get { return new RelayCommand(e => AppMove(MouseAction.Up, (MouseEventArgs)e)); } }
         public ICommand AppMoveDownCommand { get { return new RelayCommand(e => AppMove(MouseAction.Down, (MouseEventArgs)e)); } }
         public ICommand AppMoveDragCommand { get { return new RelayCommand(e => AppMove(MouseAction.Drag, (MouseEventArgs)e)); } }
         public ICommand AppMoveLeaveCommand { get { return new RelayCommand(e => AppMove(MouseAction.Leave, (MouseEventArgs)e)); } }
+        public ICommand AppHomeCommand { get { return new RelayCommand(e => AppHome()); } }
         public ICommand SignOutCommand { get { return new RelayCommand(async (e) => await SignOut()); } }
-
-        private string maximizeButtonIcon;
-        public string MaximizeButtonIcon { get { return maximizeButtonIcon; } set { SetValue(ref maximizeButtonIcon, value); } }
 
         private Visibility menuVisible;
         public Visibility MenuVisibility { get { return menuVisible; } set { SetValue(ref menuVisible, value); } }
@@ -48,7 +46,6 @@ namespace CharTracker.ViewModels
 
         public NavigationViewModel()
         {
-            MaximizeButtonIcon = "0";
             Navigation(Pages.LogIn);
             IsMenuVisible(false);
             IsLoading(false);
@@ -59,6 +56,7 @@ namespace CharTracker.ViewModels
             switch(page)
             {
                 case Pages.Settings:
+                    Terminal.Instance.Main.SelectedSetting = null;
                     FrameDestination = "View/SettingsPage.xaml";
                     break;
                 case Pages.Campaigns:
@@ -80,26 +78,24 @@ namespace CharTracker.ViewModels
             IndicatorVisible = isVisible ? Visibility.Visible : Visibility.Hidden;
         }
 
-        private void AppClose(object parameter)
+        private void AppClose()
         {
             Application.Current.Shutdown();
         }
 
-        private void AppMinimize(object parameter)
+        private void AppMinimize()
         {
             Application.Current.MainWindow.WindowState = WindowState.Minimized;
         }
 
-        private void AppMaximize(object parameter)
+        private void AppMaximize()
         {
             if (Application.Current.MainWindow.WindowState == WindowState.Maximized)
             {
-                MaximizeButtonIcon = "0";
                 Application.Current.MainWindow.WindowState = WindowState.Normal;
                 return;
             }
 
-            MaximizeButtonIcon = "1";
             Application.Current.MainWindow.WindowState = WindowState.Maximized;
         }
 
@@ -120,6 +116,17 @@ namespace CharTracker.ViewModels
                 Application.Current.MainWindow.Left += mousePosition.X - WindowPosition.X;
                 Application.Current.MainWindow.Top += mousePosition.Y - WindowPosition.Y;
             }
+        }
+
+        private void AppHome()
+        {
+            if (menuVisible == Visibility.Hidden)
+            {
+                Navigation(Pages.LogIn);
+                return;
+            }
+
+            Navigation(Pages.Settings);
         }
 
         private async Task SignOut()

@@ -6,11 +6,10 @@
       xmlns:local="clr-namespace:CharTracker.View"
       xmlns:core="clr-namespace:CharTracker.Core"
       xmlns:controls="clr-namespace:CharTracker.View.UserControls"
-      mc:Ignorable="d" 
-      DataContext="{Binding Terminal, Source={StaticResource Locator}}">
+      mc:Ignorable="d">
 
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" DataContext="{Binding Main}">
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
         <TextBlock Text="We need for you to login with your Google Account!" Style="{StaticResource StandardText}" Margin="0,0,0,8" />
-        <controls:ButtonControl BorderBackground="{StaticResource Rot}" Text="Log In" IsEnabled="{Binding IsEnabled}" Command="{Binding LogInCommand}" />
+        <controls:ButtonControl BorderBackground="{StaticResource Rot}" Text="Log In" Command="{Binding Terminal.Main.LogInCommand, Source={StaticResource Locator}}" IsEnabled="{Binding Terminal.Navigation.IsEnabled, Source={StaticResource Locator}}" BorderWidth="126" BorderHeight="40" />
     </StackPanel>
 </Page>

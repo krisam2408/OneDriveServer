@@ -58,20 +58,33 @@ namespace CharTracker.Model
             {
                 FileMetadata folderMetadata = await Explorer.CreateFolderAsync(Explorer.CoreFolder);
                 Settings setting = new()
-                { 
+                {
                     Owner = Explorer.UserMail,
                     FolderId = folderMetadata.ID
                 };
                 string settingJson = JsonConvert.SerializeObject(setting);
                 byte[] settingBuffer = Encoding.UTF8.GetBytes(settingJson);
-                metadata = new FileMetadata[1] { await Explorer.UploadFileAsync("retiraSettings.json", folderMetadata.ID, settingBuffer, MimeTypes.Text) };
+                FileMetadata settingMetadata = await Explorer.UploadFileAsync("retiraSettings.json", folderMetadata.ID, settingBuffer, MimeTypes.Text);
+                metadata = new FileMetadata[1] { settingMetadata };
+            }
+
+            List<Settings> settings = new();
+            foreach (FileMetadata meta in metadata)
+            {
+                byte[] fileBuffer = await Explorer.DownloadFileAsync(meta.ID, MimeTypes.Text);
+                string json = Encoding.UTF8.GetString(fileBuffer);
+                Settings settingItem = JsonConvert.DeserializeObject<Settings>(json);
+                settings.Add(settingItem);
             }
 
             List<ListItem> output = new();
-            foreach(FileMetadata meta in metadata)
+            int i = 0;
+            foreach(Settings set in settings)
             {
-                ListItem li = new(meta.ID, meta.Name);
-                li.SetContent(meta);
+                ListItem li = new(i.ToString(), $"Settings from {set.Owner}");
+                li.SetContent(set);
+                output.Add(li);
+                i++;
             }
 
             return output.ToArray();

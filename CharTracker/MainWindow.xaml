@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CharTracker"
         xmlns:controls="clr-namespace:CharTracker.View.UserControls"
+        xmlns:core="clr-namespace:CharTracker.Core"
         mc:Ignorable="d"
         DataContext="{Binding Terminal, Source={StaticResource Locator}}"
         Title="Char Tracker" Height="{Binding WindowHeight}" Width="{Binding WindowWidth}"
@@ -23,7 +24,7 @@
                 <RowDefinition Height="24" />
             </Grid.RowDefinitions>
 
-            <Image Grid.Row="0" Grid.Column="0" Source="/Content/btn-dice.png" ToolTip="Char Tracker" Margin="0,8,0,0" HorizontalAlignment="Left" />
+            <Image Grid.Row="0" Grid.Column="0" Source="/Content/btn-dice.png" ToolTip="Char Tracker" Margin="0,8,0,0" HorizontalAlignment="Left" Cursor="Hand" core:MouseBehaviour.MouseDownCommand="{Binding Navigation.AppHomeCommand}" />
 
             <Frame Grid.Row="0" Grid.Column="1" Source="View/NavigationPage.xaml" />
 

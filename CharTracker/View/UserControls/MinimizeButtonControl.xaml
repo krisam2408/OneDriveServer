@@ -4,9 +4,28 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CharTracker.View.UserControls"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+             xmlns:core="clr-namespace:CharTracker.Core"
+             mc:Ignorable="d" Margin="4,0">
+    <UserControl.Resources>
+        <Style x:Key="BtnBorder" TargetType="Border">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="False">
+                    <Setter Property="Background" Value="{StaticResource Orange}" />
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{Binding DataContext.DarkOrange}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Border CornerRadius="8" Width="16" Height="16" Style="{StaticResource BtnBorder}" core:MouseBehaviour.MouseDownCommand="{Binding DataContext.Command, RelativeSource={RelativeSource Self}}" Cursor="Hand">
+        <Path Width="8" Height="8" Stretch="UniformToFill" Fill="{StaticResource Gray}" Data="M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z">
+            <Path.RenderTransform>
+                <TransformGroup>
+                    <RotateTransform Angle="135" />
+                    <TranslateTransform X="10" Y="3" />
+                </TransformGroup>
+            </Path.RenderTransform>
+        </Path>
+    </Border>
 </UserControl>

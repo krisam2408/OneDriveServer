@@ -39,23 +39,6 @@
 
             <core:BoolConverter x:Key="Bool" />
 
-            <Style x:Key="WindowButton" TargetType="Button">
-                <Style.Setters>
-                    <Setter Property="Width" Value="24" />
-                    <Setter Property="Height" Value="24" />
-                    <Setter Property="Background" Value="Transparent" />
-                    <Setter Property="BorderThickness" Value="0" />
-                    <Setter Property="FontSize" Value="12" />
-                    <Setter Property="Foreground" Value="{StaticResource Light}" />
-                    <Setter Property="FontFamily" Value="Wingdings 2" />
-                </Style.Setters>
-                <Style.Triggers>
-                    <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="Foreground" Value="{StaticResource Gray}" />
-                    </Trigger>
-                </Style.Triggers>
-            </Style>
-
             <Style x:Key="StandardText" TargetType="TextBlock">
                 <Style.Setters>
                     <Setter Property="Foreground" Value="{StaticResource Light}" />
@@ -63,7 +46,6 @@
                     <Setter Property="FontWeight" Value="Bold" />
                 </Style.Setters>
             </Style>
-
         </ResourceDictionary>
     </Application.Resources>
 </Application>

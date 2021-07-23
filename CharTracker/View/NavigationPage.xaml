@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:CharTracker.View"
       xmlns:core="clr-namespace:CharTracker.Core"
+      xmlns:controls="clr-namespace:CharTracker.View.UserControls"
       mc:Ignorable="d" 
       DataContext="{Binding Terminal, Source={StaticResource Locator}}">
     <StackPanel Orientation="Vertical" DataContext="{Binding Navigation}">
@@ -19,13 +20,13 @@
                 <RowDefinition Height="32" />
             </Grid.RowDefinitions>
             <StackPanel Grid.Column="0" Background="Transparent" core:MouseBehaviour.MouseUpCommand="{Binding AppMoveUpCommand}" core:MouseBehaviour.MouseDownCommand="{Binding AppMoveDownCommand}" core:MouseBehaviour.MouseDragCommand="{Binding AppMoveDragCommand}" core:MouseBehaviour.MouseLeaveCommand="{Binding AppMoveLeaveCommand}" />
-            <!--<Button Content="®" Grid.Column="1" Style="{StaticResource WindowButton}" Command="{Binding AppMinimizeCommand}" />-->
-            <Button Content="{Binding MaximizeButtonIcon}" Grid.Column="2" Style="{StaticResource WindowButton}" Command="{Binding AppMaximizeCommand}" />
-            <Button Content="Ó" Grid.Column="3" Style="{StaticResource WindowButton}" Command="{Binding AppCloseCommand}" />
+            <controls:MinimizeButtonControl Grid.Column="1" Command="{Binding Terminal.Navigation.AppMinimizeCommand, Source={StaticResource Locator}}" />
+            <controls:MaximizeButtonControl Grid.Column="2" Command="{Binding Terminal.Navigation.AppMaximizeCommand, Source={StaticResource Locator}}" />
+            <controls:CloseButtonControl Grid.Column="3" Command="{Binding Terminal.Navigation.AppCloseCommand, Source={StaticResource Locator}}" />
         </Grid>
         <StackPanel Orientation="Horizontal" Visibility="{Binding MenuVisibility}" HorizontalAlignment="Right" Margin="0,8,16,0">
             <TextBlock Style="{StaticResource StandardText}" Text="{Binding UserMail}" VerticalAlignment="Center" Margin="8,0" />
-            <Button Content="Sign Out" Command="{Binding SignOutCommand}" />
+            <controls:ButtonControl BorderBackground="{StaticResource Lila}" Text="Sign Out" Command="{Binding Terminal.Navigation.SignOutCommand, Source={StaticResource Locator}}" IsEnabled="{Binding Terminal.Navigation.IsEnabled, Source={StaticResource Locator}}" BorderWidth="80" BorderHeight="32" />
         </StackPanel>
     </StackPanel>
 </Page>
