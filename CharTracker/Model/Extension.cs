@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using MediaColor = System.Windows.Media.Color;
 using Color = System.Drawing.Color;
 
-namespace CharTracker.Model
+namespace RetiraTracker.Model
 {
     public static class Extension
     {

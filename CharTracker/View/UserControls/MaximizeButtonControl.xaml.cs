@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 using Color = System.Drawing.Color;
 using MediaColor = System.Windows.Media.Color;
 
-namespace CharTracker.View.UserControls
+namespace RetiraTracker.View.UserControls
 {
     /// <summary>
     /// Interaction logic for MaximizeButtonControl.xaml

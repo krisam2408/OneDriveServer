@@ -170,6 +170,34 @@ namespace GoogleExplorer
             return null;
         }
 
+        public async Task<FileMetadata> GetFileMetaDataAsync(string name, string folderId, MimeTypes mime)
+        {
+            string pageToken = null;
+            List<GFile> gfiles = new();
+
+            do
+            {
+                FilesResource.ListRequest list = DriveService.Files.List();
+                list.Fields = "files(id, name, parents, mimeType)";
+                list.PageSize = 100;
+                list.PageToken = pageToken;
+
+                FileList glist = await list.ExecuteAsync();
+                pageToken = glist.NextPageToken;
+                gfiles.AddRange(glist.Files);
+            } while (pageToken != null && gfiles.Count < 3000);
+
+            if (gfiles != null && gfiles.Count > 0)
+            {
+                return gfiles.Where(f => f.Name == name && f.MimeType == mime.GetMimeType() && f.Parents != null && f.Parents.Contains(folderId))
+                    .Distinct(new FileEqualityComparer())
+                    .Select(g => new FileMetadata { ID = g.Id, Name = g.Name, ParentFolder = g.Parents.ToArray(), MimeType = g.MimeType.GetMimeTypes() })
+                    .FirstOrDefault();
+            }
+
+            return null;
+        }
+
         private async Task<GFile> GetFileByIdAsync(string fileId, MimeTypes mime)
         {
             string pageToken = null;
@@ -284,13 +312,16 @@ namespace GoogleExplorer
             return new FileMetadata { ID = nFile.Id, Name = nFile.Name, MimeType = nFile.MimeType.GetMimeTypes(), ParentFolder = nFile.Parents.ToArray() };
         }
 
-        public async Task<FileMetadata> CreateFolderAsync(string name)
+        public async Task<FileMetadata> CreateFolderAsync(string name, string folderId)
         {
             GFile gfolder = new()
             {
                 Name = name,
                 MimeType = MimeTypes.GoogleFolder.GetMimeType()
             };
+
+            if (!string.IsNullOrWhiteSpace(folderId))
+                gfolder.Parents = new string[] { folderId };
 
             FilesResource.CreateRequest createRequest = DriveService.Files
                 .Create(gfolder);
@@ -302,5 +333,20 @@ namespace GoogleExplorer
             return new FileMetadata { ID = nfolder.Id, Name = name, MimeType = MimeTypes.GoogleFolder };
         }
 
+        public async Task ShareFile(string fileId, string userEmail)
+        {
+            Permission gPermission = new Permission
+            {
+                Type = "user",
+                Role = "writer",
+                EmailAddress = userEmail
+            };
+
+            PermissionsResource.CreateRequest request = DriveService.Permissions.Create(gPermission, fileId);
+            request.Fields = "id";
+
+            await request.ExecuteAsync();
+            
+        }
     }
 }

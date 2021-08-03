@@ -16,14 +16,13 @@ using System.Windows.Shapes;
 namespace RetiraTracker.View
 {
     /// <summary>
-    /// Interaction logic for CreateCampaignPage.xaml
+    /// Interaction logic for CampaignPage.xaml
     /// </summary>
-    public partial class CreateCampaignPage : Page
+    public partial class CampaignPage : Page
     {
-        public CreateCampaignPage()
+        public CampaignPage()
         {
             InitializeComponent();
         }
-
     }
 }

@@ -1,17 +1,18 @@
-﻿using CharTracker.Core;
-using CharTracker.Model.Domain;
+﻿using RetiraTracker.Core;
+using RetiraTracker.Model.Domain;
 using GoogleExplorer;
 using GoogleExplorer.DataTransfer;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using Timer = System.Timers.Timer;
 
-namespace CharTracker.Model
+namespace RetiraTracker.Model
 {
     public class ExplorerManager
     {
@@ -31,32 +32,43 @@ namespace CharTracker.Model
 
         private ExplorerManager() { }
 
-        public async Task Dispose()
+        public async Task DisposeAsync()
         {
             await Explorer.Dispose();
             Explorer = null;
 
-            Timer.Stop();
-            Timer.Dispose();
-            Timer = null;
+            if(Timer != null)
+            {
+                Timer.Stop();
+                Timer.Dispose();
+                Timer = null;
+            }
 
             instance = null;
         }
 
-        public async Task<string> LogIn()
+        public async Task<string> LogInAsync()
         {
-            Explorer = await Explorer.CreateAsync("Retira");
+            try
+            {
+                Explorer = await Explorer.CreateAsync("Retira");
+
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
 
             return Explorer.UserMail;
         }
 
-        public async Task<ListItem[]> GetSettings()
+        public async Task<ListItem[]> GetSettingsAsync()
         {
             FileMetadata[] metadata = await Explorer.GetAllFilesAsync("retiraSettings.json");
 
             if(metadata.Length == 0)
             {
-                FileMetadata folderMetadata = await Explorer.CreateFolderAsync(Explorer.CoreFolder);
+                FileMetadata folderMetadata = await Explorer.CreateFolderAsync(Explorer.CoreFolder, null);
                 Settings setting = new()
                 {
                     Owner = Explorer.UserMail,
@@ -88,6 +100,58 @@ namespace CharTracker.Model
             }
 
             return output.ToArray();
+        }
+
+        public async Task UpdateSettingsAsync(Settings settings)
+        {
+            FileMetadata settingMeta = new()
+            {
+                Name = "retiraSettings.json",
+                MimeType = MimeTypes.Text,
+                ParentFolder = new string[] { settings.FolderId}
+            };
+
+            FileMetadata[] metadata = await Explorer.GetAllFilesAsync("retiraSettings.json");
+
+            foreach (FileMetadata mtdt in metadata)
+                if (mtdt.ParentFolder.Contains(settings.FolderId))
+                    settingMeta.ID = mtdt.ID;
+
+            string settingJson = JsonConvert.SerializeObject(settings);
+            byte[] settingBuffer = Encoding.UTF8.GetBytes(settingJson);
+
+            await Explorer.OverwriteFileAsync(settingMeta.ID, settingBuffer, MimeTypes.Text);
+            
+        }
+
+        public async Task<string> CreateFolderAsync(string folderName, string settingFolder)
+        {
+            FileMetadata folder = await Explorer.CreateFolderAsync(folderName, settingFolder);
+
+            return folder.ID;
+        }
+
+        public async Task ShareFolderAsync(string folderId, Player player)
+        {
+            await Explorer.ShareFile(folderId, player.EmailAddress);
+
+            string playerJson = JsonConvert.SerializeObject(player);
+            byte[] playerBuffer = Encoding.UTF8.GetBytes(playerJson);
+
+            string filename = player.EmailAddress.Split('@')[0];
+
+            await Explorer.UploadFileAsync($"{filename}.json", folderId, playerBuffer, MimeTypes.Text);
+        }
+
+        public async Task<string> GetPlayer(string fileName, string folderId)
+        {
+            FileMetadata metadata = await Explorer.GetFileMetaDataAsync(fileName, folderId, MimeTypes.Text);
+
+            byte[] fileBuffer = await Explorer.DownloadFileAsync(metadata.ID, MimeTypes.Text);
+
+            string output = Encoding.UTF8.GetString(fileBuffer);
+
+            return output;
         }
 
         private async Task Refresh(object sender, ElapsedEventArgs e)

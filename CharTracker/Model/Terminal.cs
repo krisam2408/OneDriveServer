@@ -1,6 +1,6 @@
-﻿using CharTracker.ViewModels;
+﻿using RetiraTracker.ViewModels;
 
-namespace CharTracker.Model
+namespace RetiraTracker.Model
 {
     public class Terminal
     {
@@ -9,6 +9,7 @@ namespace CharTracker.Model
 
         public NavigationViewModel Navigation { get; set; }
         public MainViewModel Main { get; set; }
+        public CampaignViewModel Campaign { get; set; }
         public CreateCampaignViewModel CreateCampaign { get; set; }
 
         private static Terminal instance;

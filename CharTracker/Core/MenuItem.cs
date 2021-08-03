@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media;
 
-namespace CharTracker.Core
+namespace RetiraTracker.Core
 {
     public class MenuItem:ListItem
     {

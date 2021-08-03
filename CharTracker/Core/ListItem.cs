@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace CharTracker.Core
+namespace RetiraTracker.Core
 {
     public class ListItem
     {

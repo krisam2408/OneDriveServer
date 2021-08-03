@@ -14,7 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\ColorRose\ColorRoseLib\ColorRoseLib.csproj" />
     <ProjectReference Include="..\GoogleExplorer\GoogleExplorer.csproj" />
-    <ProjectReference Include="..\RPGTemplates\RPGTemplates.csproj" />
+    <ProjectReference Include="..\RPGTemplates\SheetDrama.csproj" />
   </ItemGroup>
 
   <ItemGroup>

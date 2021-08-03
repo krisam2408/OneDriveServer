@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CharTracker.View.UserControls
+namespace RetiraTracker.View.UserControls
 {
     /// <summary>
     /// Interaction logic for LoadingSpinner.xaml

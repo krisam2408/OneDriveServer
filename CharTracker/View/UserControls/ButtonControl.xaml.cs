@@ -17,7 +17,7 @@ using ColorRoseLib;
 using Color = System.Drawing.Color;
 using MediaColor = System.Windows.Media.Color;
 
-namespace CharTracker.View.UserControls
+namespace RetiraTracker.View.UserControls
 {
     /// <summary>
     /// Interaction logic for ButtonControl.xaml
@@ -39,7 +39,7 @@ namespace CharTracker.View.UserControls
         public double BorderWidth { get; set; }
         public double BorderHeight { get; set; }
 
-        public  static DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(ButtonControl));
+        public static DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(ButtonControl));
         public ICommand Command
         {
             get { return (ICommand)GetValue(CommandProperty); }

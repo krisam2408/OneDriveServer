@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace CharTracker.Core
+namespace RetiraTracker.Core
 {
     public class RelayCommand:ICommand
     {

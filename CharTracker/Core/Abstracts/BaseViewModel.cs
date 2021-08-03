@@ -1,5 +1,5 @@
 ﻿
-namespace CharTracker.Core.Abstracts
+namespace RetiraTracker.Core.Abstracts
 {
     public abstract class BaseViewModel:BaseNotifyPropertyChanged
     {

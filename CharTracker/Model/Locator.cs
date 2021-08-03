@@ -1,5 +1,5 @@
 ﻿
-namespace CharTracker.Model
+namespace RetiraTracker.Model
 {
     public class Locator
     {

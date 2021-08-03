@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace CharTracker.Core
+namespace RetiraTracker.Core
 {
     public class TextBehaviour
     {

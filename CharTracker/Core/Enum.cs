@@ -1,5 +1,5 @@
 ﻿
-namespace CharTracker.Core
+namespace RetiraTracker.Core
 {
     public enum MouseAction { Up, Down, Drag, Leave }
 }

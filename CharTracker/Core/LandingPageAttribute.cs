@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CharTracker.Core
+namespace RetiraTracker.Core
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     internal sealed class LandingPageAttribute : Attribute

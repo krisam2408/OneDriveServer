@@ -1,15 +1,15 @@
-﻿using RPGTemplates.Extensions;
+﻿using SheetDrama.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RPGTemplates
+namespace SheetDrama
 {
     public enum Games
     {
-        ChroniclesOfDarkness
+        ChroniclesOfDarkness, ChroniclesOfDarknessDarkAges
     }
 
     public enum GameTemplates
@@ -23,13 +23,29 @@ namespace RPGTemplates
         [Game(Games.ChroniclesOfDarkness)]
         GeistTheSinEaters,
         [Game(Games.ChroniclesOfDarkness)]
-        MageTheAwakeing,
+        MageTheAwakening,
         [Game(Games.ChroniclesOfDarkness)]
         PrometheanTheCreated,
         [Game(Games.ChroniclesOfDarkness)]
         VampireTheRequiem,
         [Game(Games.ChroniclesOfDarkness)]
         WerewolfTheForsaken,
+        [Game(Games.ChroniclesOfDarknessDarkAges)]
+        ChroniclesOfDarknessDarkAges,
+        [Game(Games.ChroniclesOfDarknessDarkAges)]
+        BeastThePrimordialDarkAges,
+        [Game(Games.ChroniclesOfDarknessDarkAges)]
+        ChangelingTheLostDarkAges,
+        [Game(Games.ChroniclesOfDarknessDarkAges)]
+        GeistTheSinEatersDarkAges,
+        [Game(Games.ChroniclesOfDarknessDarkAges)]
+        MageTheAwakeningDarkAges,
+        [Game(Games.ChroniclesOfDarknessDarkAges)]
+        PrometheanTheCreatedDarkAges,
+        [Game(Games.ChroniclesOfDarknessDarkAges)]
+        VampireTheRequiemDarkAges,
+        [Game(Games.ChroniclesOfDarknessDarkAges)]
+        WerewolfTheForsakenDarkAges,
 
     }
 }

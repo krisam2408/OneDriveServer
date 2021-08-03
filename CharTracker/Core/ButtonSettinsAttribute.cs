@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CharTracker.Core
+namespace RetiraTracker.Core
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public class ButtonSettingsAttribute : Attribute

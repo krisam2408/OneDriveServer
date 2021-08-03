@@ -1,6 +1,6 @@
-﻿using CharTracker.Core;
-using CharTracker.Core.Abstracts;
-using CharTracker.Model;
+﻿using RetiraTracker.Core;
+using RetiraTracker.Core.Abstracts;
+using RetiraTracker.Model;
 using ColorRoseLib;
 using System;
 using System.Collections.Generic;
@@ -13,9 +13,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using MouseAction = CharTracker.Core.MouseAction;
+using MouseAction = RetiraTracker.Core.MouseAction;
 
-namespace CharTracker.ViewModels
+namespace RetiraTracker.ViewModels
 {
     public class NavigationViewModel:BaseViewModel
     {
@@ -51,16 +51,26 @@ namespace CharTracker.ViewModels
             IsLoading(false);
         }
 
-        public void Navigation(Pages page)
+        public async Task Navigation(Pages page)
         {
             switch(page)
             {
                 case Pages.Settings:
+                    IsLoading(true);
+
+                    ListItem[] settings = await ExplorerManager.Instance.GetSettingsAsync();
+                    Terminal.Instance.Main.SettingsList = settings.ToObservableCollection();
                     Terminal.Instance.Main.SelectedSetting = null;
+
+                    IsLoading(false);
+
                     FrameDestination = "View/SettingsPage.xaml";
                     break;
                 case Pages.Campaigns:
                     FrameDestination = "View/CampaignsPage.xaml";
+                    break;
+                case Pages.Campaign:
+                    FrameDestination = "View/CampaignPage.xaml";
                     break;
                 case Pages.CreateCampaign:
                     Terminal.Instance.CreateCampaign = new();
@@ -135,14 +145,14 @@ namespace CharTracker.ViewModels
 
         private async Task SignOut()
         {
-            await ExplorerManager.Instance.Dispose();
+            await ExplorerManager.Instance.DisposeAsync();
             IsMenuVisible(false);
             Navigation(Pages.LogIn);
         }
 
         public enum Pages
         {
-            LogIn, Settings, Campaigns, CreateCampaign
+            LogIn, Settings, Campaigns, CreateCampaign, Campaign
         }
     }
 }

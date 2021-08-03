@@ -5,13 +5,13 @@ VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gluttony", "Gluttony\Gluttony.csproj", "{434F5CA4-56AD-4F26-AB2F-3FF970F6BE76}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CharTracker", "CharTracker\CharTracker.csproj", "{A74F7378-32F9-4B12-86E5-A7EEE44B3821}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RetiraTracker", "CharTracker\RetiraTracker.csproj", "{A74F7378-32F9-4B12-86E5-A7EEE44B3821}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoogleExplorer", "GoogleExplorer\GoogleExplorer.csproj", "{41272AFC-E2BA-4885-81A1-9EDEE324520E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ColorRoseLib", "..\ColorRose\ColorRoseLib\ColorRoseLib.csproj", "{6C4F9724-90B3-4735-969F-8B9094D7D97B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RPGTemplates", "RPGTemplates\RPGTemplates.csproj", "{C3724733-CE53-4A15-B869-F37A3EA3F99A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SheetDrama", "RPGTemplates\SheetDrama.csproj", "{C3724733-CE53-4A15-B869-F37A3EA3F99A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,7 +1,7 @@
-﻿using CharTracker.Core;
-using CharTracker.Core.Abstracts;
-using CharTracker.Model;
-using CharTracker.Model.Domain;
+﻿using RetiraTracker.Core;
+using RetiraTracker.Core.Abstracts;
+using RetiraTracker.Model;
+using RetiraTracker.Model.Domain;
 using GoogleExplorer.DataTransfer;
 using Newtonsoft.Json;
 using System;
@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace CharTracker.ViewModels
+namespace RetiraTracker.ViewModels
 {
     public class MainViewModel:BaseViewModel
     {
@@ -37,13 +37,34 @@ namespace CharTracker.ViewModels
 
         private ListItem selectedCampaign;
         public ListItem SelectedCampaign 
-        { 
+        {
             get { return selectedCampaign; } 
             set 
             {
-                SetValue(ref selectedCampaign, value); 
-            
+                if (SetValue(ref selectedCampaign, value))
+                    GoEnabled = true;
             }
+        }
+
+        public new bool IsEnabled
+        {
+            get { return Terminal.IsEnabled; }
+            set 
+            {
+                Terminal.IsEnabled = value; 
+            }
+        }
+
+        private bool goEnabled;
+        public bool GoEnabled
+        {
+            get
+            {
+                if (!IsEnabled)
+                    return false;
+                return goEnabled;
+            }
+            set { SetValue(ref goEnabled, value); }
         }
 
         public ICommand LogInCommand
@@ -66,12 +87,34 @@ namespace CharTracker.ViewModels
         {
             get
             {
-                return new RelayCommand((e) =>
+                return new RelayCommand(async (e) =>
                 {
                     if(Terminal.IsEnabled)
                     {
                         Terminal.IsEnabled = false;
-                        Terminal.Instance.Navigation.Navigation(NavigationViewModel.Pages.CreateCampaign);
+                        await Terminal.Instance.Navigation.Navigation(NavigationViewModel.Pages.CreateCampaign);
+                        Terminal.IsEnabled = true;
+                    }
+                });
+            }
+        }
+
+        public ICommand GoToSelectedCampaign
+        {
+            get
+            {
+                return new RelayCommand(async (e) =>
+                {
+                    if(Terminal.IsEnabled && SelectedCampaign != null)
+                    {
+                        Terminal.IsEnabled = false;
+                        Terminal.Instance.Navigation.IsLoading(true);
+
+                        Campaign selectedCampaign = SelectedCampaign.GetContent<Campaign>();
+                        Terminal.Instance.Campaign = await CampaignViewModel.CreateAsync(selectedCampaign);
+                        await Terminal.Instance.Navigation.Navigation(NavigationViewModel.Pages.Campaign);
+
+                        Terminal.Instance.Navigation.IsLoading(false);
                         Terminal.IsEnabled = true;
                     }
                 });
@@ -82,12 +125,9 @@ namespace CharTracker.ViewModels
         {
             Terminal.Instance.Navigation.IsLoading(true);
 
-            Terminal.Instance.Navigation.UserMail = await ExplorerManager.Instance.LogIn();
-            ListItem[] settings = await ExplorerManager.Instance.GetSettings();
-
-            SettingsList = settings.ToObservableCollection();
+            Terminal.Instance.Navigation.UserMail = await ExplorerManager.Instance.LogInAsync();
             
-            Terminal.Instance.Navigation.Navigation(NavigationViewModel.Pages.Settings);
+            await Terminal.Instance.Navigation.Navigation(NavigationViewModel.Pages.Settings);
             Terminal.Instance.Navigation.IsMenuVisible(true);
             Terminal.Instance.Navigation.IsLoading(false);
             return;
@@ -115,9 +155,5 @@ namespace CharTracker.ViewModels
             Terminal.Instance.Navigation.Navigation(NavigationViewModel.Pages.Campaigns);
         }
 
-        private void CreateCampaign()
-        {
-            
-        }
     }
 }

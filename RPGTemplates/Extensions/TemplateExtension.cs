@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace RPGTemplates.Extensions
+namespace SheetDrama.Extensions
 {
     [AttributeUsage(AttributeTargets.Field)]
     public class GameAttribute:Attribute
@@ -19,7 +17,7 @@ namespace RPGTemplates.Extensions
 
     public static class GameTemplatesExtensions
     {
-        public static GameTemplates[] GameTemplates(this Enum game)
+        public static GameTemplates[] GameTemplates(this Games game)
         {
             List<GameTemplates> output = new();
 
@@ -31,19 +29,45 @@ namespace RPGTemplates.Extensions
                 .GetCustomAttributes(typeof(GameAttribute), false)
                 .First();
 
-                if (gameAttribute.Game == (Games)game)
+                if (gameAttribute.Game == game)
                     output.Add(gt);
             }
 
             return output.ToArray();
         }
 
-        public static string WriteEnum(this Enum e)
+        public static string GetTemplate(this GameTemplates template)
+        {
+            string output = string.Empty;
+            string[] outOfTemplate = new string[] { "DarkAges" };
+            string input = null;
+
+            string text = template.ToString();
+            foreach(string str in outOfTemplate)
+                if(text.Contains(str))
+                {
+                    text = text.Replace(str, string.Empty);
+                    input = str;
+                }
+
+            foreach (char c in text)
+                if (c.ToString() == c.ToString().ToUpper())
+                    output += c.ToString().ToUpper();
+
+            if (!string.IsNullOrWhiteSpace(input))
+                output += input;
+
+            output += "Sheet";
+
+            return output;
+        }
+
+        public static string WriteEnum(this Enum template)
         {
             string output = string.Empty;
 
             int i = 0;
-            foreach(char c in e.ToString())
+            foreach(char c in template.ToString())
             {
                 if (i > 0 && c.ToString() == c.ToString().ToUpper())
                     output += " ";
