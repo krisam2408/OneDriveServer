@@ -51,7 +51,8 @@ namespace RetiraTracker.ViewModels
             get { return Terminal.IsEnabled; }
             set 
             {
-                Terminal.IsEnabled = value; 
+                Terminal.IsEnabled = value;
+                NotifyPropertyChanged(nameof(GoEnabled));
             }
         }
 
@@ -75,9 +76,9 @@ namespace RetiraTracker.ViewModels
                 {
                     if(Terminal.IsEnabled)
                     {
-                        Terminal.IsEnabled = false;
+                        IsEnabled = false;
                         await LogIn();
-                        Terminal.IsEnabled = true;
+                        IsEnabled = true;
                     }
                 });
             }
@@ -91,9 +92,13 @@ namespace RetiraTracker.ViewModels
                 {
                     if(Terminal.IsEnabled)
                     {
-                        Terminal.IsEnabled = false;
+                        IsEnabled = false;
+                        Terminal.Instance.Navigation.IsLoading(true);
+
                         await Terminal.Instance.Navigation.Navigation(NavigationViewModel.Pages.CreateCampaign);
-                        Terminal.IsEnabled = true;
+
+                        Terminal.Instance.Navigation.IsLoading(false);
+                        IsEnabled = true;
                     }
                 });
             }
@@ -107,7 +112,7 @@ namespace RetiraTracker.ViewModels
                 {
                     if(Terminal.IsEnabled && SelectedCampaign != null)
                     {
-                        Terminal.IsEnabled = false;
+                        IsEnabled = false;
                         Terminal.Instance.Navigation.IsLoading(true);
 
                         Campaign selectedCampaign = SelectedCampaign.GetContent<Campaign>();
@@ -115,7 +120,7 @@ namespace RetiraTracker.ViewModels
                         await Terminal.Instance.Navigation.Navigation(NavigationViewModel.Pages.Campaign);
 
                         Terminal.Instance.Navigation.IsLoading(false);
-                        Terminal.IsEnabled = true;
+                        IsEnabled = true;
                     }
                 });
             }
@@ -130,7 +135,6 @@ namespace RetiraTracker.ViewModels
             await Terminal.Instance.Navigation.Navigation(NavigationViewModel.Pages.Settings);
             Terminal.Instance.Navigation.IsMenuVisible(true);
             Terminal.Instance.Navigation.IsLoading(false);
-            return;
         }
 
         private void SelectCampaigns()

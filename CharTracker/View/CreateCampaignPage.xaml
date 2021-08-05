@@ -66,7 +66,7 @@
             </Border>
         </StackPanel>
 
-        <controls:ButtonControl Grid.Column="1" Grid.Row="1" Text="Create" BorderBackground="{StaticResource Blau}" BorderWidth="126" BorderHeight="32" HorizontalAlignment="Right" Command="{Binding Terminal.CreateCampaign.CreateCampaignCommand, Source={StaticResource Locator}}" IsEnabled="{Binding Terminal.Navigation.IsEnabled, Source={StaticResource Locator}}" />
+        <controls:ButtonControl Grid.Column="1" Grid.Row="1" Text="Create" BorderBackground="{StaticResource Blau}" BorderWidth="126" BorderHeight="32" HorizontalAlignment="Right" Command="{Binding Terminal.CreateCampaign.CreateCampaignCommand, Source={StaticResource Locator}}" IsEnabled="{Binding Terminal.CreateCampaign.CreateCampaignEnabled, Source={StaticResource Locator}}" />
 
     </Grid>
 </Page>

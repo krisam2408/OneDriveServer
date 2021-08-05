@@ -30,37 +30,32 @@ namespace GoogleExplorer
 
         private DriveService DriveService { get; set; }
         
-        private async Task<DriveService> Authenticate()
+        private async Task Authenticate()
         {
-            if (DriveService == null)
+            UserCredential credential;
+
+            using FileStream fs = new FileStream(credentials, FileMode.Open, FileAccess.Read);
+
+            string credPath = "token.json";
+
+            credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
+                GoogleClientSecrets.FromStream(fs).Secrets,
+                scopes,
+                "user",
+                CancellationToken.None,
+                new FileDataStore(credPath, true)
+                );
+
+            DriveService = new(new BaseClientService.Initializer()
             {
-                UserCredential credential;
+                HttpClientInitializer = credential,
+                ApplicationName = ApplicationName
+            });
 
-                using FileStream fs = new FileStream(credentials, FileMode.Open, FileAccess.Read);
-
-                string credPath = "token.json";
-
-                credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
-                    GoogleClientSecrets.FromStream(fs).Secrets,
-                    scopes,
-                    "user",
-                    CancellationToken.None,
-                    new FileDataStore(credPath, true)
-                    );
-
-                DriveService = new(new BaseClientService.Initializer()
-                {
-                    HttpClientInitializer = credential,
-                    ApplicationName = ApplicationName
-                });
-
-                AboutResource.GetRequest userRequest = DriveService.About.Get();
-                userRequest.Fields = "user";
-                About user = await userRequest.ExecuteAsync();
-                UserMail = user.User.EmailAddress;
-            }
-
-            return DriveService;
+            AboutResource.GetRequest userRequest = DriveService.About.Get();
+            userRequest.Fields = "user";
+            About user = await userRequest.ExecuteAsync();
+            UserMail = user.User.EmailAddress;
         }
 
         private async Task<bool> RevokeToken()

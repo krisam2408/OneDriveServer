@@ -6,6 +6,7 @@ namespace SheetDrama.Abstracts
     {
         public string SheetId { get; set; }
         public string CharacterName { get; set; }
+        public string PlayerName { get; set; }
         
         public string SheetFrame { get; init; }
         public string[] SheetStyles { get; init; }

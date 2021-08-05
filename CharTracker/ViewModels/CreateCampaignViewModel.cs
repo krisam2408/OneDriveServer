@@ -102,6 +102,7 @@ namespace RetiraTracker.ViewModels
                 Terminal.IsEnabled = value;
                 NotifyPropertyChanged(nameof(PlayerEnabled));
                 NotifyPropertyChanged(nameof(AddPlayerEnabled));
+                NotifyPropertyChanged(nameof(CreateCampaignEnabled));
             }
         }
 
@@ -129,6 +130,18 @@ namespace RetiraTracker.ViewModels
             set { SetValue(ref addPlayerEnabled, value); } 
         }
 
+        private bool createCampaignEnabled;
+        public bool CreateCampaignEnabled
+        {
+            get
+            {
+                if (!IsEnabled)
+                    return false;
+                return createCampaignEnabled;
+            }
+            set { SetValue(ref createCampaignEnabled, value); }
+        }
+
         public ICommand ValidateCampaignNameCommand  { get { return new RelayCommand((e) => { ValidateCampaignName((TextChangedEventArgs)e); }); } }
         public ICommand ValidateEmailCommand { get { return new RelayCommand((e) => { ValidateEmail((TextChangedEventArgs)e); }); } }
         public ICommand AddPlayerCommand { get { return new RelayCommand((e) => { AddPlayer(); }); } }
@@ -140,6 +153,7 @@ namespace RetiraTracker.ViewModels
             IsEnabled = true;
             PlayerEnabled = false;
             AddPlayerEnabled = false;
+            CreateCampaignEnabled = false;
             CampaignWarningVisibility = Visibility.Hidden;
             EmailWarningVisibility = Visibility.Hidden;
         }
@@ -244,10 +258,13 @@ namespace RetiraTracker.ViewModels
             GameTemplates template = SelectedTemplate.GetContent<GameTemplates>();
             string frame = GetTemplatePage(template);
             ISheet sheet = SheetDrama.SheetDrama.GetSheet(template.GetTemplate(), frame, null, null);
+            sheet.PlayerName = PlayersEmail;
             player.SheetJson = JsonConvert.SerializeObject(sheet);
 
             PlayersList.Add(player);
             NotifyPropertyChanged(nameof(PlayersList));
+
+            CreateCampaignEnabled = true;
 
             PlayersEmail = string.Empty;
             SelectedTemplate = null;

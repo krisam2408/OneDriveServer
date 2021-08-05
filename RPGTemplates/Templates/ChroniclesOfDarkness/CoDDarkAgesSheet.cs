@@ -10,7 +10,7 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
         public string Virtue { get; set; }
         public string Vice { get; set; }
 
-        public int Inteligence { get; set; }
+        public int Intelligence { get; set; }
         public int Wits { get; set; }
         public int Resolve { get; set; }
 
@@ -92,7 +92,7 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
 
         public CoDDarkAgesSheet(string frame, string[] styles, string[] scripts) : base(frame, styles, scripts)
         {
-            Inteligence = 1;
+            Intelligence = 1;
             Wits = 1;
             Resolve = 1;
 

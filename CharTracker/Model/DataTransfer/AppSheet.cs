@@ -5,12 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace RetiraTracker.Model.DataTransfer
 {
     public class AppSheet
     {
-        public Player Player { get; init; }
+        public Player Player { get; set; }
+        [JsonIgnore]
         public ISheet Sheet { get; set; }
 
         public string Display
@@ -25,9 +27,18 @@ namespace RetiraTracker.Model.DataTransfer
             }
         }
 
-        public AppSheet(Player player)
+        public void SetAppSheet(Player player)
         {
             Player = player;
+            Sheet = SheetDrama.SheetDrama.GetSheet(player.SheetTemplate, player.SheetJson);
+        }
+
+        public void SetAppSheet()
+        {
+            if (Player == null)
+                return;
+
+            Sheet = SheetDrama.SheetDrama.GetSheet(Player.SheetTemplate, Player.SheetJson);
         }
     }
 }

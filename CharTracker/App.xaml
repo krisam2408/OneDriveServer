@@ -59,6 +59,26 @@
                     <Setter Property="FontSize" Value="10" />
                 </Style.Setters>
             </Style>
+
+            <Style x:Key="SheetText" TargetType="TextBlock">
+                <Style.Setters>
+                    <Setter Property="FontFamily" Value="Consolas" />
+                    <Setter Property="Foreground" Value="{StaticResource Dark}" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="Padding" Value="8,0,0,0" />
+                </Style.Setters>
+            </Style>
+
+            <Style x:Key="SheetEntry" TargetType="TextBox">
+                <Style.Setters>
+                    <Setter Property="Width" Value="256" />
+                    <Setter Property="Background" Value="#aaffffff" />
+                    <Setter Property="BorderThickness" Value="0,0,0,1.5" />
+                    <Setter Property="BorderBrush" Value="{StaticResource Dark}" />
+                    <Setter Property="FontFamily" Value="Consolas" />
+                    <Setter Property="Padding" Value="2" />
+                </Style.Setters>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

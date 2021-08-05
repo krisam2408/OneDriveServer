@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 
 namespace RetiraTracker.Core
 {
@@ -30,6 +31,16 @@ namespace RetiraTracker.Core
         public T GetContent<T>()
         {
             return JsonConvert.DeserializeObject<T>(Content);
+        }
+
+        public T GetContent<T>(JsonSerializerSettings settings)
+        {
+            return JsonConvert.DeserializeObject<T>(Content, settings);
+        }
+
+        public object GetContent(Type type)
+        {
+            return JsonConvert.DeserializeObject(Content, type);
         }
 
         public override string ToString() { return Display; }

@@ -4,9 +4,24 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:RetiraTracker.View"
-      mc:Ignorable="d">
+      mc:Ignorable="d"
+      DataContext="{Binding Terminal, Source={StaticResource Locator}}">
 
-    <Grid>
-        
+    <Grid DataContext="{Binding Campaign}" Margin="16,4">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="136" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <ListView ItemsSource="{Binding SheetList}" SelectedItem="{Binding SelectedSheet}" SelectionMode="Single" Grid.Column="0" Background="Transparent" BorderThickness="0">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border CornerRadius="6" Background="{StaticResource Gruen}" Width="120" Padding="8" HorizontalAlignment="Center">
+                        <TextBlock Style="{StaticResource StandardText}" Text="{Binding Display}" HorizontalAlignment="Center" />
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Frame Grid.Column="1" Source="{Binding Terminal.Campaign.SheetSource, Source={StaticResource Locator}}" Margin="16,0,0,0" />
     </Grid>
 </Page>
