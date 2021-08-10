@@ -35,7 +35,7 @@ namespace RetiraTracker.ViewModels
         public ICommand AppMoveDownCommand { get { return new RelayCommand(e => AppMove(MouseAction.Down, (MouseEventArgs)e)); } }
         public ICommand AppMoveDragCommand { get { return new RelayCommand(e => AppMove(MouseAction.Drag, (MouseEventArgs)e)); } }
         public ICommand AppMoveLeaveCommand { get { return new RelayCommand(e => AppMove(MouseAction.Leave, (MouseEventArgs)e)); } }
-        public ICommand AppHomeCommand { get { return new RelayCommand(e => AppHome()); } }
+        public ICommand AppHomeCommand { get { return new RelayCommand(async (e) => await AppHomeAsync()); } }
         public ICommand SignOutCommand { get { return new RelayCommand(async (e) => await SignOut()); } }
 
         private Visibility menuVisible;
@@ -122,9 +122,26 @@ namespace RetiraTracker.ViewModels
                 WindowPosition = mousePosition;
             }
 
-            if (action == MouseAction.Leave || action == MouseAction.Up)
+#if !TEMP
+            if (action == MouseAction.Up || action == MouseAction.Leave)
+                IsWindowBeingDragged = false;
+#else
+            if (action == MouseAction.Up)
+                IsWindowBeingDragged = false;
+#endif
+
+            if (action == MouseAction.Drag && e.MouseDevice.LeftButton == MouseButtonState.Released)
                 IsWindowBeingDragged = false;
 
+#if TEMP
+            if (action == MouseAction.Leave && IsWindowBeingDragged)
+            {
+                int wasUp = mousePosition.Y < WindowPosition.Y ? 1 : -1;
+                Application.Current.MainWindow.Left += mousePosition.X - WindowPosition.X;
+                Application.Current.MainWindow.Top = mousePosition.Y + (WindowPosition.Y * wasUp);
+            }
+#endif
+            
             if (action == MouseAction.Drag && IsWindowBeingDragged)
             {
                 Application.Current.MainWindow.Left += mousePosition.X - WindowPosition.X;
@@ -132,22 +149,22 @@ namespace RetiraTracker.ViewModels
             }
         }
 
-        private void AppHome()
+        private async Task AppHomeAsync()
         {
             if (menuVisible == Visibility.Hidden)
             {
-                Navigation(Pages.LogIn);
+                await Navigation(Pages.LogIn);
                 return;
             }
 
-            Navigation(Pages.Settings);
+            await Navigation(Pages.Settings);
         }
 
         private async Task SignOut()
         {
             await ExplorerManager.Instance.DisposeAsync();
             IsMenuVisible(false);
-            Navigation(Pages.LogIn);
+            await Navigation(Pages.LogIn);
         }
 
         public enum Pages

@@ -13,8 +13,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ColorRoseLib;
-using Color = System.Drawing.Color;
-using MediaColor = System.Windows.Media.Color;
 
 namespace RetiraTracker.View.UserControls
 {
@@ -48,21 +46,19 @@ namespace RetiraTracker.View.UserControls
 
         private SolidColorBrush SetMouseOverColor()
         {
-            Color color = Color.FromArgb(BorderBackground.Color.R, BorderBackground.Color.G, BorderBackground.Color.B);
-            HSBColor activeColor = HSBColor.FromARGBColor(color);
+            HSBColor activeColor = HSBColor.FromARGB(255, BorderBackground.Color.R, BorderBackground.Color.G, BorderBackground.Color.B);
             activeColor.Darken(16);
-            color = activeColor.ToARGBColor();
-            MediaColor brushColor = MediaColor.FromArgb(color.A, color.R, color.G, color.B);
+            byte[] color = activeColor.ToARGB();
+            Color brushColor = Color.FromArgb(color[0], color[1], color[2], color[3]);
             return new SolidColorBrush(brushColor);
         }
 
         private SolidColorBrush SetDisabledColor()
         {
-            Color color = Color.FromArgb(BorderBackground.Color.R, BorderBackground.Color.G, BorderBackground.Color.B);
-            HSBColor activeColor = HSBColor.FromARGBColor(color);
+            HSBColor activeColor = HSBColor.FromARGB(255, BorderBackground.Color.R, BorderBackground.Color.G, BorderBackground.Color.B);
             activeColor.Brighten(16);
-            color = activeColor.ToARGBColor();
-            MediaColor brushColor = MediaColor.FromArgb(color.A, color.R, color.G, color.B);
+            byte[] color = activeColor.ToARGB();
+            Color brushColor = Color.FromArgb(color[0], color[1], color[2], color[3]);
             return new SolidColorBrush(brushColor);
         }
     }

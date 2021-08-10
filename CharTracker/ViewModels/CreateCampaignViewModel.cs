@@ -146,6 +146,7 @@ namespace RetiraTracker.ViewModels
         public ICommand ValidateEmailCommand { get { return new RelayCommand((e) => { ValidateEmail((TextChangedEventArgs)e); }); } }
         public ICommand AddPlayerCommand { get { return new RelayCommand((e) => { AddPlayer(); }); } }
         public ICommand CreateCampaignCommand { get { return new RelayCommand(async (e) => { await CreateCampaign(); }); } }
+        public ICommand CancelCommand { get { return new RelayCommand(async (e) => { await Terminal.Instance.Navigation.Navigation(NavigationViewModel.Pages.Campaigns); }); } }
 
         public CreateCampaignViewModel()
         {
@@ -257,7 +258,7 @@ namespace RetiraTracker.ViewModels
 
             GameTemplates template = SelectedTemplate.GetContent<GameTemplates>();
             string frame = GetTemplatePage(template);
-            ISheet sheet = SheetDrama.SheetDrama.GetSheet(template.GetTemplate(), frame, null, null);
+            ISheet sheet = SheetDrama.SheetDrama.GetSheet(template.GetTemplate(), frame, null, GetGameCommands(template.TemplateGame()));
             sheet.PlayerName = PlayersEmail;
             player.SheetJson = JsonConvert.SerializeObject(sheet);
 
@@ -310,7 +311,14 @@ namespace RetiraTracker.ViewModels
 
                     await ExplorerManager.Instance.UpdateSettingsAsync(currSettings);
 
+                    IsEnabled = false;
+                    Terminal.Instance.Navigation.IsLoading(true);
+
+                    Terminal.Instance.Campaign = await CampaignViewModel.CreateAsync(newCampaign);
                     await Terminal.Instance.Navigation.Navigation(NavigationViewModel.Pages.Campaign);
+
+                    Terminal.Instance.Navigation.IsLoading(false);
+                    IsEnabled = true;
                 }
                 catch(Exception e)
                 {
@@ -327,6 +335,18 @@ namespace RetiraTracker.ViewModels
             string output = template.GetTemplate();
             output = output.Replace("Sheet", "Page.xaml");
             return output;
+        }
+
+        private string[] GetGameCommands(Games game)
+        {
+            switch(game)
+            {
+                case Games.ChroniclesOfDarkness:
+                case Games.ChroniclesOfDarknessDarkAges:
+                    return new string[] { "CoDTemplateCommand" };
+                default:
+                    return null;
+            }
         }
     }
 }

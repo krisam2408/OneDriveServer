@@ -17,6 +17,17 @@ namespace SheetDrama.Extensions
 
     public static class GameTemplatesExtensions
     {
+        public static Games TemplateGame(this GameTemplates template)
+        {
+            GameAttribute gameAttribute = (GameAttribute)template.GetType()
+                .GetMember(template.ToString())
+                .First()
+                .GetCustomAttributes(typeof(GameAttribute), false)
+                .First();
+
+            return gameAttribute.Game;
+        }
+
         public static GameTemplates[] GameTemplates(this Games game)
         {
             List<GameTemplates> output = new();

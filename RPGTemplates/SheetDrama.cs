@@ -19,7 +19,7 @@ namespace SheetDrama
                 .ToArray();
         }
 
-        public static ISheet GetSheet(string template, string frame, string styles, string scripts)
+        public static ISheet GetSheet(string template, string frame, string[] styles, string[] scripts)
         {
             IEnumerable<Type> templates = Assembly.GetExecutingAssembly()
                 .GetTypes()

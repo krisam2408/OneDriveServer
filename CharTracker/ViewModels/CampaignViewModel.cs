@@ -4,6 +4,7 @@ using RetiraTracker.Core.Abstracts;
 using RetiraTracker.Model;
 using RetiraTracker.Model.DataTransfer;
 using RetiraTracker.Model.Domain;
+using RetiraTracker.ViewModels.TemplateCommand;
 using SheetDrama.Abstracts;
 using System;
 using System.Collections.Generic;
@@ -11,11 +12,14 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace RetiraTracker.ViewModels
 {
     public class CampaignViewModel:BaseViewModel
     {
+        public ITemplateCommand Commands { get; set; }
+
         private string campaignsName;
         public string CampaignsName { get { return campaignsName; } set { SetValue(ref campaignsName, value); } }
 
@@ -49,6 +53,8 @@ namespace RetiraTracker.ViewModels
             set { SetValue(ref sheetData, value); } 
         }
 
+        public ICommand UpdateSheetCommand { get { return new RelayCommand(async (e) => await UpdateSheet()); } }
+
         private CampaignViewModel() { }
 
         public static async Task<CampaignViewModel> CreateAsync(Campaign campaign)
@@ -74,11 +80,18 @@ namespace RetiraTracker.ViewModels
                 list.Add(li);
             }
 
+            vm.Commands = new CoDTemplateCommand(vm);
+
             vm.SheetList = list;
 
             vm.SelectedSheet = vm.SheetList[0];
 
             return vm;
+        }
+
+        private async Task UpdateSheet()
+        {
+            SheetData.LastModified = DateTime.Now;
         }
 
         private static string[] SetPlayersDisplay(Campaign campaign)

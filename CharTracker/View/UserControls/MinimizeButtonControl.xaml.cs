@@ -13,8 +13,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Color = System.Drawing.Color;
-using MediaColor = System.Windows.Media.Color;
 
 namespace RetiraTracker.View.UserControls
 {
@@ -40,12 +38,11 @@ namespace RetiraTracker.View.UserControls
 
         private SolidColorBrush SetDarkOrange()
         {
-            MediaColor orangeColor = (MediaColor)Application.Current.Resources["OrangeColor"];
-            Color color = Color.FromArgb(orangeColor.R, orangeColor.G, orangeColor.B);
-            HSBColor activeColor = HSBColor.FromARGBColor(color);
+            Color orangeColor = (Color)Application.Current.Resources["OrangeColor"];
+            HSBColor activeColor = HSBColor.FromARGB(255, orangeColor.R, orangeColor.G, orangeColor.B);
             activeColor.Darken(16);
-            color = activeColor.ToARGBColor();
-            MediaColor brushColor = MediaColor.FromArgb(color.A, color.R, color.G, color.B);
+            byte[] color = activeColor.ToARGB();
+            Color brushColor = Color.FromArgb(color[0], color[1], color[2], color[3]);
             return new SolidColorBrush(brushColor);
         }
     }

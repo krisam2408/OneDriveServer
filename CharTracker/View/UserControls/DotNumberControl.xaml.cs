@@ -1,4 +1,5 @@
 ﻿using RetiraTracker.Core;
+using RetiraTracker.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,7 +53,15 @@ namespace RetiraTracker.View.UserControls
 
                 SetValue(NumberProperty, input);
                 SetDotFills();
+                ValueChanged?.Execute(null);
             }
+        }
+
+        public static DependencyProperty ValueChangedProperty = DependencyProperty.Register("ValueChanged", typeof(ICommand), typeof(DotNumberControl));
+        public ICommand ValueChanged
+        {
+            get { return (ICommand)GetValue(ValueChangedProperty); }
+            set { SetValue(ValueChangedProperty, value); }
         }
 
         public ICommand Dot0Command

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 
 namespace SheetDrama.Abstracts
 {
@@ -7,6 +8,7 @@ namespace SheetDrama.Abstracts
         public string SheetId { get; set; }
         public string CharacterName { get; set; }
         public string PlayerName { get; set; }
+        public DateTime LastModified { get; set; }
         
         public string SheetFrame { get; init; }
         public string[] SheetStyles { get; init; }
@@ -17,6 +19,7 @@ namespace SheetDrama.Abstracts
             SheetFrame = frame;
             SheetStyles = styles;
             SheetScripts = scripts;
+            LastModified = DateTime.Now;
         }
 
         public string JsonSheet()

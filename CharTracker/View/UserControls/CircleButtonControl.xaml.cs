@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,11 +17,11 @@ using ColorRoseLib;
 namespace RetiraTracker.View.UserControls
 {
     /// <summary>
-    /// Interaction logic for ButtonControl.xaml
+    /// Interaction logic for CircleButtonControl.xaml
     /// </summary>
-    public partial class ButtonControl : UserControl
+    public partial class CircleButtonControl : UserControl
     {
-        public ButtonControl()
+        public CircleButtonControl()
         {
             InitializeComponent();
             DataContext = this;
@@ -32,16 +31,22 @@ namespace RetiraTracker.View.UserControls
         public SolidColorBrush MouseOverBorderBackground { get { return SetMouseOverColor(); } }
         public SolidColorBrush DisabledBorderBackground { get { return SetDisabledColor(); } }
 
-        public string Text { get; set; }
+        public string Data { get; set; }
 
-        public double BorderWidth { get; set; }
-        public double BorderHeight { get; set; }
+        public double Diameter { get; set; }
 
-        public static DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(ButtonControl));
+        public static DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(CircleButtonControl));
         public ICommand Command
         {
             get { return (ICommand)GetValue(CommandProperty); }
             set { SetValue(CommandProperty, value); }
+        }
+
+        public static DependencyProperty CustomParameterProperty = DependencyProperty.Register("CustomParameter", typeof(object), typeof(CircleButtonControl));
+        public object CustomParameter
+        {
+            get { return GetValue(CustomParameterProperty); }
+            set { SetValue(CustomParameterProperty, value); }
         }
 
         private SolidColorBrush SetMouseOverColor()

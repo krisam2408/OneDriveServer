@@ -2,14 +2,9 @@
 using RetiraTracker.Core.Abstracts;
 using RetiraTracker.Model;
 using RetiraTracker.Model.Domain;
-using GoogleExplorer.DataTransfer;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
