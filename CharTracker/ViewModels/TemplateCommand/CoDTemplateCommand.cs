@@ -19,6 +19,7 @@ namespace RetiraTracker.ViewModels.TemplateCommand
         private BaseViewModel Parent { get; init; }
 
         public ICommand AddMeritCommand { get { return new RelayCommand(e => AddMerit((MouseEventArgs)e)); } }
+        public ICommand RemoveMeritCommand { get { return new RelayCommand(async (e) => await RemoveMerit((MouseEventArgs)e)); } }
 
         public CoDTemplateCommand(BaseViewModel parent)
         {
@@ -47,7 +48,40 @@ namespace RetiraTracker.ViewModels.TemplateCommand
             if (meritListControl.ItemsSource != null)
                 meritList = ((KeyIntValue[])meritListControl.ItemsSource).ToList();
 
-            meritList.Add(new KeyIntValue() { Key = "Recursos", Value = 3 });
+            meritList.Add(new KeyIntValue());
+
+            meritListControl.ItemsSource = meritList.ToArray();
+
+            Parent.NotifyPropertyChanged("SheetData");
+        }
+
+        private async Task RemoveMerit(MouseEventArgs e)
+        {
+            ListView meritListControl = null;
+            FrameworkElement source = (FrameworkElement)e.OriginalSource;
+
+            do
+            {
+                PropertyInfo propInfo = source.GetType()
+                    .GetProperty("CustomParameter");
+
+                if (propInfo != null)
+                    meritListControl = (ListView)propInfo.GetValue(source);
+
+                source = (FrameworkElement)source.Parent;
+
+            } while (meritListControl == null && source != null);
+
+            List<KeyIntValue> meritList = ((KeyIntValue[])meritListControl.ItemsSource).ToList();
+
+            string key = ((TextBox)((StackPanel)source).Children[1]).Text;
+
+            KeyIntValue? valueToRemove = meritList.FirstOrDefault(k => k.Key == key);
+
+            if (valueToRemove == null)
+                return;
+
+            meritList.Remove(valueToRemove.Value);
 
             meritListControl.ItemsSource = meritList.ToArray();
 

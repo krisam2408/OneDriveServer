@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -66,7 +67,9 @@ namespace RetiraTracker.ViewModels
             string[] players = SetPlayersDisplay(campaign);
 
             ObservableCollection<ListItem> list = new();
+            ISheet firstSheet = null;
 
+            int i = 0;
             foreach(string ply in players)
             {
                 string playerJson = await ExplorerManager.Instance.GetPlayer(ply, campaign.FolderID);
@@ -74,13 +77,17 @@ namespace RetiraTracker.ViewModels
                 AppSheet sheet = new();
                 sheet.SetAppSheet(player);
 
+                if (i == 0)
+                    firstSheet = sheet.Sheet;
+
                 ListItem li = new(ply, sheet.Display);
                 li.SetContent(sheet);
 
                 list.Add(li);
+                i++;
             }
 
-            vm.Commands = new CoDTemplateCommand(vm);
+            vm.Commands = SetTemplateCommand(firstSheet.SheetScripts[0], vm);
 
             vm.SheetList = list;
 
@@ -92,6 +99,26 @@ namespace RetiraTracker.ViewModels
         private async Task UpdateSheet()
         {
             SheetData.LastModified = DateTime.Now;
+        }
+
+        private static ITemplateCommand SetTemplateCommand(string commandName, CampaignViewModel vm)
+        {
+            IEnumerable<Type> templates = Assembly.GetExecutingAssembly()
+                .GetTypes()
+                .Where(t => t.Namespace == "RetiraTracker.ViewModels.TemplateCommand");
+
+            Type targetTemplate = templates.Where(t => t.Name == commandName)
+                .FirstOrDefault();
+
+            if (targetTemplate == null)
+                return null;
+
+            Type[] ctorParameters = new Type[1] { typeof(BaseViewModel) };
+            ConstructorInfo ctorInfo = targetTemplate.GetConstructor(ctorParameters);
+            object[] parameters = new object[] { vm };
+            ITemplateCommand output = (ITemplateCommand)ctorInfo.Invoke(parameters);
+
+            return output;
         }
 
         private static string[] SetPlayersDisplay(Campaign campaign)

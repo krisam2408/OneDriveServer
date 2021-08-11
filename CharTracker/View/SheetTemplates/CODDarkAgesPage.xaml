@@ -291,11 +291,12 @@
                     <StackPanel Grid.Column="1" Grid.Row="1" Margin="0,8,0,0">
                         <StackPanel Margin="8,0">
                             <TextBlock Text="Merits" HorizontalAlignment="Center" Foreground="{StaticResource Dark}" FontFamily="Consolas" FontSize="18" VerticalAlignment="Bottom" />
-                            <ListView x:Name="MeritList" ItemsSource="{Binding Terminal.Campaign.SheetData.Merits, Source={StaticResource Locator}, Mode=TwoWay}" BorderThickness="0" Background="Transparent" Height="50">
+                            <ListView x:Name="MeritList" ItemsSource="{Binding Terminal.Campaign.SheetData.Merits, Source={StaticResource Locator}, Mode=TwoWay}" BorderThickness="0" Background="Transparent">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBox Text="{Binding Key}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding Terminal.Campaign.UpdateSheetCommand, Source={StaticResource Locator}}" Margin="0,0,8,0" />
+                                            <controls:CircleButtonControl Diameter="16" Command="{Binding Terminal.Campaign.Commands.RemoveMeritCommand, Source={StaticResource Locator}}" BorderBackground="{StaticResource Rot}" Data="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" CustomParameter="{x:Reference MeritList}" Margin="0,0,8,0" />
+                                            <TextBox Text="{Binding Key, Mode=TwoWay}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding Terminal.Campaign.UpdateSheetCommand, Source={StaticResource Locator}}" Margin="0,0,8,0" />
                                             <controls:DotNumberControl Number="{Binding Value}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand, Source={StaticResource Locator}}" />
                                         </StackPanel>
                                     </DataTemplate>

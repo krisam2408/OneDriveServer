@@ -7,19 +7,19 @@
              xmlns:core="clr-namespace:RetiraTracker.Core"
              mc:Ignorable="d">
     <UserControl.Resources>
-        <Style x:Key="BtnBorder" TargetType="Ellipse">
+        <Style x:Key="BtnBorder" TargetType="Border">
             <Style.Setters>
                 <Setter Property="Cursor" Value="Hand" />
             </Style.Setters>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="False">
-                    <Setter Property="Fill" Value="{Binding DataContext.BorderBackground}" />
+                    <Setter Property="Background" Value="{Binding DataContext.BorderBackground}" />
                 </Trigger>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Fill" Value="{Binding DataContext.MouseOverBorderBackground}" />
+                    <Setter Property="Background" Value="{Binding DataContext.MouseOverBorderBackground}" />
                 </Trigger>
                 <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Fill" Value="{Binding DataContext.DisabledBorderBackground}" />
+                    <Setter Property="Background" Value="{Binding DataContext.DisabledBorderBackground}" />
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -36,9 +36,7 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    <Grid>
-        <Ellipse Width="{Binding Diameter}" Height="{Binding Diameter}" Style="{StaticResource BtnBorder}" core:MouseBehaviour.MouseDownCommand="{Binding DataContext.Command, RelativeSource={RelativeSource Self}}" />
-        
+    <Border Width="{Binding Diameter}" Height="{Binding Diameter}" Style="{StaticResource BtnBorder}" core:MouseBehaviour.MouseDownCommand="{Binding DataContext.Command, RelativeSource={RelativeSource Self}}" CornerRadius="{Binding Radio}" >
         <Path Style="{StaticResource BtnImage}" Stretch="UniformToFill" Data="{Binding Data}" />
-    </Grid>
+    </Border>
 </UserControl>

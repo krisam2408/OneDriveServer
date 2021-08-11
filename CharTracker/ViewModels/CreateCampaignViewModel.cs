@@ -311,14 +311,8 @@ namespace RetiraTracker.ViewModels
 
                     await ExplorerManager.Instance.UpdateSettingsAsync(currSettings);
 
-                    IsEnabled = false;
-                    Terminal.Instance.Navigation.IsLoading(true);
-
                     Terminal.Instance.Campaign = await CampaignViewModel.CreateAsync(newCampaign);
                     await Terminal.Instance.Navigation.Navigation(NavigationViewModel.Pages.Campaign);
-
-                    Terminal.Instance.Navigation.IsLoading(false);
-                    IsEnabled = true;
                 }
                 catch(Exception e)
                 {
