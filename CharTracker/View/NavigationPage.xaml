@@ -8,7 +8,7 @@
       xmlns:controls="clr-namespace:RetiraTracker.View.UserControls"
       mc:Ignorable="d" 
       DataContext="{Binding Terminal, Source={StaticResource Locator}}">
-    <StackPanel Orientation="Vertical" DataContext="{Binding Navigation}">
+    <StackPanel Orientation="Vertical" DataContext="{Binding Path=Navigation}">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -19,14 +19,14 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="32" />
             </Grid.RowDefinitions>
-            <StackPanel Grid.Column="0" Background="Transparent" core:MouseBehaviour.MouseUpCommand="{Binding AppMoveUpCommand}" core:MouseBehaviour.MouseDownCommand="{Binding AppMoveDownCommand}" core:MouseBehaviour.MouseDragCommand="{Binding AppMoveDragCommand}" core:MouseBehaviour.MouseLeaveCommand="{Binding AppMoveLeaveCommand}" />
-            <controls:MinimizeButtonControl Grid.Column="1" Command="{Binding Terminal.Navigation.AppMinimizeCommand, Source={StaticResource Locator}}" />
-            <controls:MaximizeButtonControl Grid.Column="2" Command="{Binding Terminal.Navigation.AppMaximizeCommand, Source={StaticResource Locator}}" />
-            <controls:CloseButtonControl Grid.Column="3" Command="{Binding Terminal.Navigation.AppCloseCommand, Source={StaticResource Locator}}" />
+            <StackPanel Grid.Column="0" Background="Transparent" core:MouseBehaviour.MouseDownCommand="{Binding Path=AppMoveDownCommand}" />
+            <controls:MinimizeButtonControl Grid.Column="1" Command="{Binding Path=AppMinimizeCommand}" Margin="0,8,0,0" />
+            <controls:MaximizeButtonControl Grid.Column="2" Command="{Binding Path=AppMaximizeCommand}" Margin="8,8,8,0" />
+            <controls:CloseButtonControl Grid.Column="3" Command="{Binding Path=AppCloseCommand}" Margin="0,8,0,0" />
         </Grid>
-        <StackPanel Orientation="Horizontal" Visibility="{Binding MenuVisibility}" HorizontalAlignment="Right" Margin="0,8,16,0">
-            <TextBlock Style="{StaticResource StandardText}" Text="{Binding UserMail}" VerticalAlignment="Center" Margin="8,0" />
-            <controls:ButtonControl BorderBackground="{StaticResource Lila}" Text="Sign Out" Command="{Binding Terminal.Navigation.SignOutCommand, Source={StaticResource Locator}}" IsEnabled="{Binding Terminal.Navigation.IsEnabled, Source={StaticResource Locator}}" BorderWidth="80" BorderHeight="32" />
+        <StackPanel Orientation="Horizontal" Visibility="{Binding Path=MenuVisibility}" HorizontalAlignment="Right" Margin="0,8,16,0">
+            <TextBlock Style="{StaticResource StandardText}" Text="{Binding Path=UserMail}" VerticalAlignment="Center" Margin="8,0" />
+            <controls:ButtonControl BorderBackground="{StaticResource Lila}" Text="Sign Out" Command="{Binding Path=SignOutCommand}" IsEnabled="{Binding Path=IsEnabled}" BorderWidth="80" BorderHeight="32" />
         </StackPanel>
     </StackPanel>
 </Page>

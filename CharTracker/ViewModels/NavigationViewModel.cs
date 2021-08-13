@@ -25,16 +25,10 @@ namespace RetiraTracker.ViewModels
         private string userMail;
         public string UserMail { get { return userMail; } set { SetValue(ref userMail, value); } }
 
-        private bool IsWindowBeingDragged { get; set; }
-        private Point WindowPosition { get; set; }
-
         public ICommand AppCloseCommand { get { return new RelayCommand(e => AppClose()); } }
         public ICommand AppMinimizeCommand { get { return new RelayCommand(e => AppMinimize()); } }
         public ICommand AppMaximizeCommand { get { return new RelayCommand(e => AppMaximize()); } }
-        public ICommand AppMoveUpCommand { get { return new RelayCommand(e => AppMove(MouseAction.Up, (MouseEventArgs)e)); } }
-        public ICommand AppMoveDownCommand { get { return new RelayCommand(e => AppMove(MouseAction.Down, (MouseEventArgs)e)); } }
-        public ICommand AppMoveDragCommand { get { return new RelayCommand(e => AppMove(MouseAction.Drag, (MouseEventArgs)e)); } }
-        public ICommand AppMoveLeaveCommand { get { return new RelayCommand(e => AppMove(MouseAction.Leave, (MouseEventArgs)e)); } }
+        public ICommand AppMoveDownCommand { get { return new RelayCommand(e => AppMove((MouseEventArgs)e)); } }
         public ICommand AppHomeCommand { get { return new RelayCommand(async (e) => await AppHomeAsync()); } }
         public ICommand SignOutCommand { get { return new RelayCommand(async (e) => await SignOut()); } }
 
@@ -56,6 +50,7 @@ namespace RetiraTracker.ViewModels
             switch(page)
             {
                 case Pages.Settings:
+                    IsEnabled = false;
                     IsLoading(true);
 
                     ListItem[] settings = await ExplorerManager.Instance.GetSettingsAsync();
@@ -63,6 +58,7 @@ namespace RetiraTracker.ViewModels
                     Terminal.Instance.Main.SelectedSetting = null;
 
                     IsLoading(false);
+                    IsEnabled = true;
 
                     FrameDestination = "View/SettingsPage.xaml";
                     break;
@@ -113,40 +109,10 @@ namespace RetiraTracker.ViewModels
             Application.Current.MainWindow.WindowState = WindowState.Maximized;
         }
 
-        private void AppMove(MouseAction action, MouseEventArgs e)
+        private void AppMove(MouseEventArgs e)
         {
-            Point mousePosition = e.GetPosition(Application.Current.MainWindow);
-            if (action == MouseAction.Down)
-            {
-                IsWindowBeingDragged = true;
-                WindowPosition = mousePosition;
-            }
-
-#if !TEMP
-            if (action == MouseAction.Up || action == MouseAction.Leave)
-                IsWindowBeingDragged = false;
-#else
-            if (action == MouseAction.Up)
-                IsWindowBeingDragged = false;
-#endif
-
-            if (action == MouseAction.Drag && e.MouseDevice.LeftButton == MouseButtonState.Released)
-                IsWindowBeingDragged = false;
-
-#if TEMP
-            if (action == MouseAction.Leave && IsWindowBeingDragged)
-            {
-                int wasUp = mousePosition.Y < WindowPosition.Y ? 1 : -1;
-                Application.Current.MainWindow.Left += mousePosition.X - WindowPosition.X;
-                Application.Current.MainWindow.Top = mousePosition.Y + (WindowPosition.Y * wasUp);
-            }
-#endif
-            
-            if (action == MouseAction.Drag && IsWindowBeingDragged)
-            {
-                Application.Current.MainWindow.Left += mousePosition.X - WindowPosition.X;
-                Application.Current.MainWindow.Top += mousePosition.Y - WindowPosition.Y;
-            }
+            if (e.LeftButton == MouseButtonState.Pressed)
+                Application.Current.MainWindow.DragMove();
         }
 
         private async Task AppHomeAsync()

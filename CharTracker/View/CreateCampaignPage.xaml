@@ -22,34 +22,28 @@
 
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Campaign's Name :" Style="{StaticResource StandardText}" Margin="0,0,8,0" VerticalAlignment="Center" Width="136" />
-                <Border Background="{StaticResource Light}" CornerRadius="8" Width="160" Padding="4,6">
-                    <TextBox Background="Transparent" Text="{Binding CampaignsName}" core:TextBehaviour.TextChangedCommand="{Binding ValidateCampaignNameCommand}" BorderThickness="0" IsEnabled="{Binding IsEnabled}" />
-                </Border>
+                <TextBox Template="{StaticResource StandardTextBox}" Text="{Binding Path=CampaignsName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" core:TextBehaviour.TextChangedCommand="{Binding ValidateCampaignNameCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" Width="200" />
             </StackPanel>
             <TextBlock Text="That name is already used in this setting" Style="{StaticResource WarningText}" Visibility="{Binding CampaignWarningVisibility}" />
 
             <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
                 <TextBlock Text="Campaign's Game :" Style="{StaticResource StandardText}" Margin="0,0,8,0" VerticalAlignment="Center" Width="136" />
-                <Border Background="{StaticResource Light}" CornerRadius="8" Width="160" Padding="4,4">
-                    <ComboBox ItemsSource="{Binding GamesList}" SelectedItem="{Binding SelectedGame}" DisplayMemberPath="Display" Height="20" Background="Transparent" IsEnabled="{Binding IsEnabled}" />
-                </Border>
+                <ComboBox Style="{StaticResource StandardComboBox}" ItemsSource="{Binding GamesList}" SelectedItem="{Binding SelectedGame}" DisplayMemberPath="Display" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" Width="200" />
             </StackPanel>
 
             <TextBlock Text="Add Player :" Style="{StaticResource StandardText}" Margin="0,0,8,0" />
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Player's Email:" Style="{StaticResource StandardText}" Margin="0,0,8,0" VerticalAlignment="Center" Width="136" />
-                <Border Background="{Binding PlayerEnabled, Converter={StaticResource EnabledColor}}" CornerRadius="8" Width="160" Padding="4,6">
-                    <TextBox Background="Transparent" Text="{Binding PlayersEmail}" core:TextBehaviour.TextChangedCommand="{Binding ValidateEmailCommand}" BorderThickness="0" IsEnabled="{Binding PlayerEnabled}" />
-                </Border>
+                <TextBox Template="{StaticResource StandardTextBox}" Text="{Binding Source={StaticResource Locator}, Path=Terminal.CreateCampaign.PlayersEmail}" core:TextBehaviour.TextChangedCommand="{Binding ValidateEmailCommand}" IsEnabled="{Binding PlayerEnabled}" Width="200" />
             </StackPanel>
             <TextBlock Text="That mail is not valid" Style="{StaticResource WarningText}" Visibility="{Binding EmailWarningVisibility}" />
+            
             <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
                 <TextBlock Text="Player's Template:" Style="{StaticResource StandardText}" Margin="0,0,8,0" VerticalAlignment="Center" Width="136" />
-                <Border Background="{Binding PlayerEnabled, Converter={StaticResource EnabledColor}}" CornerRadius="8" Width="160" Padding="4,4">
-                    <ComboBox ItemsSource="{Binding TemplatesList}" SelectedItem="{Binding SelectedTemplate}" DisplayMemberPath="Display" Height="20" Background="Transparent" IsEnabled="{Binding PlayerEnabled}" />
-                </Border>
+                <ComboBox Style="{StaticResource StandardComboBox}" ItemsSource="{Binding TemplatesList}" SelectedItem="{Binding SelectedTemplate}" DisplayMemberPath="Display" IsEnabled="{Binding PlayerEnabled}" Width="200" />
             </StackPanel>
-            <controls:ImageButtonControl BorderBackground="{StaticResource Gruen}" BorderWidth="104" BorderHeight="32" Text="Add" Data="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" Margin="202,12,0,0" HorizontalAlignment="Left" Command="{Binding Terminal.CreateCampaign.AddPlayerCommand, Source={StaticResource Locator}}" IsEnabled="{Binding Terminal.CreateCampaign.AddPlayerEnabled, Source={StaticResource Locator}}" />
+            
+            <controls:ImageButtonControl BorderBackground="{StaticResource Gruen}" BorderWidth="104" BorderHeight="32" Text="Add" Data="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" Margin="240,12,0,0" HorizontalAlignment="Left" Command="{Binding AddPlayerCommand}" IsEnabled="{Binding AddPlayerEnabled}" />
         </StackPanel>
 
         <StackPanel Grid.Column="1" Grid.Row="0">

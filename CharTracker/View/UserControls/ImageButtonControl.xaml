@@ -14,13 +14,13 @@
             </Style.Setters>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="False">
-                    <Setter Property="Background" Value="{Binding DataContext.BorderBackground}" />
+                    <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ImageButtonControl}}, Path=BorderBackground}" />
                 </Trigger>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="{Binding DataContext.MouseOverBorderBackground}" />
+                    <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ImageButtonControl}}, Path=MouseOverBorderBackground}" />
                 </Trigger>
                 <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Background" Value="{Binding DataContext.DisabledBorderBackground}" />
+                    <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ImageButtonControl}}, Path=DisabledBorderBackground}" />
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -49,10 +49,10 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    <Border Width="{Binding BorderWidth}" Height="{Binding BorderHeight}" Style="{StaticResource BtnBorder}" core:MouseBehaviour.MouseDownCommand="{Binding DataContext.Command, RelativeSource={RelativeSource Self}}">
+    <Border Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ImageButtonControl}}, Path=BorderWidth}" Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ImageButtonControl}}, Path=BorderHeight}" Style="{StaticResource BtnBorder}" core:MouseBehaviour.MouseDownCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ImageButtonControl}}, Path=Command}">
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Text="{Binding Text}" Style="{StaticResource BtnText}" Margin="0,0,8,0" />
-            <Path Style="{StaticResource BtnImage}" Stretch="UniformToFill" Data="{Binding Data}" />
+            <TextBlock Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ImageButtonControl}}, Path=Text}" Style="{StaticResource BtnText}" Margin="0,0,8,0" />
+            <Path Style="{StaticResource BtnImage}" Stretch="UniformToFill" Data="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ImageButtonControl}}, Path=Data}" />
         </StackPanel>
     </Border>
 </UserControl>

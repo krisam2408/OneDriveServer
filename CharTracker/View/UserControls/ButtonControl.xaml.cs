@@ -25,7 +25,6 @@ namespace RetiraTracker.View.UserControls
         public ButtonControl()
         {
             InitializeComponent();
-            DataContext = this;
         }
 
         public SolidColorBrush BorderBackground { get; set; }

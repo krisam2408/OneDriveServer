@@ -24,7 +24,6 @@ namespace RetiraTracker.View.UserControls
         public MinimizeButtonControl()
         {
             InitializeComponent();
-            DataContext = this;
         }
 
         public SolidColorBrush DarkOrange { get { return SetDarkOrange(); } }

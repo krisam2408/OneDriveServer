@@ -37,7 +37,7 @@ namespace RetiraTracker.ViewModels
                     Games g = value.GetContent<Games>();
                     TemplatesList = SetTemplatesList(g);
 
-                    if (!string.IsNullOrWhiteSpace(CampaignsName))
+                    if (!string.IsNullOrWhiteSpace(CampaignsName) && validCampaign)
                         PlayerEnabled = true;
                 }
             } 
@@ -54,7 +54,7 @@ namespace RetiraTracker.ViewModels
             {
                 AddPlayerEnabled = false;
                 SetValue(ref selectedTemplate, value);
-                if (value != null && !string.IsNullOrWhiteSpace(PlayersEmail))
+                if (value != null && !string.IsNullOrWhiteSpace(PlayersEmail) && validPlayer)
                     AddPlayerEnabled = true;
             }
         }
@@ -70,7 +70,7 @@ namespace RetiraTracker.ViewModels
             {
                 PlayerEnabled = false;
                 SetValue(ref campaignsName, value);
-                if (!string.IsNullOrWhiteSpace(value) && SelectedGame != null)
+                if (!string.IsNullOrWhiteSpace(value) && SelectedGame != null && validCampaign)
                     PlayerEnabled = true;
             } 
         }
@@ -83,14 +83,16 @@ namespace RetiraTracker.ViewModels
             {
                 AddPlayerEnabled = false;
                 SetValue(ref playersEmail, value);
-                if (!string.IsNullOrWhiteSpace(value) && SelectedTemplate != null)
+                if (!string.IsNullOrWhiteSpace(value) && SelectedTemplate != null && validPlayer)
                     AddPlayerEnabled = true;
             }
         }
 
+        private bool validCampaign;
         private Visibility campaignWarningVisibility;
         public Visibility CampaignWarningVisibility { get { return campaignWarningVisibility; } set { SetValue(ref campaignWarningVisibility, value); } }
 
+        private bool validPlayer;
         private Visibility emailWarningVisibility;
         public Visibility EmailWarningVisibility { get { return emailWarningVisibility; } set { SetValue(ref emailWarningVisibility, value); } }
 
@@ -150,6 +152,7 @@ namespace RetiraTracker.ViewModels
 
         public CreateCampaignViewModel()
         {
+            CampaignsName = "Test";
             GamesList = SetGamesList();
             IsEnabled = true;
             PlayerEnabled = false;
@@ -188,6 +191,7 @@ namespace RetiraTracker.ViewModels
         private void ValidateCampaignName(TextChangedEventArgs e)
         {
             CampaignWarningVisibility = Visibility.Hidden;
+            validCampaign = true;
             Settings setting = Terminal.Instance.Main.SelectedSetting.GetContent<Settings>();
             TextBox sender = (TextBox)e.OriginalSource;
             string text = sender.Text;
@@ -198,7 +202,7 @@ namespace RetiraTracker.ViewModels
                 sender.Text = text;
             }
 
-            CampaignsName = text;
+            //CampaignsName = text;
 
             if (setting.Campaigns != null)
             {
@@ -207,6 +211,7 @@ namespace RetiraTracker.ViewModels
                     if(cmp.Name.ToUpper() == text.ToUpper())
                     {
                         CampaignWarningVisibility = Visibility.Visible;
+                        validCampaign = false;
                         return;
                     }
                 }
@@ -216,6 +221,7 @@ namespace RetiraTracker.ViewModels
         private void ValidateEmail(TextChangedEventArgs e)
         {
             EmailWarningVisibility = Visibility.Hidden;
+            validPlayer = true;
             TextBox sender = (TextBox)e.OriginalSource;
             string text = sender.Text;
 
@@ -227,11 +233,14 @@ namespace RetiraTracker.ViewModels
                     sender.Text = text;
                 }
 
+                //PlayersEmail = text;
+
                 string[] firstSplit = text.Split(new char[] { ' ', '@' });
 
                 if(firstSplit.Length != 2)
                 {
                     EmailWarningVisibility = Visibility.Visible;
+                    validPlayer = false;
                     return;
                 }
 
@@ -240,7 +249,14 @@ namespace RetiraTracker.ViewModels
                 if(secondSplit.Length != 2)
                 {
                     EmailWarningVisibility = Visibility.Visible;
+                    validPlayer = false;
                     return;
+                }
+
+                if(secondSplit[0].Length == 0 || secondSplit[1].Length == 0)
+                {
+                    EmailWarningVisibility = Visibility.Visible;
+                    validPlayer = false;
                 }
             }
         }

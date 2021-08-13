@@ -8,11 +8,13 @@
         xmlns:core="clr-namespace:RetiraTracker.Core"
         mc:Ignorable="d"
         DataContext="{Binding Terminal, Source={StaticResource Locator}}"
-        Title="Char Tracker" Height="{Binding WindowHeight}" Width="{Binding WindowWidth}"
+        MinWidth="800"
+        MinHeight="450"
         WindowStyle="None"
         Background="Transparent"
-        AllowsTransparency="True">
-    <Border Background="{StaticResource Dark}" CornerRadius="16" Padding="8,0,8,8">
+        AllowsTransparency="True"
+        ResizeMode="CanResizeWithGrip">
+    <Border Background="{StaticResource Dark}" CornerRadius="16" Padding="16,0,16,16">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="120" />
@@ -24,13 +26,13 @@
                 <RowDefinition Height="24" />
             </Grid.RowDefinitions>
 
-            <Image Grid.Row="0" Grid.Column="0" Source="/Content/btn-dice.png" ToolTip="Char Tracker" Margin="0,8,0,0" HorizontalAlignment="Left" Cursor="Hand" core:MouseBehaviour.MouseDownCommand="{Binding Navigation.AppHomeCommand}" />
+            <Image Grid.Row="0" Grid.Column="0" Source="/Content/Images/btn-dice.png" ToolTip="Retira Tracker" Margin="0,8,0,0" HorizontalAlignment="Left" Cursor="Hand" core:MouseBehaviour.MouseDownCommand="{Binding Navigation.AppHomeCommand}" />
 
             <Frame Grid.Row="0" Grid.Column="1" Source="View/NavigationPage.xaml" />
 
-            <Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Source="{Binding Navigation.FrameDestination}" NavigationUIVisibility="Hidden" />
+            <Frame Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Source="{Binding Navigation.FrameDestination}" NavigationUIVisibility="Hidden" Padding="0,0,0,8" />
 
-            <controls:LoadingSpinnerControl Grid.Column="1" Grid.Row="2" HorizontalAlignment="Right" Width="24" Visibility="{Binding Navigation.IndicatorVisible}" />
+            <controls:LoadingSpinnerControl Grid.Column="1" Grid.Row="2" HorizontalAlignment="Right" Width="24" Visibility="{Binding Navigation.IndicatorVisible}" Margin="0,0,16,0" />
         </Grid>
     </Border>
 </Window>

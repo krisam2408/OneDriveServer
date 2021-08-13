@@ -9,7 +9,7 @@
       mc:Ignorable="d">
 
     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-        <TextBlock Text="We need for you to login with your Google Account!" Style="{StaticResource StandardText}" Margin="0,0,0,8" />
-        <controls:ButtonControl BorderBackground="{StaticResource Rot}" Text="Log In" Command="{Binding Terminal.Main.LogInCommand, Source={StaticResource Locator}}" IsEnabled="{Binding Terminal.Navigation.IsEnabled, Source={StaticResource Locator}}" BorderWidth="126" BorderHeight="40" />
+        <TextBlock Text="We need for you to login with your Google Account!" Style="{StaticResource ResourceKey=StandardText}" Margin="0,0,0,8" />
+        <controls:ButtonControl IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" Text="Log In" BorderWidth="126" BorderHeight="40" BorderBackground="{StaticResource ResourceKey=Rot}" Command="{Binding Source={StaticResource Locator}, Path=Terminal.Main.LogInCommand}" />
     </StackPanel>
 </Page>

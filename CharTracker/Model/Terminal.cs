@@ -4,9 +4,6 @@ namespace RetiraTracker.Model
 {
     public class Terminal
     {
-        public int WindowWidth { get; init; }
-        public int WindowHeight { get; init; }
-
         public NavigationViewModel Navigation { get; set; }
         public MainViewModel Main { get; set; }
         public CampaignViewModel Campaign { get; set; }
@@ -23,11 +20,7 @@ namespace RetiraTracker.Model
             }
         }
 
-        private Terminal() 
-        {
-            WindowWidth = 800;
-            WindowHeight = 450;
-        }
+        private Terminal() { }
 
         public static bool IsEnabled 
         { 

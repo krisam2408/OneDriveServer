@@ -8,34 +8,38 @@
              mc:Ignorable="d">
     <UserControl.Resources>
         <Style x:Key="BtnBorder" TargetType="Border">
+            <Style.Setters>
+                <Setter Property="CornerRadius" Value="8" />
+                <Setter Property="Cursor" Value="Hand" />
+            </Style.Setters>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="False">
-                    <Setter Property="Background" Value="{Binding DataContext.BorderBackground}" />
+                    <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ButtonControl}}, Path=BorderBackground}" />
                 </Trigger>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="{Binding DataContext.MouseOverBorderBackground}" />
+                    <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ButtonControl}}, Path=MouseOverBorderBackground}" />
                 </Trigger>
                 <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Background" Value="{Binding DataContext.DisabledBorderBackground}" />
+                    <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ButtonControl}}, Path=DisabledBorderBackground}" />
                 </Trigger>
             </Style.Triggers>
         </Style>
         <Style x:Key="BtnText" TargetType="TextBlock">
             <Style.Setters>
-                <Setter Property="Foreground" Value="{StaticResource Light}" />
+                <Setter Property="Foreground" Value="{StaticResource ResourceKey=Light}" />
                 <Setter Property="FontFamily" Value="Tahoma" />
                 <Setter Property="FontWeight" Value="Bold" />
             </Style.Setters>
             <Style.Triggers>
                 <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Foreground" Value="{StaticResource Gray}" />
+                    <Setter Property="Foreground" Value="{StaticResource ResourceKey=Gray}" />
                 </Trigger>
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    <Border CornerRadius="8" Width="{Binding BorderWidth}" Height="{Binding BorderHeight}" Style="{StaticResource BtnBorder}" core:MouseBehaviour.MouseDownCommand="{Binding DataContext.Command, RelativeSource={RelativeSource Self}}" Cursor="Hand" >
+    <Border Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ButtonControl}}, Path=BorderWidth}" Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ButtonControl}}, Path=BorderHeight}" Style="{StaticResource ResourceKey=BtnBorder}" core:MouseBehaviour.MouseDownCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ButtonControl}}, Path=Command}">
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Text="{Binding Text}" Style="{StaticResource BtnText}" />
+            <TextBlock Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ButtonControl}}, Path=Text}" Style="{StaticResource ResourceKey=BtnText}" />
         </StackPanel>
     </Border>
 </UserControl>

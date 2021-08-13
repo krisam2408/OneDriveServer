@@ -24,7 +24,6 @@ namespace RetiraTracker.View.UserControls
         public MaximizeButtonControl()
         {
             InitializeComponent();
-            DataContext = this;
         }
 
         public SolidColorBrush DarkGruen { get { return SetDarkGruen(); } }

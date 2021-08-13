@@ -13,13 +13,13 @@
             </Style.Setters>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="False">
-                    <Setter Property="Background" Value="{Binding DataContext.BorderBackground}" />
+                    <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CircleButtonControl}}, Path=BorderBackground}" />
                 </Trigger>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="{Binding DataContext.MouseOverBorderBackground}" />
+                    <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CircleButtonControl}}, Path=MouseOverBorderBackground}" />
                 </Trigger>
                 <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Background" Value="{Binding DataContext.DisabledBorderBackground}" />
+                    <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CircleButtonControl}}, Path=DisabledBorderBackground}" />
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -36,7 +36,7 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    <Border Width="{Binding Diameter}" Height="{Binding Diameter}" Style="{StaticResource BtnBorder}" core:MouseBehaviour.MouseDownCommand="{Binding DataContext.Command, RelativeSource={RelativeSource Self}}" CornerRadius="{Binding Radio}" >
-        <Path Style="{StaticResource BtnImage}" Stretch="UniformToFill" Data="{Binding Data}" />
+    <Border Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CircleButtonControl}}, Path=Diameter}" Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CircleButtonControl}}, Path=Diameter}" Style="{StaticResource BtnBorder}" core:MouseBehaviour.MouseDownCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CircleButtonControl}}, Path=Command}" CornerRadius="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CircleButtonControl}}, Path=Radio}" >
+        <Path Style="{StaticResource BtnImage}" Stretch="UniformToFill" Data="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CircleButtonControl}}, Path=Data}" />
     </Border>
 </UserControl>

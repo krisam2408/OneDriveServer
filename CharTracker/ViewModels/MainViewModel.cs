@@ -2,10 +2,12 @@
 using RetiraTracker.Core.Abstracts;
 using RetiraTracker.Model;
 using RetiraTracker.Model.Domain;
+using RetiraTracker.View.Popups;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace RetiraTracker.ViewModels
@@ -121,6 +123,23 @@ namespace RetiraTracker.ViewModels
             }
         }
 
+        public ICommand CreateSettingCommand
+        {
+            get
+            {
+                return new RelayCommand(async (e) =>
+                {
+                    if(Terminal.IsEnabled)
+                    {
+                        IsEnabled = false;
+                        Terminal.Instance.Navigation.IsLoading(true);
+
+                        await CreateSettingAsync();
+                    }
+                });
+            }
+        }
+
         private async Task LogIn()
         {
             Terminal.Instance.Navigation.IsLoading(true);
@@ -154,5 +173,30 @@ namespace RetiraTracker.ViewModels
             Terminal.Instance.Navigation.Navigation(NavigationViewModel.Pages.Campaigns);
         }
 
+        private async Task CreateSettingAsync()
+        {
+            bool ownSetting = false;
+            foreach(ListItem li in SettingsList)
+            {
+                Settings setting = li.GetContent<Settings>();
+                if(setting.Owner == Terminal.Instance.Navigation.UserMail)
+                {
+                    ownSetting = true;
+                    break;
+                }
+            }
+
+            if(ownSetting)
+            {
+                Terminal.Instance.Navigation.IsLoading(false);
+                InfoPopup alert = new InfoPopup("You already own a Setting!");
+                alert.Show();
+                return;
+            }
+
+            await ExplorerManager.Instance.CreateOwnSetting();
+
+            await Terminal.Instance.Navigation.Navigation(NavigationViewModel.Pages.Settings);
+        }
     }
 }

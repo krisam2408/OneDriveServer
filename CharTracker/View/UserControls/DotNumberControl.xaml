@@ -23,15 +23,15 @@
         </Style>
     </UserControl.Resources>
     <WrapPanel>
-        <Ellipse x:Name="Dot0" Grid.Column="0" Grid.Row="0" Style="{StaticResource EllipseButton}" core:MouseBehaviour.MouseUpCommand="{Binding DataContext.Dot0Command, RelativeSource={RelativeSource Self}}" />
-        <Ellipse x:Name="Dot1" Grid.Column="1" Grid.Row="0" Style="{StaticResource EllipseButton}" core:MouseBehaviour.MouseUpCommand="{Binding DataContext.Dot1Command, RelativeSource={RelativeSource Self}}" />
-        <Ellipse x:Name="Dot2" Grid.Column="2" Grid.Row="0" Style="{StaticResource EllipseButton}" core:MouseBehaviour.MouseUpCommand="{Binding DataContext.Dot2Command, RelativeSource={RelativeSource Self}}"  />
-        <Ellipse x:Name="Dot3" Grid.Column="3" Grid.Row="0" Style="{StaticResource EllipseButton}" core:MouseBehaviour.MouseUpCommand="{Binding DataContext.Dot3Command, RelativeSource={RelativeSource Self}}" />
-        <Ellipse x:Name="Dot4" Grid.Column="4" Grid.Row="0" Style="{StaticResource EllipseButton}" core:MouseBehaviour.MouseUpCommand="{Binding DataContext.Dot4Command, RelativeSource={RelativeSource Self}}" />
-        <Ellipse x:Name="Dot5" Grid.Column="0" Grid.Row="1" Style="{StaticResource EllipseButton}" core:MouseBehaviour.MouseUpCommand="{Binding DataContext.Dot5Command, RelativeSource={RelativeSource Self}}" />
-        <Ellipse x:Name="Dot6" Grid.Column="1" Grid.Row="1" Style="{StaticResource EllipseButton}" core:MouseBehaviour.MouseUpCommand="{Binding DataContext.Dot6Command, RelativeSource={RelativeSource Self}}" />
-        <Ellipse x:Name="Dot7" Grid.Column="2" Grid.Row="1" Style="{StaticResource EllipseButton}" core:MouseBehaviour.MouseUpCommand="{Binding DataContext.Dot7Command, RelativeSource={RelativeSource Self}}" />
-        <Ellipse x:Name="Dot8" Grid.Column="3" Grid.Row="1" Style="{StaticResource EllipseButton}" core:MouseBehaviour.MouseUpCommand="{Binding DataContext.Dot8Command, RelativeSource={RelativeSource Self}}" />
-        <Ellipse x:Name="Dot9" Grid.Column="4" Grid.Row="1" Style="{StaticResource EllipseButton}" core:MouseBehaviour.MouseUpCommand="{Binding DataContext.Dot9Command, RelativeSource={RelativeSource Self}}" />
+        <Ellipse x:Name="Dot0" Grid.Column="0" Grid.Row="0" Style="{StaticResource EllipseButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:DotNumberControl}}, Path=Dot0Command}" />
+        <Ellipse x:Name="Dot1" Grid.Column="1" Grid.Row="0" Style="{StaticResource EllipseButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:DotNumberControl}}, Path=Dot1Command}" />
+        <Ellipse x:Name="Dot2" Grid.Column="2" Grid.Row="0" Style="{StaticResource EllipseButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:DotNumberControl}}, Path=Dot2Command}"  />
+        <Ellipse x:Name="Dot3" Grid.Column="3" Grid.Row="0" Style="{StaticResource EllipseButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:DotNumberControl}}, Path=Dot3Command}" />
+        <Ellipse x:Name="Dot4" Grid.Column="4" Grid.Row="0" Style="{StaticResource EllipseButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:DotNumberControl}}, Path=Dot4Command}" />
+        <Ellipse x:Name="Dot5" Grid.Column="0" Grid.Row="1" Style="{StaticResource EllipseButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:DotNumberControl}}, Path=Dot5Command}" />
+        <Ellipse x:Name="Dot6" Grid.Column="1" Grid.Row="1" Style="{StaticResource EllipseButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:DotNumberControl}}, Path=Dot6Command}" />
+        <Ellipse x:Name="Dot7" Grid.Column="2" Grid.Row="1" Style="{StaticResource EllipseButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:DotNumberControl}}, Path=Dot7Command}" />
+        <Ellipse x:Name="Dot8" Grid.Column="3" Grid.Row="1" Style="{StaticResource EllipseButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:DotNumberControl}}, Path=Dot8Command}" />
+        <Ellipse x:Name="Dot9" Grid.Column="4" Grid.Row="1" Style="{StaticResource EllipseButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:DotNumberControl}}, Path=Dot9Command}" />
     </WrapPanel>
 </UserControl>

@@ -68,15 +68,7 @@ namespace RetiraTracker.Model
 
             if(metadata.Length == 0)
             {
-                FileMetadata folderMetadata = await Explorer.CreateFolderAsync(Explorer.CoreFolder, null);
-                Settings setting = new()
-                {
-                    Owner = Explorer.UserMail,
-                    FolderId = folderMetadata.ID
-                };
-                string settingJson = JsonConvert.SerializeObject(setting);
-                byte[] settingBuffer = Encoding.UTF8.GetBytes(settingJson);
-                FileMetadata settingMetadata = await Explorer.UploadFileAsync("retiraSettings.json", folderMetadata.ID, settingBuffer, MimeTypes.Text);
+                FileMetadata settingMetadata = await CreateOwnSetting();
                 metadata = new FileMetadata[1] { settingMetadata };
             }
 
@@ -100,6 +92,20 @@ namespace RetiraTracker.Model
             }
 
             return output.ToArray();
+        }
+
+        public async Task<FileMetadata> CreateOwnSetting()
+        {
+            FileMetadata folderMetadata = await Explorer.CreateFolderAsync(Explorer.CoreFolder, null);
+            Settings setting = new()
+            {
+                Owner = Explorer.UserMail,
+                FolderId = folderMetadata.ID
+            };
+            string settingJson = JsonConvert.SerializeObject(setting);
+            byte[] settingBuffer = Encoding.UTF8.GetBytes(settingJson);
+            FileMetadata settingMetadata = await Explorer.UploadFileAsync("retiraSettings.json", folderMetadata.ID, settingBuffer, MimeTypes.Text);
+            return settingMetadata;
         }
 
         public async Task UpdateSettingsAsync(Settings settings)
@@ -153,12 +159,6 @@ namespace RetiraTracker.Model
 
             return output;
         }
-
-        private async Task Refresh(object sender, ElapsedEventArgs e)
-        {
-
-        }
-
 
     }
 }

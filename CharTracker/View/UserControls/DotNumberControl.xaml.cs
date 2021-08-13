@@ -31,14 +31,6 @@ namespace RetiraTracker.View.UserControls
             InitializeComponent();
 
             Dots = new Ellipse[10] { Dot0, Dot1, Dot2, Dot3, Dot4, Dot5, Dot6, Dot7, Dot8, Dot9 };
-
-            DataContext = this;
-            Loaded += DotNumberControl_Loaded;
-        }
-
-        private void DotNumberControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            Number = Number;
         }
 
         public static DependencyProperty NumberProperty = DependencyProperty.RegisterAttached("Number", typeof(int), typeof(DotNumberControl));
