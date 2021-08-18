@@ -6,7 +6,8 @@
       xmlns:local="clr-namespace:RetiraTracker.View.SheetTemplates"
       xmlns:controls="clr-namespace:RetiraTracker.View.UserControls"
       xmlns:core="clr-namespace:RetiraTracker.Core"
-      mc:Ignorable="d">
+      mc:Ignorable="d"
+      DataContext="{Binding Source={StaticResource Locator}, Path=Terminal}">
     <Page.Resources>
         <Style x:Key="SheetText" TargetType="TextBlock">
             <Style.Setters>
@@ -28,10 +29,10 @@
             </Style.Setters>
         </Style>
     </Page.Resources>
-    <ScrollViewer HorizontalContentAlignment="Center">
+    <ScrollViewer HorizontalContentAlignment="Center" DataContext="{Binding Campaign}">
         <Border Background="{StaticResource Light}" Padding="8">
             <StackPanel Orientation="Vertical">
-                <TextBlock Text="{Binding Terminal.Campaign.CampaignsName, Source={StaticResource Locator}}" HorizontalAlignment="Center" FontSize="24" Style="{StaticResource SheetText}" FontWeight="Bold" />
+                <TextBlock Text="{Binding CampaignsName}" HorizontalAlignment="Center" FontSize="24" Style="{StaticResource SheetText}" FontWeight="Bold" />
 
                 <Border Background="{StaticResource DarkLight}" CornerRadius="8" Padding="8,4" Margin="0,16,0,0">
                     <Grid>
@@ -48,32 +49,32 @@
 
                         <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="0" Margin="0,4">
                             <TextBlock Text="Name:" Style="{StaticResource SheetText}" Width="64" />
-                            <TextBox Text="{Binding Terminal.Campaign.SheetData.CharacterName, Source={StaticResource Locator}, Mode=TwoWay}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                            <TextBox Text="{Binding SheetData.CharacterName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding UpdateSheetCommand}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1" Margin="0,4">
                             <TextBlock Text="Age:" Style="{StaticResource SheetText}" Width="64" />
-                            <TextBox Text="{Binding Terminal.Campaign.SheetData.Age, Source={StaticResource Locator}, Mode=TwoWay}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                            <TextBox Text="{Binding SheetData.Age, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding UpdateSheetCommand}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0" Margin="0,4">
                             <TextBlock Text="Virtue:" Style="{StaticResource SheetText}" Width="64" />
-                            <TextBox Text="{Binding Terminal.Campaign.SheetData.Virtue, Source={StaticResource Locator}, Mode=TwoWay}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                            <TextBox Text="{Binding SheetData.Virtue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding UpdateSheetCommand}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" Margin="0,4">
                             <TextBlock Text="Vice:" Style="{StaticResource SheetText}" Width="64" />
-                            <TextBox Text="{Binding Terminal.Campaign.SheetData.Vice, Source={StaticResource Locator}, Mode=TwoWay}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                            <TextBox Text="{Binding SheetData.Vice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding UpdateSheetCommand}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="0" Margin="0,4">
                             <TextBlock Text="Player:" Style="{StaticResource SheetText}" Width="64" />
-                            <TextBlock Text="{Binding Terminal.Campaign.SheetData.PlayerName, Source={StaticResource Locator}, Mode=TwoWay}" Style="{StaticResource SheetText}" />
+                            <TextBlock Text="{Binding SheetData.PlayerName}" Style="{StaticResource SheetText}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="1" Margin="0,4">
                             <TextBlock Text="Concept:" Style="{StaticResource SheetText}" Width="64" />
-                            <TextBox Text="{Binding Terminal.Campaign.SheetData.Concept, Source={StaticResource Locator}, Mode=TwoWay}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                            <TextBox Text="{Binding SheetData.Concept, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding UpdateSheetCommand}" />
                         </StackPanel>
                     </Grid>
                 </Border>
@@ -98,47 +99,47 @@
 
                         <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1" Margin="0,4">
                             <TextBlock Text="Intelligence:" Style="{StaticResource SheetText}" Width="96" />
-                            <controls:DotNumberControl Number="{Binding Terminal.Campaign.SheetData.Intelligence, Source={StaticResource Locator}, Mode=TwoWay}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                            <controls:DotNumberControl Number="{Binding SheetData.Intelligence, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="2" Margin="0,4">
                             <TextBlock Text="Wits:" Style="{StaticResource SheetText}" Width="96" />
-                            <controls:DotNumberControl Number="{Binding Terminal.Campaign.SheetData.Wits, Source={StaticResource Locator}, Mode=TwoWay}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                            <controls:DotNumberControl Number="{Binding SheetData.Wits, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="3" Margin="0,4">
                             <TextBlock Text="Resolve:" Style="{StaticResource SheetText}" Width="96" />
-                            <controls:DotNumberControl Number="{Binding Terminal.Campaign.SheetData.Resolve, Source={StaticResource Locator}, Mode=TwoWay}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                            <controls:DotNumberControl Number="{Binding SheetData.Resolve, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" Margin="0,4">
                             <TextBlock Text="Strength:" Style="{StaticResource SheetText}" Width="96" />
-                            <controls:DotNumberControl Number="{Binding Terminal.Campaign.SheetData.Strength, Source={StaticResource Locator}, Mode=TwoWay}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                            <controls:DotNumberControl Number="{Binding SheetData.Strength, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="2" Margin="0,4">
                             <TextBlock Text="Dexterity:" Style="{StaticResource SheetText}" Width="96" />
-                            <controls:DotNumberControl Number="{Binding Terminal.Campaign.SheetData.Dexterity, Source={StaticResource Locator}, Mode=TwoWay}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                            <controls:DotNumberControl Number="{Binding SheetData.Dexterity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="3" Margin="0,4">
                             <TextBlock Text="Stamina:" Style="{StaticResource SheetText}" Width="96" />
-                            <controls:DotNumberControl Number="{Binding Terminal.Campaign.SheetData.Stamina, Source={StaticResource Locator}, Mode=TwoWay}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                            <controls:DotNumberControl Number="{Binding SheetData.Stamina, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="1" Margin="0,4">
                             <TextBlock Text="Presence:" Style="{StaticResource SheetText}" Width="96" />
-                            <controls:DotNumberControl Number="{Binding Terminal.Campaign.SheetData.Presence, Source={StaticResource Locator}, Mode=TwoWay}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                            <controls:DotNumberControl Number="{Binding SheetData.Presence, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="2" Margin="0,4">
                             <TextBlock Text="Manipulation:" Style="{StaticResource SheetText}" Width="96" />
-                            <controls:DotNumberControl Number="{Binding Terminal.Campaign.SheetData.Manipulation, Source={StaticResource Locator}, Mode=TwoWay}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                            <controls:DotNumberControl Number="{Binding SheetData.Manipulation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="3" Margin="0,4">
                             <TextBlock Text="Composure:" Style="{StaticResource SheetText}" Width="96" />
-                            <controls:DotNumberControl Number="{Binding Terminal.Campaign.SheetData.Composure, Source={StaticResource Locator}, Mode=TwoWay}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                            <controls:DotNumberControl Number="{Binding SheetData.Composure, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                         </StackPanel>
                         
                     </Grid>
@@ -178,42 +179,42 @@
 
                             <StackPanel Orientation="Horizontal" Margin="0,4">
                                 <TextBlock Text="Academics:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Terminal.Campaign.SheetData.Academics, Source={StaticResource Locator}, Mode=TwoWay}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                                <controls:DotNumberControl Number="{Binding SheetData.Academics, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="0,4">
                                 <TextBlock Text="Enigmas:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Terminal.Campaign.SheetData.Enigmas, Source={StaticResource Locator}, Mode=TwoWay}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                                <controls:DotNumberControl Number="{Binding SheetData.Enigmas, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="0,4">
                                 <TextBlock Text="Crafts:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Terminal.Campaign.SheetData.Crafts, Source={StaticResource Locator}, Mode=TwoWay}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                                <controls:DotNumberControl Number="{Binding SheetData.Crafts, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="0,4">
                                 <TextBlock Text="Investigation:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Terminal.Campaign.SheetData.Investigation, Source={StaticResource Locator}, Mode=TwoWay}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                                <controls:DotNumberControl Number="{Binding SheetData.Investigation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="0,4">
                                 <TextBlock Text="Medicine:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Terminal.Campaign.SheetData.Medicine, Source={StaticResource Locator}, Mode=TwoWay}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                                <controls:DotNumberControl Number="{Binding SheetData.Medicine, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="0,4">
                                 <TextBlock Text="Occult:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Terminal.Campaign.SheetData.Occult, Source={StaticResource Locator}, Mode=TwoWay}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                                <controls:DotNumberControl Number="{Binding SheetData.Occult, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="0,4">
                                 <TextBlock Text="Politics:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Terminal.Campaign.SheetData.Politics, Source={StaticResource Locator}, Mode=TwoWay}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                                <controls:DotNumberControl Number="{Binding SheetData.Politics, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="0,4">
                                 <TextBlock Text="Science:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Terminal.Campaign.SheetData.Science, Source={StaticResource Locator}, Mode=TwoWay}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                                <controls:DotNumberControl Number="{Binding SheetData.Science, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,8,0,0">
@@ -223,42 +224,42 @@
 
                             <StackPanel Orientation="Horizontal" Margin="0,4">
                                 <TextBlock Text="Athletics:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Terminal.Campaign.SheetData.Athletics, Source={StaticResource Locator}, Mode=TwoWay}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                                <controls:DotNumberControl Number="{Binding SheetData.Athletics, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="0,4">
                                 <TextBlock Text="Brawl:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Terminal.Campaign.SheetData.Brawl, Source={StaticResource Locator}, Mode=TwoWay}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                                <controls:DotNumberControl Number="{Binding SheetData.Brawl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="0,4">
                                 <TextBlock Text="Ride:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Terminal.Campaign.SheetData.Ride, Source={StaticResource Locator}, Mode=TwoWay}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                                <controls:DotNumberControl Number="{Binding SheetData.Ride, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="0,4">
                                 <TextBlock Text="Archery:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Terminal.Campaign.SheetData.Archery, Source={StaticResource Locator}, Mode=TwoWay}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                                <controls:DotNumberControl Number="{Binding SheetData.Archery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="0,4">
                                 <TextBlock Text="Larceny:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Terminal.Campaign.SheetData.Larceny, Source={StaticResource Locator}, Mode=TwoWay}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                                <controls:DotNumberControl Number="{Binding SheetData.Larceny, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="0,4">
                                 <TextBlock Text="Stealth:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Terminal.Campaign.SheetData.Stealth, Source={StaticResource Locator}, Mode=TwoWay}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                                <controls:DotNumberControl Number="{Binding SheetData.Stealth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="0,4">
                                 <TextBlock Text="Survival:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Terminal.Campaign.SheetData.Survival, Source={StaticResource Locator}, Mode=TwoWay}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                                <controls:DotNumberControl Number="{Binding SheetData.Survival, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="0,4">
                                 <TextBlock Text="Weaponry:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Terminal.Campaign.SheetData.Weaponry, Source={StaticResource Locator}, Mode=TwoWay}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                                <controls:DotNumberControl Number="{Binding SheetData.Weaponry, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,8,0,0">
@@ -268,42 +269,42 @@
 
                             <StackPanel Orientation="Horizontal" Margin="0,4">
                                 <TextBlock Text="Animal Ken:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Terminal.Campaign.SheetData.AnimalKen, Source={StaticResource Locator}, Mode=TwoWay}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                                <controls:DotNumberControl Number="{Binding SheetData.AnimalKen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="0,4">
                                 <TextBlock Text="Empathy:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Terminal.Campaign.SheetData.Empathy, Source={StaticResource Locator}, Mode=TwoWay}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                                <controls:DotNumberControl Number="{Binding SheetData.Empathy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="0,4">
                                 <TextBlock Text="Expression:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Terminal.Campaign.SheetData.Expression, Source={StaticResource Locator}, Mode=TwoWay}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                                <controls:DotNumberControl Number="{Binding SheetData.Expression, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="0,4">
                                 <TextBlock Text="Intimidation:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Terminal.Campaign.SheetData.Intimidation, Source={StaticResource Locator}, Mode=TwoWay}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                                <controls:DotNumberControl Number="{Binding SheetData.Intimidation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="0,4">
                                 <TextBlock Text="Persuasion:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Terminal.Campaign.SheetData.Persuasion, Source={StaticResource Locator}, Mode=TwoWay}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                                <controls:DotNumberControl Number="{Binding SheetData.Persuasion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="0,4">
                                 <TextBlock Text="Socialize:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Terminal.Campaign.SheetData.Socialize, Source={StaticResource Locator}, Mode=TwoWay}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                                <controls:DotNumberControl Number="{Binding SheetData.Socialize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="0,4">
                                 <TextBlock Text="Streetwise:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Terminal.Campaign.SheetData.Streetwise, Source={StaticResource Locator}, Mode=TwoWay}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                                <controls:DotNumberControl Number="{Binding SheetData.Streetwise, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" Margin="0,4">
                                 <TextBlock Text="Subterfuge:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Terminal.Campaign.SheetData.Subterfuge, Source={StaticResource Locator}, Mode=TwoWay}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand,Source={StaticResource Locator}}" />
+                                <controls:DotNumberControl Number="{Binding SheetData.Subterfuge, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                             </StackPanel>
                         </StackPanel>
                     </Border>
@@ -311,18 +312,18 @@
                     <StackPanel Grid.Column="1" Grid.Row="1" Margin="0,8,0,0">
                         <StackPanel Margin="8,0">
                             <TextBlock Text="Merits" HorizontalAlignment="Center" Foreground="{StaticResource Dark}" FontFamily="Consolas" FontSize="18" VerticalAlignment="Bottom" />
-                            <ListView x:Name="MeritList" ItemsSource="{Binding Terminal.Campaign.SheetData.Merits, Source={StaticResource Locator}, Mode=TwoWay}" BorderThickness="0" Background="Transparent">
+                            <ListView x:Name="MeritList" ItemsSource="{Binding SheetData.Merits, Mode=TwoWay}" BorderThickness="0" Background="Transparent">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
                                             <controls:CircleButtonControl Diameter="16" Command="{Binding Terminal.Campaign.Commands.RemoveMeritCommand, Source={StaticResource Locator}}" BorderBackground="{StaticResource Rot}" Data="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" CustomParameter="{x:Reference MeritList}" Margin="0,0,8,0" />
-                                            <TextBox Text="{Binding Key, Mode=TwoWay}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding Terminal.Campaign.UpdateSheetCommand, Source={StaticResource Locator}}" Margin="0,0,8,0" />
-                                            <controls:DotNumberControl Number="{Binding Value}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand, Source={StaticResource Locator}}" />
+                                            <TextBox Text="{Binding Key, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding Terminal.Campaign.UpdateSheetCommand, Source={StaticResource Locator}}" Margin="0,0,8,0" />
+                                            <controls:DotNumberControl Number="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand, Source={StaticResource Locator}}" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ListView>
-                            <controls:CircleButtonControl Diameter="40" Command="{Binding Terminal.Campaign.Commands.AddMeritCommand, Source={StaticResource Locator}}" Data="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" BorderBackground="{StaticResource Blau}" HorizontalAlignment="Center" CustomParameter="{x:Reference MeritList}" />
+                            <controls:CircleButtonControl Diameter="40" Command="{Binding Commands.AddMeritCommand}" Data="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" BorderBackground="{StaticResource Blau}" HorizontalAlignment="Center" CustomParameter="{x:Reference MeritList}" />
                         </StackPanel>
                         
                     </StackPanel>

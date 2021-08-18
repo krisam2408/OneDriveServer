@@ -19,7 +19,7 @@
         </Style>
     </UserControl.Resources>
     <Border CornerRadius="8" Width="16" Height="16" Style="{StaticResource BtnBorder}" core:MouseBehaviour.MouseDownCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MinimizeButtonControl}}, Path=Command}" Cursor="Hand">
-        <Path Width="8" Height="8" Stretch="UniformToFill" Fill="{StaticResource Gray}" Data="M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z">
+        <Path Width="8" Height="8" Stretch="UniformToFill" Fill="{StaticResource Grau}" Data="M41 288h238c21.4 0 32.1 25.9 17 41L177 448c-9.4 9.4-24.6 9.4-33.9 0L24 329c-15.1-15.1-4.4-41 17-41z">
             <Path.RenderTransform>
                 <TransformGroup>
                     <RotateTransform Angle="135" />

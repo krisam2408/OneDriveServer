@@ -32,7 +32,7 @@
             </Style.Setters>
             <Style.Triggers>
                 <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Foreground" Value="{StaticResource ResourceKey=Gray}" />
+                    <Setter Property="Foreground" Value="{StaticResource ResourceKey=Grau}" />
                 </Trigger>
             </Style.Triggers>
         </Style>

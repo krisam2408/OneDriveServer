@@ -37,7 +37,7 @@ namespace RetiraTracker.View.Popups
             {
                 return new RelayCommand(e =>
                 {
-                    Terminal.IsEnabled = true;
+                    Terminal.Instance.Navigation.IsLoading(false);
                     Close();
                 });
             }

@@ -16,6 +16,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Diagnostics;
+using RetiraTracker.View.Popups;
 
 namespace RetiraTracker.ViewModels
 {
@@ -34,6 +35,9 @@ namespace RetiraTracker.ViewModels
                 SetValue(ref selectedGame, value);
                 if (value != null)
                 {
+                    PlayersList.Clear();
+                    NotifyPropertyChanged(nameof(PlayersList));
+
                     Games g = value.GetContent<Games>();
                     TemplatesList = SetTemplatesList(g);
 
@@ -70,8 +74,15 @@ namespace RetiraTracker.ViewModels
             {
                 PlayerEnabled = false;
                 SetValue(ref campaignsName, value);
-                if (!string.IsNullOrWhiteSpace(value) && SelectedGame != null && validCampaign)
-                    PlayerEnabled = true;
+
+                if(!string.IsNullOrWhiteSpace(value))
+                {
+                    PlayersList.Clear();
+                    NotifyPropertyChanged(nameof(PlayersList));
+
+                    if (SelectedGame != null && validCampaign)
+                        PlayerEnabled = true;
+                }
             } 
         }
 
@@ -152,7 +163,6 @@ namespace RetiraTracker.ViewModels
 
         public CreateCampaignViewModel()
         {
-            CampaignsName = "Test";
             GamesList = SetGamesList();
             IsEnabled = true;
             PlayerEnabled = false;
@@ -202,8 +212,6 @@ namespace RetiraTracker.ViewModels
                 sender.Text = text;
             }
 
-            //CampaignsName = text;
-
             if (setting.Campaigns != null)
             {
                 foreach(Campaign cmp in setting.Campaigns)
@@ -232,8 +240,6 @@ namespace RetiraTracker.ViewModels
                     text = text.Substring(0, 30);
                     sender.Text = text;
                 }
-
-                //PlayersEmail = text;
 
                 string[] firstSplit = text.Split(new char[] { ' ', '@' });
 
@@ -275,6 +281,14 @@ namespace RetiraTracker.ViewModels
             GameTemplates template = SelectedTemplate.GetContent<GameTemplates>();
             string frame = GetTemplatePage(template);
             ISheet sheet = SheetDrama.SheetDrama.GetSheet(template.GetTemplate(), frame, null, GetGameCommands(template.TemplateGame()));
+
+            if(sheet.IsNull())
+            {
+                InfoPopup alert = new InfoPopup("That template doesn't exist yet!");
+                alert.Show();
+                return;
+            }
+
             sheet.PlayerName = PlayersEmail;
             player.SheetJson = JsonConvert.SerializeObject(sheet);
 
@@ -289,7 +303,6 @@ namespace RetiraTracker.ViewModels
 
         private async Task CreateCampaign()
         {
-            IsEnabled = false;
             Terminal.Instance.Navigation.IsLoading(true);
 
             if(PlayersList != null && PlayersList.Count > 0)
@@ -337,7 +350,6 @@ namespace RetiraTracker.ViewModels
             }
 
             Terminal.Instance.Navigation.IsLoading(false);
-            IsEnabled = true;
         }
 
         private string GetTemplatePage(GameTemplates template)

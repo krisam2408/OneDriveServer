@@ -7,21 +7,13 @@
       mc:Ignorable="d"
       DataContext="{Binding Terminal, Source={StaticResource Locator}}">
 
-    <Grid DataContext="{Binding Campaign}" Margin="16,4">
+    <Grid DataContext="{Binding Campaign}" Margin="4,4,16,4">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="136" />
+            <ColumnDefinition Width="80" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <ListView ItemsSource="{Binding SheetList}" SelectedItem="{Binding SelectedSheet}" SelectionMode="Single" Grid.Column="0" Background="Transparent" BorderThickness="0">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Border CornerRadius="6" Background="{StaticResource Gruen}" Width="120" Padding="8" HorizontalAlignment="Center">
-                        <TextBlock Style="{StaticResource StandardText}" Text="{Binding Display}" HorizontalAlignment="Center" />
-                    </Border>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <ListView ItemsSource="{Binding SheetList}" SelectedItem="{Binding SelectedSheet}" SelectionMode="Single" Grid.Column="0" Style="{StaticResource AngledList}" />
 
-        <Frame Grid.Column="1" Source="{Binding Terminal.Campaign.SheetSource, Source={StaticResource Locator}}" Margin="16,0,0,0" />
+        <Frame Grid.Column="1" Source="{Binding SheetSource}" Margin="8,0,0,0" />
     </Grid>
 </Page>

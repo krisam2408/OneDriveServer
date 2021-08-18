@@ -89,13 +89,11 @@ namespace RetiraTracker.ViewModels
                 {
                     if(Terminal.IsEnabled)
                     {
-                        IsEnabled = false;
                         Terminal.Instance.Navigation.IsLoading(true);
 
                         await Terminal.Instance.Navigation.Navigation(NavigationViewModel.Pages.CreateCampaign);
 
                         Terminal.Instance.Navigation.IsLoading(false);
-                        IsEnabled = true;
                     }
                 });
             }
@@ -109,7 +107,6 @@ namespace RetiraTracker.ViewModels
                 {
                     if(Terminal.IsEnabled && SelectedCampaign != null)
                     {
-                        IsEnabled = false;
                         Terminal.Instance.Navigation.IsLoading(true);
 
                         Campaign selectedCampaign = SelectedCampaign.GetContent<Campaign>();
@@ -117,7 +114,6 @@ namespace RetiraTracker.ViewModels
                         await Terminal.Instance.Navigation.Navigation(NavigationViewModel.Pages.Campaign);
 
                         Terminal.Instance.Navigation.IsLoading(false);
-                        IsEnabled = true;
                     }
                 });
             }
@@ -131,7 +127,6 @@ namespace RetiraTracker.ViewModels
                 {
                     if(Terminal.IsEnabled)
                     {
-                        IsEnabled = false;
                         Terminal.Instance.Navigation.IsLoading(true);
 
                         await CreateSettingAsync();
@@ -188,7 +183,6 @@ namespace RetiraTracker.ViewModels
 
             if(ownSetting)
             {
-                Terminal.Instance.Navigation.IsLoading(false);
                 InfoPopup alert = new InfoPopup("You already own a Setting!");
                 alert.Show();
                 return;

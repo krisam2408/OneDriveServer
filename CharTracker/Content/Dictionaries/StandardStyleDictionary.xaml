@@ -25,7 +25,7 @@
             </Trigger>
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Background" Value="{StaticResource ResourceKey=Light}" />
-                <Setter Property="Foreground" Value="{StaticResource ResourceKey=Gray}" />
+                <Setter Property="Foreground" Value="{StaticResource ResourceKey=Grau}" />
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Background" Value="#24b8b9ba" />

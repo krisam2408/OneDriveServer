@@ -8,6 +8,7 @@
                 <ResourceDictionary Source="/Content/Dictionaries/ColorsDictionary.xaml" />
                 <ResourceDictionary Source="/Content/Dictionaries/ModelDictionary.xaml" />
                 <ResourceDictionary Source="/Content/Dictionaries/StandardStyleDictionary.xaml" />
+                <ResourceDictionary Source="/Content/Dictionaries/AngledListDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

@@ -31,7 +31,7 @@
             </Style.Setters>
             <Style.Triggers>
                 <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Fill" Value="{StaticResource Gray}" />
+                    <Setter Property="Fill" Value="{StaticResource Grau}" />
                 </Trigger>
             </Style.Triggers>
         </Style>

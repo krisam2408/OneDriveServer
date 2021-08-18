@@ -38,6 +38,27 @@ namespace RetiraTracker.ViewModels
         private Visibility indicatorVisible;
         public Visibility IndicatorVisible { get { return indicatorVisible; } set { SetValue(ref indicatorVisible, value); } }
 
+        private bool isEnabled;
+        public new bool IsEnabled
+        {
+            get { return isEnabled; }
+            set
+            {
+                if(SetValue(ref isEnabled, value))
+                {
+                    if(!Terminal.Instance.Campaign.IsNull())
+                        Terminal.Instance.Campaign.IsEnabled = value;
+
+                    if(!Terminal.Instance.CreateCampaign.IsNull())
+                        Terminal.Instance.CreateCampaign.IsEnabled = value;
+
+                    if(!Terminal.Instance.Main.IsNull())
+                        Terminal.Instance.Main.IsEnabled = value;
+
+                }
+            }
+        }
+
         public NavigationViewModel()
         {
             Navigation(Pages.LogIn);
@@ -50,7 +71,7 @@ namespace RetiraTracker.ViewModels
             switch(page)
             {
                 case Pages.Settings:
-                    IsEnabled = false;
+                    
                     IsLoading(true);
 
                     ListItem[] settings = await ExplorerManager.Instance.GetSettingsAsync();
@@ -58,7 +79,6 @@ namespace RetiraTracker.ViewModels
                     Terminal.Instance.Main.SelectedSetting = null;
 
                     IsLoading(false);
-                    IsEnabled = true;
 
                     FrameDestination = "View/SettingsPage.xaml";
                     break;
@@ -85,6 +105,7 @@ namespace RetiraTracker.ViewModels
 
         public void IsLoading(bool isVisible)
         {
+            IsEnabled = !isVisible;
             IndicatorVisible = isVisible ? Visibility.Visible : Visibility.Hidden;
         }
 

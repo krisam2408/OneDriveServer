@@ -87,11 +87,13 @@ namespace RetiraTracker.ViewModels
                 i++;
             }
 
-            vm.Commands = SetTemplateCommand(firstSheet.SheetScripts[0], vm);
+            vm.SetTemplateCommand(firstSheet.SheetScripts[0]);
 
             vm.SheetList = list;
 
             vm.SelectedSheet = vm.SheetList[0];
+
+            vm.NotifyPropertyChanged(nameof(SheetData)+".Intelligence");
 
             return vm;
         }
@@ -101,7 +103,7 @@ namespace RetiraTracker.ViewModels
             SheetData.LastModified = DateTime.Now;
         }
 
-        private static ITemplateCommand SetTemplateCommand(string commandName, CampaignViewModel vm)
+        private void SetTemplateCommand(string commandName)
         {
             IEnumerable<Type> templates = Assembly.GetExecutingAssembly()
                 .GetTypes()
@@ -111,14 +113,14 @@ namespace RetiraTracker.ViewModels
                 .FirstOrDefault();
 
             if (targetTemplate == null)
-                return null;
+                return;
 
             Type[] ctorParameters = new Type[1] { typeof(BaseViewModel) };
             ConstructorInfo ctorInfo = targetTemplate.GetConstructor(ctorParameters);
-            object[] parameters = new object[] { vm };
-            ITemplateCommand output = (ITemplateCommand)ctorInfo.Invoke(parameters);
+            object[] parameters = new object[] { this };
+            ITemplateCommand cmds = (ITemplateCommand)ctorInfo.Invoke(parameters);
 
-            return output;
+            Commands = cmds;
         }
 
         private static string[] SetPlayersDisplay(Campaign campaign)

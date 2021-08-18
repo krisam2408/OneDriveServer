@@ -31,12 +31,21 @@ namespace RetiraTracker.View.UserControls
             InitializeComponent();
 
             Dots = new Ellipse[10] { Dot0, Dot1, Dot2, Dot3, Dot4, Dot5, Dot6, Dot7, Dot8, Dot9 };
+
+            Loaded += (sender, e) =>
+            {
+                Number = Number;
+            };
         }
 
-        public static DependencyProperty NumberProperty = DependencyProperty.RegisterAttached("Number", typeof(int), typeof(DotNumberControl));
+        public static DependencyProperty NumberProperty = DependencyProperty.Register("Number", typeof(int), typeof(DotNumberControl));
         public int Number
         {
-            get { return (int)GetValue(NumberProperty); }
+            get 
+            { 
+                int val = (int)GetValue(NumberProperty);
+                return val;
+            }
             set
             {
                 int input = 0;
@@ -44,7 +53,7 @@ namespace RetiraTracker.View.UserControls
                     input = value;
 
                 SetValue(NumberProperty, input);
-                SetDotFills();
+                SetDotFills(input);
                 ValueChanged?.Execute(null);
             }
         }
@@ -81,12 +90,12 @@ namespace RetiraTracker.View.UserControls
         public ICommand Dot8Command { get { return new RelayCommand((e) => { Number = 9; }); } }
         public ICommand Dot9Command { get { return new RelayCommand((e) => { Number = 10; }); } }
 
-        public void SetDotFills()
+        public void SetDotFills(int val = 0)
         {
             for (int i = 0; i < 10; i++)
                 Dots[i].Fill = transparent;
 
-            for (int i = 0; i < Number; i++)
+            for (int i = 0; i < val; i++)
                 Dots[i].Fill = dark;
         }
     }
