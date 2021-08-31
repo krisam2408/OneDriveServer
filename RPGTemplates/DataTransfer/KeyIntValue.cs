@@ -1,7 +1,7 @@
 ﻿
 namespace SheetDrama.DataTransfer
 {
-    public struct KeyIntValue
+    public class KeyIntValue
     {
         public string Key { get; set; }
         public int Value { get; set; }

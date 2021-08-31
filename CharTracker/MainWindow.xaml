@@ -14,6 +14,20 @@
         Background="Transparent"
         AllowsTransparency="True"
         ResizeMode="CanResizeWithGrip">
+    <Window.Resources>
+        <Style x:Key="HomeIcon" TargetType="Image">
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Cursor" Value="Arrow" />
+                </Trigger>
+            </Style.Triggers>
+            <Style.Setters>
+                <Setter Property="ToolTip" Value="Retira Tracker" />
+                <Setter Property="HorizontalAlignment" Value="Left" />
+                <Setter Property="Cursor" Value="Hand" />
+            </Style.Setters>
+        </Style>
+    </Window.Resources>
     <Border Background="{StaticResource Dark}" CornerRadius="16" Padding="16,0,16,16">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -26,7 +40,7 @@
                 <RowDefinition Height="24" />
             </Grid.RowDefinitions>
 
-            <Image Grid.Row="0" Grid.Column="0" Source="/Content/Images/btn-dice.png" ToolTip="Retira Tracker" Margin="0,8,0,0" HorizontalAlignment="Left" Cursor="Hand" core:MouseBehaviour.MouseDownCommand="{Binding Navigation.AppHomeCommand}" />
+            <Image Grid.Row="0" Grid.Column="0" Source="/Content/Images/btn-dice.png" Style="{StaticResource HomeIcon}" Margin="0,8,0,0" core:MouseBehaviour.MouseDownCommand="{Binding Navigation.AppHomeCommand}" IsEnabled="{Binding Navigation.IsEnabled}" />
 
             <Frame Grid.Row="0" Grid.Column="1" Source="View/NavigationPage.xaml" />
 

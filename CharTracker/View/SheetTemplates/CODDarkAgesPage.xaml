@@ -28,6 +28,16 @@
                 <Setter Property="Padding" Value="2" />
             </Style.Setters>
         </Style>
+
+        <Style x:Key="SheetTitle" TargetType="TextBlock">
+            <Style.Setters>
+                <Setter Property="FontFamily" Value="Consolas" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="FontSize" Value="24" />
+                <Setter Property="Foreground" Value="{StaticResource Dark}" />
+                <Setter Property="VerticalAlignment" Value="Bottom" />
+            </Style.Setters>
+        </Style>
     </Page.Resources>
     <ScrollViewer HorizontalContentAlignment="Center" DataContext="{Binding Campaign}">
         <Border Background="{StaticResource Light}" Padding="8">
@@ -48,32 +58,32 @@
                         </Grid.RowDefinitions>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="0" Margin="0,4">
-                            <TextBlock Text="Name:" Style="{StaticResource SheetText}" Width="64" />
+                            <TextBlock Text="Name:" Style="{StaticResource SheetText}" Width="72" />
                             <TextBox Text="{Binding SheetData.CharacterName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding UpdateSheetCommand}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1" Margin="0,4">
-                            <TextBlock Text="Age:" Style="{StaticResource SheetText}" Width="64" />
+                            <TextBlock Text="Age:" Style="{StaticResource SheetText}" Width="72" />
                             <TextBox Text="{Binding SheetData.Age, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding UpdateSheetCommand}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0" Margin="0,4">
-                            <TextBlock Text="Virtue:" Style="{StaticResource SheetText}" Width="64" />
+                            <TextBlock Text="Virtue:" Style="{StaticResource SheetText}" Width="72" />
                             <TextBox Text="{Binding SheetData.Virtue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding UpdateSheetCommand}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" Margin="0,4">
-                            <TextBlock Text="Vice:" Style="{StaticResource SheetText}" Width="64" />
+                            <TextBlock Text="Vice:" Style="{StaticResource SheetText}" Width="72" />
                             <TextBox Text="{Binding SheetData.Vice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding UpdateSheetCommand}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="0" Margin="0,4">
-                            <TextBlock Text="Player:" Style="{StaticResource SheetText}" Width="64" />
+                            <TextBlock Text="Player:" Style="{StaticResource SheetText}" Width="72" />
                             <TextBlock Text="{Binding SheetData.PlayerName}" Style="{StaticResource SheetText}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="1" Margin="0,4">
-                            <TextBlock Text="Concept:" Style="{StaticResource SheetText}" Width="64" />
+                            <TextBlock Text="Concept:" Style="{StaticResource SheetText}" Width="72" />
                             <TextBox Text="{Binding SheetData.Concept, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding UpdateSheetCommand}" />
                         </StackPanel>
                     </Grid>
@@ -94,51 +104,51 @@
                         </Grid.RowDefinitions>
                         
                         <Border Grid.Column="1" Grid.Row="0" BorderThickness="0,2" BorderBrush="{StaticResource Dark}" Padding="2">
-                            <TextBlock Text="Attributes" HorizontalAlignment="Center" Foreground="{StaticResource Dark}" FontSize="24" FontFamily="Consolas" />
+                            <TextBlock Text="Attributes" Style="{StaticResource SheetTitle}" />
                         </Border>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1" Margin="0,4">
-                            <TextBlock Text="Intelligence:" Style="{StaticResource SheetText}" Width="96" />
+                            <TextBlock Text="Intelligence:" Style="{StaticResource SheetText}" Width="120" />
                             <controls:DotNumberControl Number="{Binding SheetData.Intelligence, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="2" Margin="0,4">
-                            <TextBlock Text="Wits:" Style="{StaticResource SheetText}" Width="96" />
+                            <TextBlock Text="Wits:" Style="{StaticResource SheetText}" Width="120" />
                             <controls:DotNumberControl Number="{Binding SheetData.Wits, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="3" Margin="0,4">
-                            <TextBlock Text="Resolve:" Style="{StaticResource SheetText}" Width="96" />
+                            <TextBlock Text="Resolve:" Style="{StaticResource SheetText}" Width="120" />
                             <controls:DotNumberControl Number="{Binding SheetData.Resolve, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" Margin="0,4">
-                            <TextBlock Text="Strength:" Style="{StaticResource SheetText}" Width="96" />
+                            <TextBlock Text="Strength:" Style="{StaticResource SheetText}" Width="120" />
                             <controls:DotNumberControl Number="{Binding SheetData.Strength, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="2" Margin="0,4">
-                            <TextBlock Text="Dexterity:" Style="{StaticResource SheetText}" Width="96" />
+                            <TextBlock Text="Dexterity:" Style="{StaticResource SheetText}" Width="120" />
                             <controls:DotNumberControl Number="{Binding SheetData.Dexterity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="3" Margin="0,4">
-                            <TextBlock Text="Stamina:" Style="{StaticResource SheetText}" Width="96" />
+                            <TextBlock Text="Stamina:" Style="{StaticResource SheetText}" Width="120" />
                             <controls:DotNumberControl Number="{Binding SheetData.Stamina, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="1" Margin="0,4">
-                            <TextBlock Text="Presence:" Style="{StaticResource SheetText}" Width="96" />
+                            <TextBlock Text="Presence:" Style="{StaticResource SheetText}" Width="120" />
                             <controls:DotNumberControl Number="{Binding SheetData.Presence, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="2" Margin="0,4">
-                            <TextBlock Text="Manipulation:" Style="{StaticResource SheetText}" Width="96" />
+                            <TextBlock Text="Manipulation:" Style="{StaticResource SheetText}" Width="120" />
                             <controls:DotNumberControl Number="{Binding SheetData.Manipulation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="3" Margin="0,4">
-                            <TextBlock Text="Composure:" Style="{StaticResource SheetText}" Width="96" />
+                            <TextBlock Text="Composure:" Style="{StaticResource SheetText}" Width="120" />
                             <controls:DotNumberControl Number="{Binding SheetData.Composure, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                         </StackPanel>
                         
@@ -159,21 +169,21 @@
                     <Border Grid.Column="0" Grid.Row="0" BorderThickness="0,0,1.5,0" BorderBrush="{StaticResource Dark}">
                         <Border Background="{StaticResource DarkLight}" CornerRadius="8" Padding="32,8" Margin="0,0,8,0">
                             <Border BorderThickness="0,2" BorderBrush="{StaticResource Dark}" Padding="2">
-                                <TextBlock Text="Skills" HorizontalAlignment="Center" Foreground="{StaticResource Dark}" FontSize="24" FontFamily="Consolas" />
+                                <TextBlock Text="Skills" Style="{StaticResource SheetTitle}" />
                             </Border>
                         </Border>
                     </Border>
 
                     <Border Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="0" Background="{StaticResource DarkLight}" CornerRadius="8" Padding="80,8" Margin="8,0,0,0">
                         <Border BorderThickness="0,2" BorderBrush="{StaticResource Dark}" Padding="2">
-                            <TextBlock Text="Other Traits" HorizontalAlignment="Center" Foreground="{StaticResource Dark}" FontSize="24" FontFamily="Consolas" />
+                            <TextBlock Text="Other Traits" Style="{StaticResource SheetTitle}" />
                         </Border>
                     </Border>
 
                     <Border Grid.Column="0" Grid.Row="1" BorderThickness="0,0,1.5,0" BorderBrush="{StaticResource Dark}" Padding="0,0,8,0">
                         <StackPanel Margin="0,8,0,0">
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                <TextBlock Text="Mental" HorizontalAlignment="Center" Foreground="{StaticResource Dark}" FontFamily="Consolas" FontSize="18" VerticalAlignment="Bottom" />
+                                <TextBlock Text="Mental" Style="{StaticResource SheetTitle}" />
                                 <TextBlock Text="(-3 unskilled)" HorizontalAlignment="Center" Foreground="{StaticResource Dark}" FontFamily="Consolas" FontSize="12" VerticalAlignment="Bottom" Margin="8,0,0,0" FontStyle="Italic" />
                             </StackPanel>
 
@@ -218,7 +228,7 @@
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,8,0,0">
-                                <TextBlock Text="Physical" HorizontalAlignment="Center" Foreground="{StaticResource Dark}" FontFamily="Consolas" FontSize="18" VerticalAlignment="Bottom" />
+                                <TextBlock Text="Physical" Style="{StaticResource SheetTitle}" />
                                 <TextBlock Text="(-1 unskilled)" HorizontalAlignment="Center" Foreground="{StaticResource Dark}" FontFamily="Consolas" FontSize="12" VerticalAlignment="Bottom" Margin="8,0,0,0" FontStyle="Italic" />
                             </StackPanel>
 
@@ -263,7 +273,7 @@
                             </StackPanel>
 
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,8,0,0">
-                                <TextBlock Text="Social" HorizontalAlignment="Center" Foreground="{StaticResource Dark}" FontFamily="Consolas" FontSize="18" VerticalAlignment="Bottom" />
+                                <TextBlock Text="Social" Style="{StaticResource SheetTitle}" />
                                 <TextBlock Text="(-1 unskilled)" HorizontalAlignment="Center" Foreground="{StaticResource Dark}" FontFamily="Consolas" FontSize="12" VerticalAlignment="Bottom" Margin="8,0,0,0" FontStyle="Italic" />
                             </StackPanel>
 
@@ -311,8 +321,8 @@
 
                     <StackPanel Grid.Column="1" Grid.Row="1" Margin="0,8,0,0">
                         <StackPanel Margin="8,0">
-                            <TextBlock Text="Merits" HorizontalAlignment="Center" Foreground="{StaticResource Dark}" FontFamily="Consolas" FontSize="18" VerticalAlignment="Bottom" />
-                            <ListView x:Name="MeritList" ItemsSource="{Binding SheetData.Merits, Mode=TwoWay}" BorderThickness="0" Background="Transparent">
+                            <TextBlock Text="Merits" Style="{StaticResource SheetTitle}" />
+                            <ListView x:Name="MeritList" ItemsSource="{Binding SheetData.Merits, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
@@ -323,11 +333,57 @@
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ListView>
-                            <controls:CircleButtonControl Diameter="40" Command="{Binding Commands.AddMeritCommand}" Data="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" BorderBackground="{StaticResource Blau}" HorizontalAlignment="Center" CustomParameter="{x:Reference MeritList}" />
+                            <controls:CircleButtonControl Diameter="40" Command="{Binding Commands.AddMeritCommand}" Data="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" BorderBackground="{StaticResource Blau}" HorizontalAlignment="Center" CustomParameter="{x:Reference MeritList}" Margin="0,8,0,0" />
+                        </StackPanel>
+
+                        <StackPanel Margin="8,0">
+                            <StackPanel Orientation="Horizontal" Margin="0,4">
+                                <TextBlock Text="Size:" Style="{StaticResource SheetText}" Width="120" VerticalAlignment="Center" />
+                                <TextBox Style="{StaticResource SheetEntry}" Text="{Binding SheetData.Size, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" core:TextBehaviour.TextChangedCommand="{Binding UpdateSheetCommand}" />
+                            </StackPanel>
+                            
+                            <StackPanel Orientation="Horizontal" Margin="0,4">
+                                <TextBlock Text="Speed:" Style="{StaticResource SheetText}" Width="120" VerticalAlignment="Center" />
+                                <TextBox Style="{StaticResource SheetEntry}" Text="{Binding SheetData.Speed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" core:TextBehaviour.TextChangedCommand="{Binding UpdateSheetCommand}" />
+                            </StackPanel>
+                            
+                            <StackPanel Orientation="Horizontal" Margin="0,4">
+                                <TextBlock Text="Defense:" Style="{StaticResource SheetText}" Width="120" VerticalAlignment="Center" />
+                                <TextBox Style="{StaticResource SheetEntry}" Text="{Binding SheetData.Defense, Mode=OneWay}" core:TextBehaviour.TextChangedCommand="{Binding UpdateSheetCommand}" IsReadOnly="True" />
+                            </StackPanel>
+                            
+                            <StackPanel Orientation="Horizontal" Margin="0,4">
+                                <TextBlock Text="Armor:" Style="{StaticResource SheetText}" Width="120" VerticalAlignment="Center" />
+                                <TextBox Style="{StaticResource SheetEntry}" Text="{Binding SheetData.Armor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" core:TextBehaviour.TextChangedCommand="{Binding UpdateSheetCommand}" />
+                            </StackPanel>
+                            
+                            <StackPanel Orientation="Horizontal" Margin="0,4">
+                                <TextBlock Text="Initiative Mod:" Style="{StaticResource SheetText}" Width="120" VerticalAlignment="Center" />
+                                <TextBox Style="{StaticResource SheetEntry}" Text="{Binding SheetData.IniativeMod, Mode=OneWay}" IsReadOnly="True" />
+                            </StackPanel>
+                            
+                            <StackPanel Orientation="Horizontal" Margin="0,4">
+                                <TextBlock Text="Beats:" Style="{StaticResource SheetText}" Width="120" VerticalAlignment="Center" />
+                                <controls:Rect5NumberControl Number="{Binding SheetData.Beats, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
+                            </StackPanel>
+                            
+                            <StackPanel Orientation="Horizontal" Margin="0,4">
+                                <TextBlock Text="Experience:" Style="{StaticResource SheetText}" Width="120" VerticalAlignment="Center" />
+                                <TextBox Style="{StaticResource SheetEntry}" Text="{Binding SheetData.Experience, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" core:TextBehaviour.TextChangedCommand="{Binding UpdateSheetCommand}" />
+                            </StackPanel>
+                            
                         </StackPanel>
                         
                     </StackPanel>
 
+                    <StackPanel Grid.Column="2" Grid.Row="1" Margin="0,8,0,0">
+
+                        <StackPanel Margin="8,0">
+                            <TextBlock Text="Health" Style="{StaticResource SheetTitle}" />
+                        </StackPanel>
+                        
+                    </StackPanel>
+                    
                 </Grid>
             </StackPanel>
         </Border>

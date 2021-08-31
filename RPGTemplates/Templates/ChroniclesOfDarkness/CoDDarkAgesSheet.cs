@@ -56,7 +56,13 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
         public string[] Aspirations { get; set; }
 
         public int Size { get; set; }
-        public int Speed { get; set; }
+        public int Speed 
+        { 
+            get
+            {
+                return Strength + Dexterity + 5;
+            }
+        }
         public int Defense
         {
             get
@@ -79,10 +85,22 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
         public int Beats { get; set; }
         public int Experience { get; set; }
 
-        public int Health { get; set; }
+        public int Health 
+        { 
+            get
+            {
+                return Stamina + Size;
+            }
+        }
         public string Damage { get; set; }
 
-        public int Willpower { get; set; }
+        public int Willpower 
+        {
+            get
+            {
+                return Resolve + Composure;
+            }
+        }
         public int CurrentWillpower { get; set; }
 
         public int Integrity { get; set; }

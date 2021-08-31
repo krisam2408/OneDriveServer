@@ -93,14 +93,31 @@ namespace RetiraTracker.ViewModels
 
             vm.SelectedSheet = vm.SheetList[0];
 
-            vm.NotifyPropertyChanged(nameof(SheetData)+".Intelligence");
-
             return vm;
         }
 
         private async Task UpdateSheet()
         {
             SheetData.LastModified = DateTime.Now;
+
+            AppSheet newSheet = SelectedSheet.GetContent<AppSheet>();
+            newSheet.Player.SheetJson = JsonConvert.SerializeObject(SheetData);
+            newSheet.SetAppSheet();
+
+            SelectedSheet.SetContent(newSheet);
+            SelectedSheet.SetDisplay(SheetPlayerDisplay());
+            NotifyPropertyChanged(nameof(SheetList));
+            
+            NotifyPropertyChanged(nameof(SheetData));
+        }
+
+        private string SheetPlayerDisplay()
+        {
+            if (!string.IsNullOrWhiteSpace(SheetData.CharacterName))
+                if (SelectedSheet.Display != SheetData.CharacterName)
+                    return SheetData.CharacterName;
+
+            return $"({SheetData.PlayerName})";
         }
 
         private void SetTemplateCommand(string commandName)

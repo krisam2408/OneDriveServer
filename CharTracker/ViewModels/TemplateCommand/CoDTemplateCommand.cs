@@ -2,6 +2,7 @@
 using RetiraTracker.Core.Abstracts;
 using RetiraTracker.Model;
 using SheetDrama.DataTransfer;
+using SheetDrama.Templates.ChroniclesOfDarkness;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace RetiraTracker.ViewModels.TemplateCommand
         private BaseViewModel Parent { get; init; }
 
         public ICommand AddMeritCommand { get { return new RelayCommand(e => AddMerit((MouseEventArgs)e)); } }
-        public ICommand RemoveMeritCommand { get { return new RelayCommand(async (e) => await RemoveMerit((MouseEventArgs)e)); } }
+        public ICommand RemoveMeritCommand { get { return new RelayCommand((e) => RemoveMerit((MouseEventArgs)e)); } }
 
         public CoDTemplateCommand(BaseViewModel parent)
         {
@@ -51,11 +52,9 @@ namespace RetiraTracker.ViewModels.TemplateCommand
             meritList.Add(new KeyIntValue());
 
             meritListControl.ItemsSource = meritList.ToArray();
-
-            Parent.NotifyPropertyChanged("SheetData");
         }
 
-        private async Task RemoveMerit(MouseEventArgs e)
+        private void RemoveMerit(MouseEventArgs e)
         {
             ListView meritListControl = null;
             FrameworkElement source = (FrameworkElement)e.OriginalSource;
@@ -76,16 +75,18 @@ namespace RetiraTracker.ViewModels.TemplateCommand
 
             string key = ((TextBox)((StackPanel)source).Children[1]).Text;
 
-            KeyIntValue? valueToRemove = meritList.FirstOrDefault(k => k.Key == key);
+            KeyIntValue valueToRemove = meritList.FirstOrDefault(k => k.Key == key);
 
             if (valueToRemove == null)
                 return;
 
-            meritList.Remove(valueToRemove.Value);
+            meritList.Remove(valueToRemove);
 
             meritListControl.ItemsSource = meritList.ToArray();
 
             Parent.NotifyPropertyChanged("SheetData");
+
+            ((CampaignViewModel)Parent).UpdateSheetCommand.Execute(null);
         }
     }
 }

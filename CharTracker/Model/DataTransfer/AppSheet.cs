@@ -22,8 +22,13 @@ namespace RetiraTracker.Model.DataTransfer
                 if (Sheet != null && !string.IsNullOrWhiteSpace(Sheet.CharacterName))
                     return Sheet.CharacterName;
 
-                string playerName = Player.EmailAddress.Split('@')[0];
-                return $"({playerName})";
+                if(Player != null && !string.IsNullOrWhiteSpace(Player.EmailAddress))
+                {
+                    string playerName = Player.EmailAddress.Split('@')[0];
+                    return $"({playerName})";
+                }
+
+                return "( )";
             }
         }
 

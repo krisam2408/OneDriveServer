@@ -43,6 +43,11 @@ namespace RetiraTracker.Core
             return JsonConvert.DeserializeObject(Content, type);
         }
 
+        public void SetDisplay(string display)
+        {
+            Display = display;
+        }
+
         public override string ToString() { return Display; }
     }
 }

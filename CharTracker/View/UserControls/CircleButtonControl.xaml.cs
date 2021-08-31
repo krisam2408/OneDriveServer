@@ -34,6 +34,22 @@ namespace RetiraTracker.View.UserControls
 
         public double Diameter { get; set; }
         public double Radio { get { return Diameter / 2; } }
+        public double PathDiameter
+        {
+            get
+            {
+                if (Diameter > 32)
+                    return Diameter - 16;
+
+                if (Diameter > 16)
+                    return Diameter - 12;
+
+                if (Diameter > 12)
+                    return Diameter - 8;
+
+                return 0;
+            }
+        }
 
         public static DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(CircleButtonControl));
         public ICommand Command

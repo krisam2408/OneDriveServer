@@ -26,19 +26,24 @@ namespace RetiraTracker.View.UserControls
         private readonly SolidColorBrush dark = (SolidColorBrush)Application.Current.Resources["Dark"];
         private Ellipse[] Dots;
 
+        public EventHandler NumberChanged;
+
         public DotNumberControl()
         {
             InitializeComponent();
 
             Dots = new Ellipse[10] { Dot0, Dot1, Dot2, Dot3, Dot4, Dot5, Dot6, Dot7, Dot8, Dot9 };
 
-            Loaded += (sender, e) =>
+            NumberChanged += (sender, e) =>
             {
-                Number = Number;
+                SetDotFills(Number);
+                ValueChanged?.Execute(null);
             };
+
+            
         }
 
-        public static DependencyProperty NumberProperty = DependencyProperty.Register("Number", typeof(int), typeof(DotNumberControl));
+        public static DependencyProperty NumberProperty = DependencyProperty.Register("Number", typeof(int), typeof(DotNumberControl), new PropertyMetadata(0, OnNumberChanged));
         public int Number
         {
             get 
@@ -53,9 +58,15 @@ namespace RetiraTracker.View.UserControls
                     input = value;
 
                 SetValue(NumberProperty, input);
-                SetDotFills(input);
-                ValueChanged?.Execute(null);
             }
+        }
+
+        private static void OnNumberChanged (DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DotNumberControl source = (DotNumberControl)d;
+
+            if (source.NumberChanged != null)
+                source.NumberChanged(source, EventArgs.Empty);
         }
 
         public static DependencyProperty ValueChangedProperty = DependencyProperty.Register("ValueChanged", typeof(ICommand), typeof(DotNumberControl));

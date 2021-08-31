@@ -35,7 +35,7 @@ namespace RetiraTracker.ViewModels
                 SetValue(ref selectedGame, value);
                 if (value != null)
                 {
-                    PlayersList.Clear();
+                    PlayersList?.Clear();
                     NotifyPropertyChanged(nameof(PlayersList));
 
                     Games g = value.GetContent<Games>();
@@ -77,7 +77,7 @@ namespace RetiraTracker.ViewModels
 
                 if(!string.IsNullOrWhiteSpace(value))
                 {
-                    PlayersList.Clear();
+                    PlayersList?.Clear();
                     NotifyPropertyChanged(nameof(PlayersList));
 
                     if (SelectedGame != null && validCampaign)

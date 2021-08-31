@@ -1,0 +1,71 @@
+﻿<UserControl x:Class="RetiraTracker.View.UserControls.CoDHealthControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RetiraTracker.View.UserControls"
+             xmlns:core="clr-namespace:RetiraTracker.Core"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style x:Key="EllipseButton" TargetType="Ellipse">
+            <Style.Setters>
+                <Setter Property="Stroke" Value="{StaticResource Dark}" />
+                <Setter Property="StrokeThickness" Value="1.5" />
+                <Setter Property="Width" Value="16" />
+                <Setter Property="Height" Value="16" />
+                <Setter Property="Fill" Value="#20000000" />
+            </Style.Setters>
+        </Style>
+
+        <Style x:Key="RectButton" TargetType="Rectangle">
+            <Style.Setters>
+                <Setter Property="Stroke" Value="{StaticResource Dark}" />
+                <Setter Property="StrokeThickness" Value="1.5" />
+                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="Width" Value="16" />
+                <Setter Property="Height" Value="16" />
+                <Setter Property="Fill" Value="#20000000" />
+            </Style.Setters>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="0.8" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="24" />
+            <ColumnDefinition Width="24" />
+            <ColumnDefinition Width="24" />
+            <ColumnDefinition Width="24" />
+            <ColumnDefinition Width="24" />
+            <ColumnDefinition Width="24" />
+            <ColumnDefinition Width="24" />
+            <ColumnDefinition Width="24" />
+            <ColumnDefinition Width="24" />
+            <ColumnDefinition Width="24" />
+            <ColumnDefinition Width="24" />
+            <ColumnDefinition Width="24" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="24" />
+            <RowDefinition Height="24" />
+        </Grid.RowDefinitions>
+
+        <Ellipse x:Name="Dot00" Grid.Column="0" Grid.Row="0" Style="{StaticResource EllipseButton}" />
+        <Ellipse x:Name="Dot01" Grid.Column="1" Grid.Row="0" Style="{StaticResource EllipseButton}" />
+        <Ellipse x:Name="Dot02" Grid.Column="2" Grid.Row="0" Style="{StaticResource EllipseButton}" />
+        <Ellipse x:Name="Dot03" Grid.Column="3" Grid.Row="0" Style="{StaticResource EllipseButton}" />
+        <Ellipse x:Name="Dot04" Grid.Column="4" Grid.Row="0" Style="{StaticResource EllipseButton}" />
+        <Ellipse x:Name="Dot05" Grid.Column="5" Grid.Row="0" Style="{StaticResource EllipseButton}" />
+        <Ellipse x:Name="Dot06" Grid.Column="6" Grid.Row="0" Style="{StaticResource EllipseButton}" />
+        <Ellipse x:Name="Dot07" Grid.Column="7" Grid.Row="0" Style="{StaticResource EllipseButton}" />
+        <Ellipse x:Name="Dot08" Grid.Column="8" Grid.Row="0" Style="{StaticResource EllipseButton}" />
+        <Ellipse x:Name="Dot09" Grid.Column="9" Grid.Row="0" Style="{StaticResource EllipseButton}" />
+        <Ellipse x:Name="Dot10" Grid.Column="10" Grid.Row="0" Style="{StaticResource EllipseButton}" />
+        <Ellipse x:Name="Dot11" Grid.Column="11" Grid.Row="0" Style="{StaticResource EllipseButton}" />
+
+        <Rectangle x:Name="Rect00" Grid.Column="0" Grid.Row="1" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:CoDHealthControl}}, Path=Rect00Command}" />
+    </Grid>
+</UserControl>
