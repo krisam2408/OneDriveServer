@@ -32,25 +32,35 @@ namespace GoogleExplorer
         
         private async Task Authenticate()
         {
-            UserCredential credential;
-
-            using FileStream fs = new FileStream(credentials, FileMode.Open, FileAccess.Read);
-
-            string credPath = "token.json";
-
-            credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
-                GoogleClientSecrets.FromStream(fs).Secrets,
-                scopes,
-                "user",
-                CancellationToken.None,
-                new FileDataStore(credPath, true)
-                );
-
-            DriveService = new(new BaseClientService.Initializer()
+            try
             {
-                HttpClientInitializer = credential,
-                ApplicationName = ApplicationName
-            });
+                UserCredential credential;
+
+                using FileStream fs = new FileStream(credentials, FileMode.Open, FileAccess.Read);
+
+                string credPath = "token.json";
+
+                credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
+                    GoogleClientSecrets.FromStream(fs).Secrets,
+                    scopes,
+                    "user",
+                    CancellationToken.None,
+                    new FileDataStore(credPath, true)
+                    );
+                
+                DriveService = new(new BaseClientService.Initializer()
+                {
+                    HttpClientInitializer = credential,
+                    ApplicationName = ApplicationName
+                });
+
+            }
+            catch(Exception ex)
+            {
+                Type exType = ex.GetType();
+                string strExType = exType.ToString();
+                Debug.WriteLine(strExType);
+            }
 
             AboutResource.GetRequest userRequest = DriveService.About.Get();
             userRequest.Fields = "user";

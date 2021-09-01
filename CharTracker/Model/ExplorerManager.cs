@@ -49,15 +49,7 @@ namespace RetiraTracker.Model
 
         public async Task<string> LogInAsync()
         {
-            try
-            {
-                Explorer = await Explorer.CreateAsync("Retira");
-
-            }
-            catch(Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            Explorer = await Explorer.CreateAsync("Retira");
 
             return Explorer.UserMail;
         }
