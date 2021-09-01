@@ -65,13 +65,16 @@ namespace RetiraTracker.ViewModels
             set { SetValue(ref goEnabled, value); }
         }
 
+        private Visibility cancelButtonVisibility;
+        public Visibility CancelButtonVisibility { get { return cancelButtonVisibility; } set { SetValue(ref cancelButtonVisibility, value); } }
+
         public ICommand LogInCommand
         {
             get
             {
                 return new RelayCommand(async (e) =>
                 {
-                    if(Terminal.IsEnabled)
+                    if(IsEnabled)
                     {
                         IsEnabled = false;
                         await LogIn();
@@ -80,6 +83,8 @@ namespace RetiraTracker.ViewModels
                 });
             }
         }
+
+        public ICommand CancelLogInCommand { get { return new RelayCommand((e) => { CancelLogIn(); }); } }
 
         public ICommand GoToCreateCampaignCommand
         {
@@ -135,13 +140,41 @@ namespace RetiraTracker.ViewModels
             }
         }
 
+        public MainViewModel()
+        {
+            CancelButtonVisibility = Visibility.Hidden;
+        }
+
         private async Task LogIn()
         {
             Terminal.Instance.Navigation.IsLoading(true);
+            CancelButtonVisibility = Visibility.Visible;
 
-            Terminal.Instance.Navigation.UserMail = await ExplorerManager.Instance.LogInAsync();
-            
+            string msg = await ExplorerManager.Instance.LogInAsync();
+
+            if(msg.Contains("##"))
+            {
+                CancelButtonVisibility = Visibility.Hidden;
+                
+                msg = msg.Replace("## ", string.Empty);
+                InfoPopup alert = new(msg);
+                alert.Show();
+                return;
+            }
+
+            Terminal.Instance.Navigation.UserMail = msg;
+
             await Terminal.Instance.Navigation.Navigation(NavigationViewModel.Pages.Settings);
+
+            CancelButtonVisibility = Visibility.Hidden;
+            Terminal.Instance.Navigation.IsMenuVisible(true);
+            Terminal.Instance.Navigation.IsLoading(false);
+        }
+
+        private void CancelLogIn()
+        {
+            ExplorerManager.Instance.CancelRequest();
+            CancelButtonVisibility = Visibility.Hidden;
             Terminal.Instance.Navigation.IsMenuVisible(true);
             Terminal.Instance.Navigation.IsLoading(false);
         }

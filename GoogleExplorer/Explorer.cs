@@ -28,23 +28,27 @@ namespace GoogleExplorer
         public string UserMail { get; private set; }
         public string CoreFolder { get { return $"{ApplicationName}-{UserMail}"; } }
 
+        private CancellationTokenSource CancelToken { get; set; }
         private DriveService DriveService { get; set; }
         
-        private async Task Authenticate()
+        public async Task<RequestResult> Authenticate()
         {
+            UserCredential credential;
+
+            using FileStream fs = new FileStream(credentials, FileMode.Open, FileAccess.Read);
+
+            string credPath = "token.json";
+
+            CancelToken = new();
+            CancellationToken token = CancelToken.Token;
+
             try
             {
-                UserCredential credential;
-
-                using FileStream fs = new FileStream(credentials, FileMode.Open, FileAccess.Read);
-
-                string credPath = "token.json";
-
                 credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.FromStream(fs).Secrets,
                     scopes,
                     "user",
-                    CancellationToken.None,
+                    token,
                     new FileDataStore(credPath, true)
                     );
                 
@@ -55,17 +59,33 @@ namespace GoogleExplorer
                 });
 
             }
+            catch(OperationCanceledException ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return RequestResult.Cancelled;
+            }
             catch(Exception ex)
             {
                 Type exType = ex.GetType();
                 string strExType = exType.ToString();
                 Debug.WriteLine(strExType);
+                return RequestResult.Error;
             }
 
             AboutResource.GetRequest userRequest = DriveService.About.Get();
             userRequest.Fields = "user";
             About user = await userRequest.ExecuteAsync();
             UserMail = user.User.EmailAddress;
+
+            CancelToken.Dispose();
+
+            return RequestResult.Success;
+        }
+
+        public void CancelRequest()
+        {
+            CancelToken.Cancel();
+            CancelToken.Dispose();
         }
 
         private async Task<bool> RevokeToken()
@@ -76,18 +96,33 @@ namespace GoogleExplorer
 
             string credPath = "token.json";
 
-            credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
-                GoogleClientSecrets.FromStream(fs).Secrets,
-                scopes,
-                "user",
-                CancellationToken.None,
-                new FileDataStore(credPath, true)
-                );
+            CancelToken = new();
+            CancellationToken token = CancelToken.Token;
 
-            bool result = await credential.RevokeTokenAsync(CancellationToken.None);
+            bool result;
+
+            try
+            {
+                credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
+                    GoogleClientSecrets.FromStream(fs).Secrets,
+                    scopes,
+                    "user",
+                    token,
+                    new FileDataStore(credPath, true)
+                    );
+
+                result = await credential.RevokeTokenAsync(CancellationToken.None);
+            }
+            catch(OperationCanceledException ex)
+            {
+                Debug.WriteLine(ex.Message);
+                result = false;
+            }
 
             if(result)
                 DriveService = null;
+
+            CancelToken.Dispose();
 
             return result;
         }
@@ -109,8 +144,6 @@ namespace GoogleExplorer
             {
                 return null;
             }
-
-            await explorer.Authenticate();
 
             return explorer;
         }

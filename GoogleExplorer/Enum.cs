@@ -22,4 +22,9 @@ namespace GoogleExplorer
         PNG,
 
     }
+
+    public enum RequestResult
+    {
+        Cancelled, TokenExpired, Success, Error
+    }
 }

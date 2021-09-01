@@ -6,10 +6,12 @@
       xmlns:local="clr-namespace:RetiraTracker.View"
       xmlns:core="clr-namespace:RetiraTracker.Core"
       xmlns:controls="clr-namespace:RetiraTracker.View.UserControls"
-      mc:Ignorable="d">
+      mc:Ignorable="d"
+      DataContext="{Binding Source={StaticResource Locator}, Path=Terminal}">
 
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-        <TextBlock Text="We need for you to login with your Google Account!" Style="{StaticResource ResourceKey=StandardText}" Margin="0,0,0,8" />
-        <controls:ButtonControl IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" Text="Log In" BorderWidth="126" BorderHeight="40" BorderBackground="{StaticResource ResourceKey=Rot}" Command="{Binding Source={StaticResource Locator}, Path=Terminal.Main.LogInCommand}" />
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" DataContext="{Binding Main}">
+        <TextBlock Text="We need for you to login with your Google Account!" Style="{StaticResource StandardText}" Margin="0,0,0,8" />
+        <controls:ButtonControl IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" Text="Log In" BorderWidth="126" BorderHeight="40" BorderBackground="{StaticResource Rot}" Command="{Binding LogInCommand}" />
+        <controls:ButtonControl Text="Cancel Log In" BorderWidth="126" BorderHeight="40" BorderBackground="{StaticResource Lila}" Command="{Binding CancelLogInCommand}" Visibility="{Binding CancelButtonVisibility}" Margin="0,8,0,0" />
     </StackPanel>
 </Page>

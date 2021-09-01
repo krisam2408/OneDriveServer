@@ -51,7 +51,30 @@ namespace RetiraTracker.Model
         {
             Explorer = await Explorer.CreateAsync("Retira");
 
+            if(Explorer == null)
+            {
+                return "## Application credetials are missing. Please contact your administrator.";
+            }
+
+            RequestResult authTry = await Explorer.Authenticate();
+
+            if (authTry != RequestResult.Success)
+            {
+                switch(authTry)
+                {
+                    case RequestResult.Cancelled:
+                        return "## Operation canceled.";
+                    default:
+                        return "## 100";
+                }
+            }
+
             return Explorer.UserMail;
+        }
+
+        public void CancelRequest()
+        {
+            Explorer.CancelRequest();
         }
 
         public async Task<ListItem[]> GetSettingsAsync()
