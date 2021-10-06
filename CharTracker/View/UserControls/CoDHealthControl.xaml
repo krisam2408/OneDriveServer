@@ -7,24 +7,32 @@
              xmlns:core="clr-namespace:RetiraTracker.Core"
              mc:Ignorable="d">
     <UserControl.Resources>
-        <Style x:Key="EllipseButton" TargetType="Ellipse">
+        <Style x:Key="EllipseDot" TargetType="Ellipse">
             <Style.Setters>
                 <Setter Property="Stroke" Value="{StaticResource Dark}" />
                 <Setter Property="StrokeThickness" Value="1.5" />
                 <Setter Property="Width" Value="16" />
                 <Setter Property="Height" Value="16" />
-                <Setter Property="Fill" Value="#20000000" />
+                <Setter Property="Fill" Value="{StaticResource Dark}" />
             </Style.Setters>
         </Style>
 
-        <Style x:Key="RectButton" TargetType="Rectangle">
+        <Style x:Key="RectDot" TargetType="Rectangle">
             <Style.Setters>
                 <Setter Property="Stroke" Value="{StaticResource Dark}" />
                 <Setter Property="StrokeThickness" Value="1.5" />
+                <Setter Property="Width" Value="16" />
+                <Setter Property="Height" Value="16" />
+            </Style.Setters>
+        </Style>
+
+        <Style x:Key="PathButton" TargetType="Path">
+            <Style.Setters>
+                <Setter Property="Fill" Value="{StaticResource Blau}" />
+                <Setter Property="Stretch" Value="UniformToFill" />
                 <Setter Property="Cursor" Value="Hand" />
                 <Setter Property="Width" Value="16" />
                 <Setter Property="Height" Value="16" />
-                <Setter Property="Fill" Value="#20000000" />
             </Style.Setters>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
@@ -32,40 +40,80 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+        <Style x:Key="HealthDotsList" TargetType="ListView">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="HealthDotListItem" TargetType="ListViewItem">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Transparent" />
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="Transparent" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
-    <Grid>
+    <Grid Margin="8,0,32,0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="24" />
-            <ColumnDefinition Width="24" />
-            <ColumnDefinition Width="24" />
-            <ColumnDefinition Width="24" />
-            <ColumnDefinition Width="24" />
-            <ColumnDefinition Width="24" />
-            <ColumnDefinition Width="24" />
-            <ColumnDefinition Width="24" />
-            <ColumnDefinition Width="24" />
-            <ColumnDefinition Width="24" />
-            <ColumnDefinition Width="24" />
-            <ColumnDefinition Width="24" />
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="24" />
-            <RowDefinition Height="24" />
-        </Grid.RowDefinitions>
+        <ListView Grid.Column="0" ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDHealthControl}}, Path=DamageMeter}" Style="{StaticResource HealthDotsList}" ItemContainerStyle="{StaticResource HealthDotListItem}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="24" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="8" />
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="24" />
+                            <RowDefinition Height="24" />
+                        </Grid.RowDefinitions>
+                        
+                        <Ellipse Grid.Row="0" Style="{StaticResource EllipseDot}" />
 
-        <Ellipse x:Name="Dot00" Grid.Column="0" Grid.Row="0" Style="{StaticResource EllipseButton}" />
-        <Ellipse x:Name="Dot01" Grid.Column="1" Grid.Row="0" Style="{StaticResource EllipseButton}" />
-        <Ellipse x:Name="Dot02" Grid.Column="2" Grid.Row="0" Style="{StaticResource EllipseButton}" />
-        <Ellipse x:Name="Dot03" Grid.Column="3" Grid.Row="0" Style="{StaticResource EllipseButton}" />
-        <Ellipse x:Name="Dot04" Grid.Column="4" Grid.Row="0" Style="{StaticResource EllipseButton}" />
-        <Ellipse x:Name="Dot05" Grid.Column="5" Grid.Row="0" Style="{StaticResource EllipseButton}" />
-        <Ellipse x:Name="Dot06" Grid.Column="6" Grid.Row="0" Style="{StaticResource EllipseButton}" />
-        <Ellipse x:Name="Dot07" Grid.Column="7" Grid.Row="0" Style="{StaticResource EllipseButton}" />
-        <Ellipse x:Name="Dot08" Grid.Column="8" Grid.Row="0" Style="{StaticResource EllipseButton}" />
-        <Ellipse x:Name="Dot09" Grid.Column="9" Grid.Row="0" Style="{StaticResource EllipseButton}" />
-        <Ellipse x:Name="Dot10" Grid.Column="10" Grid.Row="0" Style="{StaticResource EllipseButton}" />
-        <Ellipse x:Name="Dot11" Grid.Column="11" Grid.Row="0" Style="{StaticResource EllipseButton}" />
+                        <TextBlock Grid.Row="1" Visibility="Collapsed" Text="{Binding Enumerator}" />
 
-        <Rectangle x:Name="Rect00" Grid.Column="0" Grid.Row="1" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:CoDHealthControl}}, Path=Rect00Command}" />
+                        <Path Grid.Row="2" Data="M288.662 352H31.338c-17.818 0-26.741-21.543-14.142-34.142l128.662-128.662c7.81-7.81 20.474-7.81 28.284 0l128.662 128.662c12.6 12.599 3.676 34.142-14.142 34.142z" Style="{StaticResource PathButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDHealthControl}}, Path=HealthUpCommand}">
+                            <Path.LayoutTransform>
+                                <TransformGroup>
+                                    <RotateTransform Angle="225" />
+                                </TransformGroup>
+                            </Path.LayoutTransform>
+                        </Path>
+                        
+                        <Rectangle Grid.Row="3" Style="{StaticResource RectDot}" Fill="{Binding Brush}" />
+
+                        <Path Grid.Row="4" Data="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"  Style="{StaticResource PathButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDHealthControl}}, Path=HealthDownCommand}">
+                            <Path.LayoutTransform>
+                                <TransformGroup>
+                                    <RotateTransform Angle="135" />
+                                </TransformGroup>
+                            </Path.LayoutTransform>
+                        </Path>
+
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListView>
+
+        <Ellipse Grid.Column="1" Fill="Transparent" Stroke="{StaticResource Dark}" StrokeThickness="4" Stretch="UniformToFill" />
+        <TextBlock x:Name="PenTextBlock" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" FontFamily="Consolas" FontSize="48" Margin="8,0,0,0" />
+        
     </Grid>
 </UserControl>

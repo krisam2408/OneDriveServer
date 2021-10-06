@@ -1,0 +1,71 @@
+﻿<UserControl x:Class="RetiraTracker.View.UserControls.CoDWillpowerControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RetiraTracker.View.UserControls"
+             xmlns:core="clr-namespace:RetiraTracker.Core"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style x:Key="EllipseDot" TargetType="Ellipse">
+            <Style.Setters>
+                <Setter Property="Stroke" Value="{StaticResource Dark}" />
+                <Setter Property="StrokeThickness" Value="1.5" />
+                <Setter Property="Width" Value="16" />
+                <Setter Property="Height" Value="16" />
+                <Setter Property="Margin" Value="2,0" />
+                <Setter Property="Fill" Value="#20000000" />
+            </Style.Setters>
+        </Style>
+
+        <Style x:Key="RectButton" TargetType="Rectangle">
+            <Style.Setters>
+                <Setter Property="Stroke" Value="{StaticResource Dark}" />
+                <Setter Property="StrokeThickness" Value="1.5" />
+                <Setter Property="Width" Value="16" />
+                <Setter Property="Height" Value="16" />
+                <Setter Property="Margin" Value="2,0" />
+                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="Fill" Value="#20000000" />
+            </Style.Setters>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="0.8" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="24" />
+            <RowDefinition Height="24" />
+        </Grid.RowDefinitions>
+
+        <WrapPanel Grid.Row="0" HorizontalAlignment="Center" Orientation="Horizontal">
+            <Ellipse x:Name="Dot0" Style="{StaticResource EllipseDot}" />
+            <Ellipse x:Name="Dot1" Style="{StaticResource EllipseDot}" />
+            <Ellipse x:Name="Dot2" Style="{StaticResource EllipseDot}" />
+            <Ellipse x:Name="Dot3" Style="{StaticResource EllipseDot}" />
+            <Ellipse x:Name="Dot4" Style="{StaticResource EllipseDot}" />
+            <Ellipse x:Name="Dot5" Style="{StaticResource EllipseDot}" />
+            <Ellipse x:Name="Dot6" Style="{StaticResource EllipseDot}" />
+            <Ellipse x:Name="Dot7" Style="{StaticResource EllipseDot}" />
+            <Ellipse x:Name="Dot8" Style="{StaticResource EllipseDot}" />
+            <Ellipse x:Name="Dot9" Style="{StaticResource EllipseDot}" />
+        </WrapPanel>
+        
+        <WrapPanel Grid.Row="1" HorizontalAlignment="Center" Orientation="Horizontal">
+            <Rectangle x:Name="Rect0" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDWillpowerControl}}, Path=Rect0Command}" />
+            <Rectangle x:Name="Rect1" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDWillpowerControl}}, Path=Rect1Command}" />
+            <Rectangle x:Name="Rect2" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDWillpowerControl}}, Path=Rect2Command}" />
+            <Rectangle x:Name="Rect3" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDWillpowerControl}}, Path=Rect3Command}" />
+            <Rectangle x:Name="Rect4" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDWillpowerControl}}, Path=Rect4Command}" />
+            <Rectangle x:Name="Rect5" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDWillpowerControl}}, Path=Rect5Command}" />
+            <Rectangle x:Name="Rect6" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDWillpowerControl}}, Path=Rect6Command}" />
+            <Rectangle x:Name="Rect7" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDWillpowerControl}}, Path=Rect7Command}" />
+            <Rectangle x:Name="Rect8" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDWillpowerControl}}, Path=Rect8Command}" />
+            <Rectangle x:Name="Rect9" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDWillpowerControl}}, Path=Rect9Command}" />
+        </WrapPanel>
+        
+    </Grid>
+</UserControl>

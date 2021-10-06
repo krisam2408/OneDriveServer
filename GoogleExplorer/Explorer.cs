@@ -72,10 +72,21 @@ namespace GoogleExplorer
                 return RequestResult.Error;
             }
 
-            AboutResource.GetRequest userRequest = DriveService.About.Get();
-            userRequest.Fields = "user";
-            About user = await userRequest.ExecuteAsync();
-            UserMail = user.User.EmailAddress;
+            try
+            {
+                AboutResource.GetRequest userRequest = DriveService.About.Get();
+                userRequest.Fields = "user";
+                About user = await userRequest.ExecuteAsync();
+                UserMail = user.User.EmailAddress;
+            }
+            catch(Exception ex)
+            {
+                Type exType = ex.GetType();
+                string strExType = exType.ToString();
+                Debug.WriteLine(strExType);
+
+                return RequestResult.Error;
+            }
 
             CancelToken.Dispose();
 

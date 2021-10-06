@@ -50,10 +50,53 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
         public int Survival { get; set; }
         public int Weaponry { get; set; }
 
-        public KeyStringValue[] Specialties { get; set; }
-        public KeyIntValue[] Merits { get; set; }
-        public string[] Conditions { get; set; }
-        public string[] Aspirations { get; set; }
+        private List<KeyStringValue> specialties;
+        public List<KeyStringValue> Specialties 
+        {
+            get
+            {
+                if (specialties == null)
+                    specialties = new();
+                return specialties;
+            }
+            set { specialties = value; }
+        }
+
+        private List<KeyIntValue> merits;
+        public List<KeyIntValue> Merits 
+        {
+            get 
+            {
+                if (merits == null)
+                    merits = new();
+                return merits;
+            }
+            set { merits = value; }
+        }
+
+        private List<string> conditions;
+        public List<string> Conditions 
+        {
+            get
+            {
+                if (conditions == null)
+                    conditions = new();
+                return conditions;
+            }
+            set { conditions = value; }
+        }
+
+        private List<string> aspirations;
+        public List<string> Aspirations 
+        {
+            get
+            {
+                if (aspirations == null)
+                    aspirations = new();
+                return aspirations;
+            }
+            set { aspirations = value; }
+        }
 
         public int Size { get; set; }
         public int Speed 
@@ -92,7 +135,23 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
                 return Stamina + Size;
             }
         }
-        public string Damage { get; set; }
+
+        private List<char> damage;
+        public List<char> Damage 
+        {
+            get
+            {
+                if(damage == null)
+                {
+                    damage = new();
+                    for (int i = 0; i < Health; i++)
+                        damage.Add(' ');
+                }
+
+                return damage;
+            }
+            set { damage = value; }
+        }
 
         public int Willpower 
         {
@@ -105,9 +164,17 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
 
         public int Integrity { get; set; }
 
-        public string[] Weapons { get; set; }
-        public string[] Equipment { get; set; }
-        public string[] Inventory { get; set; }
+        private List<string> inventory;
+        public List<string> Inventory 
+        {
+            get
+            {
+                if (inventory == null)
+                    inventory = new();
+                return inventory;
+            }
+            set { inventory = value; }
+        }
 
         public CoDDarkAgesSheet(string frame, string[] styles, string[] scripts) : base(frame, styles, scripts)
         {

@@ -1,6 +1,8 @@
 ﻿using RetiraTracker.Core;
+using RetiraTracker.Core.Abstracts;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace RetiraTracker.View.UserControls
 {
@@ -25,12 +28,12 @@ namespace RetiraTracker.View.UserControls
         private readonly SolidColorBrush dark = (SolidColorBrush)Application.Current.Resources["Dark"];
         private readonly LinearGradientBrush slash;
         private readonly LinearGradientBrush half;
-        private Ellipse[] Dots;
-        private Rectangle[] Rects;
 
         public EventHandler MaxHealthChanged;
         public EventHandler DamageChanged;
 
+        public ObservableCollection<EnumeratedBrush> DamageMeter { get; private set; }
+        
         public CoDHealthControl()
         {
             InitializeComponent();
@@ -41,12 +44,12 @@ namespace RetiraTracker.View.UserControls
             slash = new LinearGradientBrush(new GradientStopCollection(new List<GradientStop>
                 { 
                     new GradientStop(transparentColor, 0.4),
-                    new GradientStop(darkColor, 0.45),
-                    new GradientStop(darkColor, 0.65),
-                    new GradientStop(transparentColor, 0.6)
+                    new GradientStop(darkColor, 0.47),
+                    new GradientStop(darkColor, 0.63),
+                    new GradientStop(transparentColor, 0.7)
                 }),
-                new Point(0, 1),
-                new Point(1, 0)
+                new Point(0, 0),
+                new Point(1, 1)
             );
 
             half = new LinearGradientBrush(new GradientStopCollection(new List<GradientStop>
@@ -54,23 +57,25 @@ namespace RetiraTracker.View.UserControls
                     new GradientStop(transparentColor, 0.49),
                     new GradientStop(darkColor, 0.51)
                 }),
-                new Point(0, 1),
-                new Point(1, 0)
+                new Point(0, 0),
+                new Point(1, 1)
             );
-
-            Dots = new Ellipse[12] { Dot00, Dot01, Dot02, Dot03, Dot04, Dot05, Dot06, Dot07, Dot08, Dot09, Dot10, Dot11 };
-            Rects = new Rectangle[] { Rect00 };
 
             MaxHealthChanged += (sender, e) =>
             {
-                SetDotsFills(MaxHealth);
+                DamageMeter.Clear();
+                TranslateDamage();
+                PenTextBlock.Text = Penalties();
             };
 
             DamageChanged += (sender, e) =>
             {
-                SetRectsFills(Damage);
+                TranslateDamage();
+                PenTextBlock.Text = Penalties();
                 ValueChanged?.Execute(null);
             };
+
+            DamageMeter = new();
         }
 
         public static DependencyProperty MaxHealthProperty = DependencyProperty.Register("MaxHealth", typeof(int), typeof(CoDHealthControl), new PropertyMetadata(0, OnMaxHealthChanged));
@@ -81,10 +86,7 @@ namespace RetiraTracker.View.UserControls
                 int val = (int)GetValue(MaxHealthProperty);
                 return val;
             }
-            set
-            {
-                SetValue(MaxHealthProperty, value);
-            }
+            set { SetValue(MaxHealthProperty, value); }
         }
 
         private static void OnMaxHealthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -95,18 +97,15 @@ namespace RetiraTracker.View.UserControls
                 source.MaxHealthChanged(source, EventArgs.Empty);
         }
 
-        public static DependencyProperty DamageProperty = DependencyProperty.Register("Damage", typeof(string), typeof(CoDHealthControl), new PropertyMetadata(string.Empty, OnDamageChanged));
-        public string Damage
+        public static DependencyProperty DamageProperty = DependencyProperty.Register("Damage", typeof(List<char>), typeof(CoDHealthControl), new PropertyMetadata(new List<char>(), OnDamageChanged));
+        public List<char> Damage
         {
             get
             {
-                string val = (string)GetValue(DamageProperty);
+                List<char> val = (List<char>)GetValue(DamageProperty);
                 return val;
             }
-            set
-            {
-                SetValue(DamageProperty, value);
-            }
+            set { SetValue(DamageProperty, value); }
         }
 
         private static void OnDamageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -117,33 +116,126 @@ namespace RetiraTracker.View.UserControls
                 source.DamageChanged(source, EventArgs.Empty);
         }
 
-        public static DependencyProperty ValueChangedProperty = DependencyProperty.Register("ValueChanged", typeof(ICommand), typeof(Rect5NumberControl));
+        public static DependencyProperty ValueChangedProperty = DependencyProperty.Register("ValueChanged", typeof(ICommand), typeof(CoDHealthControl));
         public ICommand ValueChanged
         {
             get { return (ICommand)GetValue(ValueChangedProperty); }
             set { SetValue(ValueChangedProperty, value); }
         }
 
-        public ICommand Rect00Command { get { return new RelayCommand((e) => { TranslateDamage(0); }); } }
-
-
-        private void SetDotsFills(int val = 0)
+        public ICommand HealthUpCommand
         {
-            for (int i = 0; i < 12; i++)
-                Dots[i].Fill = transparent;
+            get
+            {
+                return new RelayCommand((e) =>
+                {
+                    MouseEventArgs me = (MouseEventArgs)e;
+                    Path originalSource = (Path)me.OriginalSource;
+                    Grid sourceParent = (Grid)originalSource.Parent;
+                    TextBlock tblock = (TextBlock)sourceParent.Children[1];
+                    int index = int.Parse(tblock.Text);
+                    DamageUp(index);
 
-            for (int i = 0; i < val; i++)
-                Dots[i].Fill = dark;
+                });
+            }
         }
 
-        private void SetRectsFills(string val = "")
+        public ICommand HealthDownCommand
         {
+            get
+            {
+                return new RelayCommand((e) =>
+                {
+                    MouseEventArgs me = (MouseEventArgs)e;
+                    Path originalSource = (Path)me.OriginalSource;
+                    Grid sourceParent = (Grid)originalSource.Parent;
+                    TextBlock tblock = (TextBlock)sourceParent.Children[1];
+                    int index = int.Parse(tblock.Text);
+                    DamageDown(index);
 
+                });
+            }
         }
 
-        private void TranslateDamage(int pos)
+        private void DamageUp(int index)
         {
+            char target = Damage[index];
 
+            char output = target switch
+            {
+                ' ' => '/',
+                '/' => 'X',
+                'X' => '*',
+                _ => ' '
+            };
+
+            Damage[index] = output;
+            DamageChanged(null, EventArgs.Empty);
+        }
+
+        private void DamageDown(int index)
+        {
+            char target = Damage[index];
+
+            char output = target switch
+            {
+                ' ' => '*',
+                '/' => ' ',
+                'X' => '/',
+                '*' => 'X',
+                _ => ' '
+            };
+
+            Damage[index] = output;
+            DamageChanged.Invoke(null, null);
+        }
+
+        private void TranslateDamage()
+        {
+            if(Damage.Count != MaxHealth)
+            {
+                char[] tDmg = Damage.ToArray();
+                Damage.Clear();
+                for (int i = 0; i < MaxHealth; i++)
+                {
+                    if (i >= tDmg.Length)
+                        Damage.Add(' ');
+                    else
+                        Damage.Add(tDmg[i]);
+                }
+            }
+
+            DamageMeter.Clear();
+            for(int i = 0; i < MaxHealth; i++)
+            {
+                switch(Damage[i])
+                {
+                    case ' ':
+                        DamageMeter.Add(new EnumeratedBrush(i, ' ', transparent));
+                        break;
+                    case '/':
+                        DamageMeter.Add(new EnumeratedBrush(i, '/', slash));
+                        break;
+                    case 'X':
+                        DamageMeter.Add(new EnumeratedBrush(i, 'X', half));
+                        break;
+                    case '*':
+                    default:
+                        DamageMeter.Add(new EnumeratedBrush(i, '*', dark));
+                        break;
+                }
+            }
+        }
+
+        private string Penalties()
+        {
+            if (Damage[^1] != ' ')
+                return "-3";
+            if (Damage.Count >= 2 && Damage[^2] != ' ')
+                return "-2";
+            if (Damage.Count >= 3 && Damage[^3] != ' ')
+                return "-1";
+            return "0";
         }
     }
 }

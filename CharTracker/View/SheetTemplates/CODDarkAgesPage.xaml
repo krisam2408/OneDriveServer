@@ -25,7 +25,7 @@
                 <Setter Property="BorderThickness" Value="0,0,0,1.5" />
                 <Setter Property="BorderBrush" Value="{StaticResource Dark}" />
                 <Setter Property="FontFamily" Value="Consolas" />
-                <Setter Property="Padding" Value="2" />
+                <Setter Property="Padding" Value="8,2" />
             </Style.Setters>
         </Style>
 
@@ -39,8 +39,8 @@
             </Style.Setters>
         </Style>
     </Page.Resources>
-    <ScrollViewer HorizontalContentAlignment="Center" DataContext="{Binding Campaign}">
-        <Border Background="{StaticResource Light}" Padding="8">
+    <ScrollViewer HorizontalContentAlignment="Center" DataContext="{Binding Campaign}" Margin="0,0,0,16">
+        <Border Background="{StaticResource Light}" Padding="8,8,8,32">
             <StackPanel Orientation="Vertical">
                 <TextBlock Text="{Binding CampaignsName}" HorizontalAlignment="Center" FontSize="24" Style="{StaticResource SheetText}" FontWeight="Bold" />
 
@@ -336,7 +336,7 @@
                             <controls:CircleButtonControl Diameter="40" Command="{Binding Commands.AddMeritCommand}" Data="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" BorderBackground="{StaticResource Blau}" HorizontalAlignment="Center" CustomParameter="{x:Reference MeritList}" Margin="0,8,0,0" />
                         </StackPanel>
 
-                        <StackPanel Margin="8,0">
+                        <StackPanel Margin="8,8">
                             <StackPanel Orientation="Horizontal" Margin="0,4">
                                 <TextBlock Text="Size:" Style="{StaticResource SheetText}" Width="120" VerticalAlignment="Center" />
                                 <TextBox Style="{StaticResource SheetEntry}" Text="{Binding SheetData.Size, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" core:TextBehaviour.TextChangedCommand="{Binding UpdateSheetCommand}" />
@@ -344,7 +344,7 @@
                             
                             <StackPanel Orientation="Horizontal" Margin="0,4">
                                 <TextBlock Text="Speed:" Style="{StaticResource SheetText}" Width="120" VerticalAlignment="Center" />
-                                <TextBox Style="{StaticResource SheetEntry}" Text="{Binding SheetData.Speed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" core:TextBehaviour.TextChangedCommand="{Binding UpdateSheetCommand}" />
+                                <TextBox Style="{StaticResource SheetEntry}" Text="{Binding SheetData.Speed, Mode=OneWay}" core:TextBehaviour.TextChangedCommand="{Binding UpdateSheetCommand}" />
                             </StackPanel>
                             
                             <StackPanel Orientation="Horizontal" Margin="0,4">
@@ -380,8 +380,34 @@
 
                         <StackPanel Margin="8,0">
                             <TextBlock Text="Health" Style="{StaticResource SheetTitle}" />
+                            <controls:CoDHealthControl MaxHealth="{Binding SheetData.Health, Mode=OneWay}" Damage="{Binding SheetData.Damage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" />
                         </StackPanel>
                         
+                        <StackPanel Margin="8,8,8,0">
+                            <TextBlock Text="Willpower" Style="{StaticResource SheetTitle}" />
+                            <controls:CoDWillpowerControl MaxWillpower="{Binding SheetData.Willpower, Mode=OneWay}" CurrentWillpower="{Binding SheetData.CurrentWillpower, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" Margin="0,8,0,0" />
+                        </StackPanel>
+
+                        <StackPanel Margin="8,8,8,0">
+                            <TextBlock Text="Integrity" Style="{StaticResource SheetTitle}" />
+                            <controls:DotNumberControl Number="{Binding SheetData.Integrity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" Margin="0,8,0,0" HorizontalAlignment="Center" />
+                        </StackPanel>
+
+                        <StackPanel Margin="8,8,8,0">
+                            <TextBlock Text="Conditions" Style="{StaticResource SheetTitle}" />
+                            <ListView x:Name="ConditionsList" ItemsSource="{Binding SheetData.Conditions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <controls:CircleButtonControl Diameter="16" Command="{Binding Terminal.Campaign.Commands.RemoveConditionCommand, Source={StaticResource Locator}}" BorderBackground="{StaticResource Rot}" Data="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" CustomParameter="{x:Reference MeritList}" Margin="0,0,8,0" />
+                                            <TextBox Text="{Binding ., Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding Terminal.Campaign.UpdateSheetCommand, Source={StaticResource Locator}}" Margin="0,0,8,0" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ListView>
+                            <controls:CircleButtonControl Diameter="40" Command="{Binding Commands.AddConditionCommand}" Data="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" BorderBackground="{StaticResource Blau}" HorizontalAlignment="Center" CustomParameter="{x:Reference ConditionsList}" Margin="0,8,0,0" />
+                        </StackPanel>
+
                     </StackPanel>
                     
                 </Grid>

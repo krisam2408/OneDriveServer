@@ -54,7 +54,7 @@ namespace RetiraTracker.ViewModels
             set { SetValue(ref sheetData, value); } 
         }
 
-        public ICommand UpdateSheetCommand { get { return new RelayCommand(async (e) => await UpdateSheet()); } }
+        public ICommand UpdateSheetCommand { get { return new RelayCommand((e) => UpdateSheet()); } }
 
         private CampaignViewModel() { }
 
@@ -96,7 +96,7 @@ namespace RetiraTracker.ViewModels
             return vm;
         }
 
-        private async Task UpdateSheet()
+        private void UpdateSheet()
         {
             SheetData.LastModified = DateTime.Now;
 

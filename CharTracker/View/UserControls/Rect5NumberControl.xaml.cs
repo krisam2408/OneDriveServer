@@ -22,7 +22,7 @@ namespace RetiraTracker.View.UserControls
     public partial class Rect5NumberControl : UserControl
     {
         private readonly SolidColorBrush transparent = new SolidColorBrush(Color.FromArgb(30, 0, 0, 0));
-        private readonly SolidColorBrush dark = (SolidColorBrush)Application.Current.Resources["Dark"];
+        private readonly LinearGradientBrush slash;
         private Rectangle[] Rects;
 
         public EventHandler NumberChanged;
@@ -30,6 +30,20 @@ namespace RetiraTracker.View.UserControls
         public Rect5NumberControl()
         {
             InitializeComponent();
+
+            Color transparentColor = transparent.Color;
+            Color darkColor = (Color)Application.Current.Resources["DarkColor"];
+
+            slash = new LinearGradientBrush(new GradientStopCollection(new List<GradientStop>
+                {
+                    new GradientStop(transparentColor, 0.4),
+                    new GradientStop(darkColor, 0.47),
+                    new GradientStop(darkColor, 0.63),
+                    new GradientStop(transparentColor, 0.7)
+                }),
+                new Point(0, 0),
+                new Point(1, 1)
+            );
 
             Rects = new Rectangle[5] { Rect0, Rect1, Rect2, Rect3, Rect4 };
 
@@ -99,7 +113,7 @@ namespace RetiraTracker.View.UserControls
                 Rects[i].Fill = transparent;
 
             for (int i = 0; i < val; i++)
-                Rects[i].Fill = dark;
+                Rects[i].Fill = slash;
         }
     }
 }
