@@ -157,14 +157,14 @@ namespace RetiraTracker.Model
             await Explorer.ShareFile(folderId, player.EmailAddress);
 
             string playerJson = JsonConvert.SerializeObject(player);
-            byte[] playerBuffer = Encoding.UTF8.GetBytes(playerJson);
+            byte[] buffer = Encoding.UTF8.GetBytes(playerJson);
 
             string filename = player.EmailAddress.Split('@')[0];
 
-            await Explorer.UploadFileAsync($"{filename}.json", folderId, playerBuffer, MimeTypes.Text);
+            await Explorer.UploadFileAsync($"{filename}.json", folderId, buffer, MimeTypes.Text);
         }
 
-        public async Task<string> GetPlayer(string fileName, string folderId)
+        public async Task<string> GetPlayerAsync(string fileName, string folderId)
         {
             FileMetadata metadata = await Explorer.GetFileMetaDataAsync(fileName, folderId, MimeTypes.Text);
 
@@ -173,6 +173,27 @@ namespace RetiraTracker.Model
             string output = Encoding.UTF8.GetString(fileBuffer);
 
             return output;
+        }
+
+        public async Task<bool> UpdatePlayerAsync(string filename, string folderId, Player player)
+        {
+            try
+            {
+                string playerJson = JsonConvert.SerializeObject(player);
+                byte[] buffer = Encoding.UTF8.GetBytes(playerJson);
+
+                await Explorer.UploadFileAsync(filename, folderId, buffer, MimeTypes.Text);
+            }
+            catch(Exception ex)
+            {
+                Type exType = ex.GetType();
+                string strExType = exType.ToString();
+                Debug.WriteLine(strExType);
+
+                return false;
+            }
+
+            return true;
         }
 
     }

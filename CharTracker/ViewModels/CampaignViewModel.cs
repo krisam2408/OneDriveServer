@@ -13,12 +13,14 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace RetiraTracker.ViewModels
 {
     public class CampaignViewModel:BaseViewModel
     {
+        private Campaign CurrentCampaign { get; set; }
         public ITemplateCommand Commands { get; set; }
 
         private string campaignsName;
@@ -40,7 +42,20 @@ namespace RetiraTracker.ViewModels
                     sheet.SetAppSheet();
                     SheetData = sheet.Sheet;
                     SheetSource = $"SheetTemplates/{sheet.Sheet.SheetFrame}";
+                    ChangeSheetButtonVisibility = SheetData.CanChange ? Visibility.Visible : Visibility.Hidden;
                 }
+            }
+        }
+
+        private Visibility changeSheetButtonVisibility;
+        public Visibility ChangeSheetButtonVisibility { get { return changeSheetButtonVisibility; } set { SetValue(ref changeSheetButtonVisibility, value); } }
+
+        public new bool IsEnabled
+        {
+            get { return Terminal.IsEnabled; }
+            set
+            {
+                Terminal.IsEnabled = value;
             }
         }
 
@@ -48,19 +63,19 @@ namespace RetiraTracker.ViewModels
         public string SheetSource { get { return sheetSource; } set { SetValue(ref sheetSource, value); } }
 
         private ISheet sheetData;
-        public ISheet SheetData 
-        { 
-            get { return sheetData; } 
-            set { SetValue(ref sheetData, value); } 
-        }
+        public ISheet SheetData { get { return sheetData; } set { SetValue(ref sheetData, value); } }
 
         public ICommand UpdateSheetCommand { get { return new RelayCommand((e) => UpdateSheet()); } }
+        public ICommand SyncSheetsCommand { get { return new RelayCommand(async (e) => await SyncSheets()); } }
 
-        private CampaignViewModel() { }
+        private CampaignViewModel(Campaign campaign) 
+        {
+            CurrentCampaign = campaign;
+        }
 
         public static async Task<CampaignViewModel> CreateAsync(Campaign campaign)
         {
-            CampaignViewModel vm = new();
+            CampaignViewModel vm = new(campaign);
 
             vm.CampaignsName = campaign.Name;
 
@@ -72,7 +87,7 @@ namespace RetiraTracker.ViewModels
             int i = 0;
             foreach(string ply in players)
             {
-                string playerJson = await ExplorerManager.Instance.GetPlayer(ply, campaign.FolderID);
+                string playerJson = await ExplorerManager.Instance.GetPlayerAsync(ply, campaign.FolderID);
                 Player player = JsonConvert.DeserializeObject<Player>(playerJson);
                 AppSheet sheet = new();
                 sheet.SetAppSheet(player);
@@ -111,6 +126,54 @@ namespace RetiraTracker.ViewModels
             NotifyPropertyChanged(nameof(SheetData));
         }
 
+        private async Task SyncSheets()
+        {
+            Terminal.Instance.Navigation.IsLoading(true);
+            IsEnabled = false;
+
+            int result = 0;
+
+            for(int i = 0; i < SheetList.Count; i++)
+            {
+                AppSheet localAppSheet = SheetList[i].GetContent<AppSheet>();
+                localAppSheet.SetAppSheet();
+                ISheet localSheet = localAppSheet.Sheet;
+
+                string playerID = SetPlayerDisplay(localAppSheet.Player.EmailAddress);
+                string onlinePlayerJson = await ExplorerManager.Instance.GetPlayerAsync(playerID, CurrentCampaign.FolderID);
+                Player onlinePlayer = JsonConvert.DeserializeObject<Player>(onlinePlayerJson);
+                AppSheet onlineAppSheet = new();
+                onlineAppSheet.SetAppSheet(onlinePlayer);
+                ISheet onlineSheet = onlineAppSheet.Sheet;
+
+                if(localSheet.LastModified > onlineSheet.LastModified)
+                {
+                    Player localPlayer = new()
+                    {
+                        EmailAddress = onlinePlayer.EmailAddress,
+                        SheetTemplate = onlinePlayer.SheetTemplate,
+                        SheetJson = JsonConvert.SerializeObject(localSheet)
+                    };
+                    bool transResult = await ExplorerManager.Instance.UpdatePlayerAsync(playerID, CurrentCampaign.FolderID, localPlayer);
+
+                    if (!transResult)
+                        result++;
+                }
+                else
+                {
+                    SheetList[i].SetContent(onlineAppSheet);
+                }
+            }
+
+            if(result > 0)
+            {
+                // Popup de resultados con errores
+            }
+
+            IsEnabled = true;
+            Terminal.Instance.Navigation.IsLoading(false);
+        }
+
         private string SheetPlayerDisplay()
         {
             if (!string.IsNullOrWhiteSpace(SheetData.CharacterName))
@@ -147,21 +210,19 @@ namespace RetiraTracker.ViewModels
             {
                 return campaign.Players
                     .Where(p => p.ToUpper() == Terminal.Instance.Navigation.UserMail.ToUpper())
-                    .Select(p =>
-                    {
-                        string user = p.Split('@')[0];
-                        return $"{user}.json";
-                    })
+                    .Select(p => SetPlayerDisplay(p))
                     .ToArray();
             }
 
             return campaign.Players
-                .Select(p =>
-                {
-                    string user = p.Split('@')[0];
-                    return $"{user}.json";
-                })
+                .Select(p => SetPlayerDisplay(p))
                 .ToArray();
+        }
+
+        private static string SetPlayerDisplay(string playerEmail)
+        {
+            string user = playerEmail.Split('@')[0];
+            return $"{user}.json";
         }
     }
 }

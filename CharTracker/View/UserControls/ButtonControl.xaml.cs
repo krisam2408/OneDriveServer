@@ -55,7 +55,7 @@ namespace RetiraTracker.View.UserControls
         private SolidColorBrush SetDisabledColor()
         {
             HSBColor activeColor = HSBColor.FromARGB(255, BorderBackground.Color.R, BorderBackground.Color.G, BorderBackground.Color.B);
-            activeColor.Brighten(16);
+            activeColor.Desaturate(16);
             byte[] color = activeColor.ToARGB();
             Color brushColor = Color.FromArgb(color[0], color[1], color[2], color[3]);
             return new SolidColorBrush(brushColor);

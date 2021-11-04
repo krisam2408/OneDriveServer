@@ -1,4 +1,5 @@
-﻿using SheetDrama.Abstracts;
+﻿using System;
+using SheetDrama.Abstracts;
 using SheetDrama.DataTransfer;
 using System.Collections.Generic;
 
@@ -74,8 +75,8 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
             set { merits = value; }
         }
 
-        private List<string> conditions;
-        public List<string> Conditions 
+        private List<KeyStringValue> conditions;
+        public List<KeyStringValue> Conditions 
         {
             get
             {
@@ -86,8 +87,8 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
             set { conditions = value; }
         }
 
-        private List<string> aspirations;
-        public List<string> Aspirations 
+        private List<KeyStringValue> aspirations;
+        public List<KeyStringValue> Aspirations 
         {
             get
             {
@@ -164,8 +165,8 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
 
         public int Integrity { get; set; }
 
-        private List<string> inventory;
-        public List<string> Inventory 
+        private List<KeyStringValue> inventory;
+        public List<KeyStringValue> Inventory 
         {
             get
             {
@@ -178,6 +179,8 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
 
         public CoDDarkAgesSheet(string frame, string[] styles, string[] scripts) : base(frame, styles, scripts)
         {
+            CanChangeTo = new Type[] { };
+
             Intelligence = 1;
             Wits = 1;
             Resolve = 1;

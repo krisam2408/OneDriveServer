@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.Apis.Drive.v3" Version="1.53.0.2397" />
+    <PackageReference Include="Google.Apis.Drive.v3" Version="1.55.0.2481" />
   </ItemGroup>
 
 </Project>

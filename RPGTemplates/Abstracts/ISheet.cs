@@ -5,6 +5,17 @@ namespace SheetDrama.Abstracts
 {
     public abstract class ISheet
     {
+        public Type[] CanChangeTo { get; init; }
+        public bool CanChange 
+        { 
+            get
+            {
+                if (CanChangeTo != null && CanChangeTo.Length > 0)
+                    return true;
+                return false;
+            }
+        }
+
         public string SheetId { get; set; }
         public string CharacterName { get; set; }
         public string PlayerName { get; set; }

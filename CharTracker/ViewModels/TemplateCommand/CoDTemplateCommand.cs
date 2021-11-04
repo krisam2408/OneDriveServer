@@ -19,20 +19,19 @@ namespace RetiraTracker.ViewModels.TemplateCommand
     {
         private BaseViewModel Parent { get; init; }
 
-        public ICommand AddMeritCommand { get { return new RelayCommand(e => AddMerit((MouseEventArgs)e)); } }
-        public ICommand RemoveMeritCommand { get { return new RelayCommand((e) => RemoveMerit((MouseEventArgs)e)); } }
-        public ICommand AddConditionCommand { get { return new RelayCommand(e => AddCondition((MouseEventArgs)e)); } }
-        public ICommand RemoveConditionCommand { get { return new RelayCommand((e) => RemoveCondition((MouseEventArgs)e)); } }
-
+        public ICommand AddIntValueCommand { get { return new RelayCommand(e => AddIntValueToList((MouseEventArgs)e)); } }
+        public ICommand RemoveIntValueCommand { get { return new RelayCommand((e) => RemoveIntValueFromList((MouseEventArgs)e)); } }
+        public ICommand AddStringValueCommand { get { return new RelayCommand(e => AddStringValueToList((MouseEventArgs)e)); } }
+        public ICommand RemoveStringValueCommand { get { return new RelayCommand((e) => RemoveStringValueFromList((MouseEventArgs)e)); } }
 
         public CoDTemplateCommand(BaseViewModel parent)
         {
             Parent = parent;
         }
 
-        private void AddMerit(MouseEventArgs e)
+        private void AddIntValueToList(MouseEventArgs e)
         {
-            ListView meritListControl = null;
+            ListView listControl = null;
             FrameworkElement source = (FrameworkElement)e.OriginalSource;
 
             do
@@ -41,26 +40,26 @@ namespace RetiraTracker.ViewModels.TemplateCommand
                     .GetProperty("CustomParameter");
 
                 if (propInfo != null)
-                    meritListControl = (ListView)propInfo.GetValue(source);
+                    listControl = (ListView)propInfo.GetValue(source);
 
                 source = (FrameworkElement)source.Parent;
 
-            } while (meritListControl == null && source != null);
+            } while (listControl == null && source != null);
 
-            List<KeyIntValue> meritList = new();
+            List<KeyIntValue> list = new();
 
-            if (meritListControl.ItemsSource != null)
-                meritList = (List<KeyIntValue>)meritListControl.ItemsSource;
+            if (listControl.ItemsSource != null)
+                list = (List<KeyIntValue>)listControl.ItemsSource;
 
-            meritList.Add(new KeyIntValue());
+            list.Add(new KeyIntValue());
 
-            meritListControl.ItemsSource = null;
-            meritListControl.ItemsSource = meritList;
+            listControl.ItemsSource = null;
+            listControl.ItemsSource = list;
         }
 
-        private void RemoveMerit(MouseEventArgs e)
+        private void RemoveIntValueFromList(MouseEventArgs e)
         {
-            ListView meritListControl = null;
+            ListView listControl = null;
             FrameworkElement source = (FrameworkElement)e.OriginalSource;
 
             do
@@ -69,32 +68,32 @@ namespace RetiraTracker.ViewModels.TemplateCommand
                     .GetProperty("CustomParameter");
 
                 if (propInfo != null)
-                    meritListControl = (ListView)propInfo.GetValue(source);
+                    listControl = (ListView)propInfo.GetValue(source);
 
                 source = (FrameworkElement)source.Parent;
 
-            } while (meritListControl == null && source != null);
+            } while (listControl == null && source != null);
 
-            List<KeyIntValue> meritList = (List<KeyIntValue>)meritListControl.ItemsSource;
+            List<KeyIntValue> list = (List<KeyIntValue>)listControl.ItemsSource;
 
             string key = ((TextBox)((StackPanel)source).Children[1]).Text;
 
-            KeyIntValue valueToRemove = meritList.FirstOrDefault(k => k.Key == key);
+            KeyIntValue valueToRemove = list.FirstOrDefault(k => k.Key == key);
 
             if (valueToRemove == null)
                 return;
 
-            meritList.Remove(valueToRemove);
+            list.Remove(valueToRemove);
 
-            meritListControl.ItemsSource = null;
-            meritListControl.ItemsSource = meritList;
+            listControl.ItemsSource = null;
+            listControl.ItemsSource = list;
 
             ((CampaignViewModel)Parent).UpdateSheetCommand.Execute(null);
         }
 
-        private void AddCondition(MouseEventArgs e)
+        private void AddStringValueToList(MouseEventArgs e)
         {
-            ListView conditionListControl = null;
+            ListView listControl = null;
             FrameworkElement source = (FrameworkElement)e.OriginalSource;
 
             do
@@ -103,26 +102,56 @@ namespace RetiraTracker.ViewModels.TemplateCommand
                     .GetProperty("CustomParameter");
 
                 if (propInfo != null)
-                    conditionListControl = (ListView)propInfo.GetValue(source);
+                    listControl = (ListView)propInfo.GetValue(source);
 
                 source = (FrameworkElement)source.Parent;
 
-            } while (conditionListControl == null && source != null);
+            } while (listControl == null && source != null);
 
-            List<string> conditionList = new();
+            List<KeyStringValue> list = new();
 
-            if (conditionListControl.ItemsSource != null)
-                conditionList = (List<string>)conditionListControl.ItemsSource;
+            if (listControl.ItemsSource != null)
+                list = (List<KeyStringValue>)listControl.ItemsSource;
 
-            conditionList.Add(string.Empty);
+            list.Add(new KeyStringValue());
 
-            conditionListControl.ItemsSource = null;
-            conditionListControl.ItemsSource = conditionList;
+            listControl.ItemsSource = null;
+            listControl.ItemsSource = list;
         }
 
-        private void RemoveCondition(MouseEventArgs e)
+        private void RemoveStringValueFromList(MouseEventArgs e)
         {
+            ListView listControl = null;
+            FrameworkElement source = (FrameworkElement)e.OriginalSource;
 
+            do
+            {
+                PropertyInfo propInfo = source.GetType()
+                    .GetProperty("CustomParameter");
+
+                if (propInfo != null)
+                    listControl = (ListView)propInfo.GetValue(source);
+
+                source = (FrameworkElement)source.Parent;
+
+            } while (listControl == null && source != null);
+
+            List<KeyStringValue> list = (List<KeyStringValue>)listControl.ItemsSource;
+
+            string key = ((TextBox)((StackPanel)source).Children[1]).Text;
+
+            KeyStringValue valueToRemove = list.FirstOrDefault(k => k.Key == key);
+
+            if (valueToRemove == null)
+                return;
+
+            list.Remove(valueToRemove);
+
+            listControl.ItemsSource = null;
+            listControl.ItemsSource = list;
+
+            ((CampaignViewModel)Parent).UpdateSheetCommand.Execute(null);
         }
+
     }
 }

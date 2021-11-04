@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:RetiraTracker.View"
+      xmlns:controls="clr-namespace:RetiraTracker.View.UserControls"
       mc:Ignorable="d"
       DataContext="{Binding Terminal, Source={StaticResource Locator}}">
 
@@ -12,8 +13,18 @@
             <ColumnDefinition Width="80" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <ListView ItemsSource="{Binding SheetList}" SelectedItem="{Binding SelectedSheet}" SelectionMode="Single" Grid.Column="0" Style="{StaticResource AngledList}" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="52" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
 
-        <Frame Grid.Column="1" Source="{Binding SheetSource}" Margin="8,0,0,0" />
+        <ListView Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" ItemsSource="{Binding SheetList}" SelectedItem="{Binding SelectedSheet}" SelectionMode="Single" Style="{StaticResource AngledList}" />
+
+        <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
+            <controls:ButtonControl Text="Change Sheet" BorderWidth="126" BorderHeight="40" BorderBackground="{StaticResource Lila}" Visibility="{Binding ChangeSheetButtonVisibility}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+            <controls:ButtonControl Text="Sync" BorderWidth="126" BorderHeight="40" BorderBackground="{StaticResource Blau}" Margin="8, 0" Command="{Binding SyncSheetsCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+        </StackPanel>
+        
+        <Frame Grid.Column="1" Grid.Row="1" Source="{Binding SheetSource}" Margin="8,0,0,0" />
     </Grid>
 </Page>

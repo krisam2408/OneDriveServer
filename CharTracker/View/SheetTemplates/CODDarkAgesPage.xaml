@@ -326,14 +326,14 @@
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <controls:CircleButtonControl Diameter="16" Command="{Binding Terminal.Campaign.Commands.RemoveMeritCommand, Source={StaticResource Locator}}" BorderBackground="{StaticResource Rot}" Data="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" CustomParameter="{x:Reference MeritList}" Margin="0,0,8,0" />
+                                            <controls:CircleButtonControl Diameter="16" Command="{Binding Terminal.Campaign.Commands.RemoveIntValueCommand, Source={StaticResource Locator}}" BorderBackground="{StaticResource Rot}" Data="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" CustomParameter="{x:Reference MeritList}" Margin="0,0,8,0" />
                                             <TextBox Text="{Binding Key, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding Terminal.Campaign.UpdateSheetCommand, Source={StaticResource Locator}}" Margin="0,0,8,0" />
                                             <controls:DotNumberControl Number="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand, Source={StaticResource Locator}}" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ListView>
-                            <controls:CircleButtonControl Diameter="40" Command="{Binding Commands.AddMeritCommand}" Data="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" BorderBackground="{StaticResource Blau}" HorizontalAlignment="Center" CustomParameter="{x:Reference MeritList}" Margin="0,8,0,0" />
+                            <controls:CircleButtonControl Diameter="40" Command="{Binding Commands.AddIntValueCommand}" Data="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" BorderBackground="{StaticResource Blau}" HorizontalAlignment="Center" CustomParameter="{x:Reference MeritList}" Margin="0,8,0,0" />
                         </StackPanel>
 
                         <StackPanel Margin="8,8">
@@ -373,7 +373,22 @@
                             </StackPanel>
                             
                         </StackPanel>
-                        
+
+                        <StackPanel Margin="8,8,8,0">
+                            <TextBlock Text="Specialties" Style="{StaticResource SheetTitle}" />
+                            <ListView x:Name="SpecialtiesList" ItemsSource="{Binding SheetData.Specialties, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <controls:CircleButtonControl Diameter="16" Command="{Binding Terminal.Campaign.Commands.RemoveStringValueCommand, Source={StaticResource Locator}}" BorderBackground="{StaticResource Rot}" Data="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" CustomParameter="{x:Reference SpecialtiesList}" Margin="0,0,8,0" />
+                                            <TextBox Text="{Binding Key, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding Terminal.Campaign.UpdateSheetCommand, Source={StaticResource Locator}}" Margin="0,0,8,0" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ListView>
+                            <controls:CircleButtonControl Diameter="40" Command="{Binding Commands.AddStringValueCommand}" Data="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" BorderBackground="{StaticResource Blau}" HorizontalAlignment="Center" CustomParameter="{x:Reference SpecialtiesList}" Margin="0,8,0,0" />
+                        </StackPanel>
+
                     </StackPanel>
 
                     <StackPanel Grid.Column="2" Grid.Row="1" Margin="0,8,0,0">
@@ -399,18 +414,50 @@
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <controls:CircleButtonControl Diameter="16" Command="{Binding Terminal.Campaign.Commands.RemoveConditionCommand, Source={StaticResource Locator}}" BorderBackground="{StaticResource Rot}" Data="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" CustomParameter="{x:Reference MeritList}" Margin="0,0,8,0" />
-                                            <TextBox Text="{Binding ., Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding Terminal.Campaign.UpdateSheetCommand, Source={StaticResource Locator}}" Margin="0,0,8,0" />
+                                            <controls:CircleButtonControl Diameter="16" Command="{Binding Terminal.Campaign.Commands.RemoveStringValueCommand, Source={StaticResource Locator}}" BorderBackground="{StaticResource Rot}" Data="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" CustomParameter="{x:Reference ConditionsList}" Margin="0,0,8,0" />
+                                            <TextBox Text="{Binding Key, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding Terminal.Campaign.UpdateSheetCommand, Source={StaticResource Locator}}" Margin="0,0,8,0" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ListView>
-                            <controls:CircleButtonControl Diameter="40" Command="{Binding Commands.AddConditionCommand}" Data="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" BorderBackground="{StaticResource Blau}" HorizontalAlignment="Center" CustomParameter="{x:Reference ConditionsList}" Margin="0,8,0,0" />
+                            <controls:CircleButtonControl Diameter="40" Command="{Binding Commands.AddStringValueCommand}" Data="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" BorderBackground="{StaticResource Blau}" HorizontalAlignment="Center" CustomParameter="{x:Reference ConditionsList}" Margin="0,8,0,0" />
+                        </StackPanel>
+
+                        <StackPanel Margin="8,8,8,0">
+                            <TextBlock Text="Aspirations" Style="{StaticResource SheetTitle}" />
+                            <ListView x:Name="AspirationsList" ItemsSource="{Binding SheetData.Aspirations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <controls:CircleButtonControl Diameter="16" Command="{Binding Terminal.Campaign.Commands.RemoveStringValueCommand, Source={StaticResource Locator}}" BorderBackground="{StaticResource Rot}" Data="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" CustomParameter="{x:Reference AspirationsList}" Margin="0,0,8,0" />
+                                            <TextBox Text="{Binding Key, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding Terminal.Campaign.UpdateSheetCommand, Source={StaticResource Locator}}" Margin="0,0,8,0" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ListView>
+                            <controls:CircleButtonControl Diameter="40" Command="{Binding Commands.AddStringValueCommand}" Data="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" BorderBackground="{StaticResource Blau}" HorizontalAlignment="Center" CustomParameter="{x:Reference AspirationsList}" Margin="0,8,0,0" />
                         </StackPanel>
 
                     </StackPanel>
                     
                 </Grid>
+
+                <Border BorderBrush="{StaticResource Dark}" BorderThickness="0,2,0,0" Margin="0,8,0,0" Padding="8">
+                    <StackPanel Margin="8,0">
+                        <TextBlock Text="Inventory" Style="{StaticResource SheetTitle}" TextAlignment="Left" HorizontalAlignment="Left" />
+                        <ListView x:Name="InventoryList" ItemsSource="{Binding SheetData.Inventory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Margin="0,2">
+                                        <controls:CircleButtonControl Diameter="16" Command="{Binding Terminal.Campaign.Commands.RemoveStringValueCommand, Source={StaticResource Locator}}" BorderBackground="{StaticResource Rot}" Data="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" CustomParameter="{x:Reference InventoryList}" Margin="0,0,8,0" />
+                                        <TextBox Text="{Binding Key, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding Terminal.Campaign.UpdateSheetCommand, Source={StaticResource Locator}}" Margin="0,0,8,0" Width="1024" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ListView>
+                        <controls:CircleButtonControl Diameter="40" Command="{Binding Commands.AddStringValueCommand}" Data="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" BorderBackground="{StaticResource Blau}" HorizontalAlignment="Center" CustomParameter="{x:Reference InventoryList}" Margin="0,8,0,0" />
+                    </StackPanel>
+                </Border>
             </StackPanel>
         </Border>
     </ScrollViewer>
