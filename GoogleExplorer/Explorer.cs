@@ -81,12 +81,7 @@ namespace GoogleExplorer
             }
             catch(Google.Apis.Auth.OAuth2.Responses.TokenResponseException ex)
             {
-                await Task.Delay(2500);
-
-                AboutResource.GetRequest userRequest = DriveService.About.Get();
-                userRequest.Fields = "user";
-                About user = await userRequest.ExecuteAsync();
-                UserMail = user.User.EmailAddress;
+                return RequestResult.TokenExpired;
             }
             catch(Exception ex)
             {

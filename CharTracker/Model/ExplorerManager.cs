@@ -64,6 +64,8 @@ namespace RetiraTracker.Model
                 {
                     case RequestResult.Cancelled:
                         return "## Operation canceled.";
+                    case RequestResult.TokenExpired:
+                        return "## There was an authentiocation problem. PLease try again.";
                     default:
                         return "## 100";
                 }
