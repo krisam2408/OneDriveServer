@@ -17,6 +17,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Diagnostics;
 using RetiraTracker.View.Popups;
+using RetiraTracker.Extensions;
 
 namespace RetiraTracker.ViewModels
 {
@@ -272,15 +273,9 @@ namespace RetiraTracker.ViewModels
             if (PlayersList == null)
                 PlayersList = new();
 
-            Player player = new()
-            {
-                EmailAddress = PlayersEmail,
-                SheetTemplate = SelectedTemplate.GetContent<GameTemplates>().GetTemplate()
-            };
-
             GameTemplates template = SelectedTemplate.GetContent<GameTemplates>();
-            string frame = GetTemplatePage(template);
-            ISheet sheet = SheetDrama.SheetDrama.GetSheet(template.GetTemplate(), frame, null, GetGameCommands(template.TemplateGame()));
+            string frame = template.GetTemplatePage();
+            ISheet sheet = SheetFactory.GetSheet(template.GetTemplate(), frame, null, template.TemplateGame().GetGameCommands());
 
             if(sheet.IsNull())
             {
@@ -290,7 +285,12 @@ namespace RetiraTracker.ViewModels
             }
 
             sheet.PlayerName = PlayersEmail;
-            player.SheetJson = JsonConvert.SerializeObject(sheet);
+            Player player = new()
+            {
+                EmailAddress = PlayersEmail,
+                SheetTemplate = SelectedTemplate.GetContent<GameTemplates>().GetTemplate(),
+                SheetJson = JsonConvert.SerializeObject(sheet)
+            };
 
             PlayersList.Add(player);
             NotifyPropertyChanged(nameof(PlayersList));
@@ -350,25 +350,6 @@ namespace RetiraTracker.ViewModels
             }
 
             Terminal.Instance.Navigation.IsLoading(false);
-        }
-
-        private string GetTemplatePage(GameTemplates template)
-        {
-            string output = template.GetTemplate();
-            output = output.Replace("Sheet", "Page.xaml");
-            return output;
-        }
-
-        private string[] GetGameCommands(Games game)
-        {
-            switch(game)
-            {
-                case Games.ChroniclesOfDarkness:
-                case Games.ChroniclesOfDarknessDarkAges:
-                    return new string[] { "CoDTemplateCommand" };
-                default:
-                    return null;
-            }
         }
     }
 }

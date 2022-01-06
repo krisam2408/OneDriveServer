@@ -21,7 +21,7 @@ namespace RetiraTracker.ViewModels
         public ListItem SelectedSetting 
         { 
             get { return selectedSetting; } 
-            set 
+            set
             { 
                 SetValue(ref selectedSetting, value);
                 if(value != null)

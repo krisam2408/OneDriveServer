@@ -4,14 +4,15 @@ using RetiraTracker.Core.Abstracts;
 using RetiraTracker.Model;
 using RetiraTracker.Model.DataTransfer;
 using RetiraTracker.Model.Domain;
+using RetiraTracker.View.Popups;
 using RetiraTracker.ViewModels.TemplateCommand;
+using SheetDrama;
 using SheetDrama.Abstracts;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -40,9 +41,9 @@ namespace RetiraTracker.ViewModels
                 {
                     AppSheet sheet = value.GetContent<AppSheet>();
                     sheet.SetAppSheet();
-                    SheetData = sheet.Sheet;
                     SheetSource = $"SheetTemplates/{sheet.Sheet.SheetFrame}";
-                    ChangeSheetButtonVisibility = SheetData.CanChange ? Visibility.Visible : Visibility.Hidden;
+                    SheetData = sheet.Sheet;
+                    ChangeSheetButtonVisibility = OriginalSheetCanChangeValue(SheetData) && Terminal.Instance.Navigation.UserMail == CurrentCampaign.Narrator ? Visibility.Visible : Visibility.Hidden;
                 }
             }
         }
@@ -67,6 +68,7 @@ namespace RetiraTracker.ViewModels
 
         public ICommand UpdateSheetCommand { get { return new RelayCommand((e) => UpdateSheet()); } }
         public ICommand SyncSheetsCommand { get { return new RelayCommand(async (e) => await SyncSheets()); } }
+        public ICommand ChangeTemplateCommand { get { return new RelayCommand((e) => ChangeSheetTemplate()); } }
 
         private CampaignViewModel(Campaign campaign) 
         {
@@ -89,8 +91,7 @@ namespace RetiraTracker.ViewModels
             {
                 string playerJson = await ExplorerManager.Instance.GetPlayerAsync(ply, campaign.FolderID);
                 Player player = JsonConvert.DeserializeObject<Player>(playerJson);
-                AppSheet sheet = new();
-                sheet.SetAppSheet(player);
+                AppSheet sheet = new(player);
 
                 if (i == 0)
                     firstSheet = sheet.Sheet;
@@ -142,19 +143,12 @@ namespace RetiraTracker.ViewModels
                 string playerID = SetPlayerDisplay(localAppSheet.Player.EmailAddress);
                 string onlinePlayerJson = await ExplorerManager.Instance.GetPlayerAsync(playerID, CurrentCampaign.FolderID);
                 Player onlinePlayer = JsonConvert.DeserializeObject<Player>(onlinePlayerJson);
-                AppSheet onlineAppSheet = new();
-                onlineAppSheet.SetAppSheet(onlinePlayer);
+                AppSheet onlineAppSheet = new(onlinePlayer);
                 ISheet onlineSheet = onlineAppSheet.Sheet;
 
                 if(localSheet.LastModified > onlineSheet.LastModified)
                 {
-                    Player localPlayer = new()
-                    {
-                        EmailAddress = onlinePlayer.EmailAddress,
-                        SheetTemplate = onlinePlayer.SheetTemplate,
-                        SheetJson = JsonConvert.SerializeObject(localSheet)
-                    };
-                    bool transResult = await ExplorerManager.Instance.UpdatePlayerAsync(playerID, CurrentCampaign.FolderID, localPlayer);
+                    bool transResult = await ExplorerManager.Instance.UpdatePlayerAsync(playerID, CurrentCampaign.FolderID, localAppSheet.Player);
 
                     if (!transResult)
                         result++;
@@ -162,6 +156,7 @@ namespace RetiraTracker.ViewModels
                 else
                 {
                     SheetList[i].SetContent(onlineAppSheet);
+                    SelectedSheet = SelectedSheet;
                 }
             }
 
@@ -174,13 +169,25 @@ namespace RetiraTracker.ViewModels
             Terminal.Instance.Navigation.IsLoading(false);
         }
 
+        private void ChangeSheetTemplate()
+        {
+            IsEnabled = false;
+
+            string sheetType = SheetData.GetType().Name;
+            ISheet basicSheet = SheetFactory.GetBasicSheet(sheetType);
+
+            ChangeSheetTemplatePopup popup = new(basicSheet.CanChangeTo);
+            popup.Show();
+        }
+
         private string SheetPlayerDisplay()
         {
             if (!string.IsNullOrWhiteSpace(SheetData.CharacterName))
                 if (SelectedSheet.Display != SheetData.CharacterName)
                     return SheetData.CharacterName;
 
-            return $"({SheetData.PlayerName})";
+            string username = SheetData.PlayerName.Split('@')[0];
+            return $"({username})";
         }
 
         private void SetTemplateCommand(string commandName)
@@ -223,6 +230,13 @@ namespace RetiraTracker.ViewModels
         {
             string user = playerEmail.Split('@')[0];
             return $"{user}.json";
+        }
+
+        private static bool OriginalSheetCanChangeValue(ISheet sheet)
+        {
+            Type sheetType = sheet.GetType();
+            ISheet basicSheet = SheetFactory.GetBasicSheet(sheetType.Name);
+            return basicSheet.CanChange;
         }
     }
 }

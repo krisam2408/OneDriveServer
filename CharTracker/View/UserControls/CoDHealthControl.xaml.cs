@@ -123,6 +123,13 @@ namespace RetiraTracker.View.UserControls
             set { SetValue(ValueChangedProperty, value); }
         }
 
+        public static DependencyProperty CalculatePenaltiesProperty = DependencyProperty.Register("CalculatePenalties", typeof(bool), typeof(CoDHealthControl), new PropertyMetadata(true));
+        public bool CalculatePenalties
+        {
+            get { return (bool)GetValue(CalculatePenaltiesProperty); }
+            set { SetValue(CalculatePenaltiesProperty, value); }
+        }
+
         public ICommand HealthUpCommand
         {
             get
@@ -229,12 +236,15 @@ namespace RetiraTracker.View.UserControls
 
         private string Penalties()
         {
-            if (Damage[^1] != ' ')
-                return "-3";
-            if (Damage.Count >= 2 && Damage[^2] != ' ')
-                return "-2";
-            if (Damage.Count >= 3 && Damage[^3] != ' ')
-                return "-1";
+            if(CalculatePenalties)
+            {
+                if (Damage[^1] != ' ')
+                    return "-3";
+                if (Damage.Count >= 2 && Damage[^2] != ' ')
+                    return "-2";
+                if (Damage.Count >= 3 && Damage[^3] != ' ')
+                    return "-1";
+            }
             return "0";
         }
     }

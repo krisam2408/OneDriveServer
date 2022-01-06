@@ -17,9 +17,9 @@ using System.Windows.Shapes;
 namespace RetiraTracker.View.UserControls
 {
     /// <summary>
-    /// Interaction logic for Rect5NumberControl.xaml
+    /// Interaction logic for RectNumberControl.xaml
     /// </summary>
-    public partial class Rect5NumberControl : UserControl
+    public partial class RectNumberControl : UserControl
     {
         private readonly SolidColorBrush transparent = new SolidColorBrush(Color.FromArgb(30, 0, 0, 0));
         private readonly LinearGradientBrush slash;
@@ -27,7 +27,7 @@ namespace RetiraTracker.View.UserControls
 
         public EventHandler NumberChanged;
 
-        public Rect5NumberControl()
+        public RectNumberControl()
         {
             InitializeComponent();
 
@@ -45,7 +45,7 @@ namespace RetiraTracker.View.UserControls
                 new Point(1, 1)
             );
 
-            Rects = new Rectangle[5] { Rect0, Rect1, Rect2, Rect3, Rect4 };
+            Rects = new Rectangle[20] { Rect00, Rect01, Rect02, Rect03, Rect04, Rect05, Rect06, Rect07, Rect08, Rect09, Rect10, Rect11, Rect12, Rect13, Rect14, Rect15, Rect16, Rect17, Rect18, Rect19, };
 
             NumberChanged += (sender, e) =>
             {
@@ -54,7 +54,7 @@ namespace RetiraTracker.View.UserControls
             };
         }
 
-        public static DependencyProperty NumberProperty = DependencyProperty.Register("Number", typeof(int), typeof(Rect5NumberControl), new PropertyMetadata(0, OnNumberChanged));
+        public static DependencyProperty NumberProperty = DependencyProperty.Register("Number", typeof(int), typeof(RectNumberControl), new PropertyMetadata(0, OnNumberChanged));
         public int Number
         {
             get
@@ -74,26 +74,26 @@ namespace RetiraTracker.View.UserControls
 
         private static void OnNumberChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            Rect5NumberControl source = (Rect5NumberControl)d;
+            RectNumberControl source = (RectNumberControl)d;
 
             if (source.NumberChanged != null)
                 source.NumberChanged(source, EventArgs.Empty);
         }
 
-        public static DependencyProperty ValueChangedProperty = DependencyProperty.Register("ValueChanged", typeof(ICommand), typeof(Rect5NumberControl));
+        public static DependencyProperty ValueChangedProperty = DependencyProperty.Register("ValueChanged", typeof(ICommand), typeof(RectNumberControl));
         public ICommand ValueChanged
         {
             get { return (ICommand)GetValue(ValueChangedProperty); }
             set { SetValue(ValueChangedProperty, value); }
         }
 
-        public ICommand Rect0Command
+        public ICommand Rect00Command
         {
             get
             {
                 return new RelayCommand((e) =>
                 {
-                    if(Number >= 1)
+                    if (Number >= 1)
                     {
                         Number = 0;
                         return;
@@ -102,10 +102,25 @@ namespace RetiraTracker.View.UserControls
                 });
             }
         }
-        public ICommand Rect1Command { get { return new RelayCommand((e) => { Number = 2; }); } }
-        public ICommand Rect2Command { get { return new RelayCommand((e) => { Number = 3; }); } }
-        public ICommand Rect3Command { get { return new RelayCommand((e) => { Number = 4; }); } }
-        public ICommand Rect4Command { get { return new RelayCommand((e) => { Number = 5; }); } }
+        public ICommand Rect01Command { get { return new RelayCommand((e) => { Number = 2; }); } }
+        public ICommand Rect02Command { get { return new RelayCommand((e) => { Number = 3; }); } }
+        public ICommand Rect03Command { get { return new RelayCommand((e) => { Number = 4; }); } }
+        public ICommand Rect04Command { get { return new RelayCommand((e) => { Number = 5; }); } }
+        public ICommand Rect05Command { get { return new RelayCommand((e) => { Number = 6; }); } }
+        public ICommand Rect06Command { get { return new RelayCommand((e) => { Number = 7; }); } }
+        public ICommand Rect07Command { get { return new RelayCommand((e) => { Number = 8; }); } }
+        public ICommand Rect08Command { get { return new RelayCommand((e) => { Number = 9; }); } }
+        public ICommand Rect09Command { get { return new RelayCommand((e) => { Number = 10; }); } }
+        public ICommand Rect10Command { get { return new RelayCommand((e) => { Number = 11; }); } }
+        public ICommand Rect11Command { get { return new RelayCommand((e) => { Number = 12; }); } }
+        public ICommand Rect12Command { get { return new RelayCommand((e) => { Number = 13; }); } }
+        public ICommand Rect13Command { get { return new RelayCommand((e) => { Number = 14; }); } }
+        public ICommand Rect14Command { get { return new RelayCommand((e) => { Number = 15; }); } }
+        public ICommand Rect15Command { get { return new RelayCommand((e) => { Number = 16; }); } }
+        public ICommand Rect16Command { get { return new RelayCommand((e) => { Number = 17; }); } }
+        public ICommand Rect17Command { get { return new RelayCommand((e) => { Number = 18; }); } }
+        public ICommand Rect18Command { get { return new RelayCommand((e) => { Number = 19; }); } }
+        public ICommand Rect19Command { get { return new RelayCommand((e) => { Number = 20; }); } }
 
         public void SetRectFills(int val = 0)
         {

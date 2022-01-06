@@ -17,9 +17,9 @@ using System.Windows.Shapes;
 namespace RetiraTracker.View.UserControls
 {
     /// <summary>
-    /// Interaction logic for DotNumberControl.xaml
+    /// Interaction logic for Dot5NumberControl.xaml
     /// </summary>
-    public partial class DotNumberControl : UserControl
+    public partial class Dot5NumberControl : UserControl
     {
         private readonly SolidColorBrush transparent = new SolidColorBrush(Color.FromArgb(30, 0, 0, 0));
         private readonly SolidColorBrush dark = (SolidColorBrush)Application.Current.Resources["Dark"];
@@ -27,11 +27,11 @@ namespace RetiraTracker.View.UserControls
 
         public EventHandler NumberChanged;
 
-        public DotNumberControl()
+        public Dot5NumberControl()
         {
             InitializeComponent();
 
-            Dots = new Ellipse[10] { Dot0, Dot1, Dot2, Dot3, Dot4, Dot5, Dot6, Dot7, Dot8, Dot9 };
+            Dots = new Ellipse[5] { Dot0, Dot1, Dot2, Dot3, Dot4 };
 
             NumberChanged += (sender, e) =>
             {
@@ -40,11 +40,11 @@ namespace RetiraTracker.View.UserControls
             };
         }
 
-        public static DependencyProperty NumberProperty = DependencyProperty.Register("Number", typeof(int), typeof(DotNumberControl), new PropertyMetadata(0, OnNumberChanged));
+        public static DependencyProperty NumberProperty = DependencyProperty.Register("Number", typeof(int), typeof(Dot5NumberControl), new PropertyMetadata(0, OnNumberChanged));
         public int Number
         {
-            get 
-            { 
+            get
+            {
                 int val = (int)GetValue(NumberProperty);
                 return val;
             }
@@ -58,15 +58,15 @@ namespace RetiraTracker.View.UserControls
             }
         }
 
-        private static void OnNumberChanged (DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnNumberChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DotNumberControl source = (DotNumberControl)d;
+            Dot5NumberControl source = (Dot5NumberControl)d;
 
             if (source.NumberChanged != null)
                 source.NumberChanged(source, EventArgs.Empty);
         }
 
-        public static DependencyProperty ValueChangedProperty = DependencyProperty.Register("ValueChanged", typeof(ICommand), typeof(DotNumberControl));
+        public static DependencyProperty ValueChangedProperty = DependencyProperty.Register("ValueChanged", typeof(ICommand), typeof(Dot5NumberControl));
         public ICommand ValueChanged
         {
             get { return (ICommand)GetValue(ValueChangedProperty); }
@@ -79,7 +79,7 @@ namespace RetiraTracker.View.UserControls
             {
                 return new RelayCommand((e) =>
                 {
-                    if(Number >= 1)
+                    if (Number >= 1)
                     {
                         Number = 0;
                         return;
@@ -92,11 +92,6 @@ namespace RetiraTracker.View.UserControls
         public ICommand Dot2Command { get { return new RelayCommand((e) => { Number = 3; }); } }
         public ICommand Dot3Command { get { return new RelayCommand((e) => { Number = 4; }); } }
         public ICommand Dot4Command { get { return new RelayCommand((e) => { Number = 5; }); } }
-        public ICommand Dot5Command { get { return new RelayCommand((e) => { Number = 6; }); } }
-        public ICommand Dot6Command { get { return new RelayCommand((e) => { Number = 7; }); } }
-        public ICommand Dot7Command { get { return new RelayCommand((e) => { Number = 8; }); } }
-        public ICommand Dot8Command { get { return new RelayCommand((e) => { Number = 9; }); } }
-        public ICommand Dot9Command { get { return new RelayCommand((e) => { Number = 10; }); } }
 
         public void SetDotFills(int val = 0)
         {

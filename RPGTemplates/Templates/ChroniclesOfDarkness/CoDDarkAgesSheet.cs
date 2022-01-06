@@ -179,7 +179,7 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
 
         public CoDDarkAgesSheet(string frame, string[] styles, string[] scripts) : base(frame, styles, scripts)
         {
-            CanChangeTo = new Type[] { };
+            CanChangeTo = new GameTemplates[] { GameTemplates.WerewolfTheForsakenDarkAges};
 
             Intelligence = 1;
             Wits = 1;
@@ -194,6 +194,11 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
             Composure = 1;
 
             Integrity = 7;
+        }
+
+        public CoDDarkAgesSheet() : base()
+        {
+            CanChangeTo = new GameTemplates[] { GameTemplates.WerewolfTheForsakenDarkAges };
         }
     }
 }

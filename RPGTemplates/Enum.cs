@@ -9,7 +9,7 @@ namespace SheetDrama
 {
     public enum Games
     {
-        ChroniclesOfDarkness, ChroniclesOfDarknessDarkAges
+        ChroniclesOfDarkness, ChroniclesOfDarknessDarkAges, FateAccelerated
     }
 
     public enum GameTemplates
@@ -45,7 +45,11 @@ namespace SheetDrama
         [Game(Games.ChroniclesOfDarknessDarkAges)]
         VampireTheRequiemDarkAges,
         [Game(Games.ChroniclesOfDarknessDarkAges)]
-        WerewolfTheForsakenDarkAges,
+        WerewolfTheForsakenDarkAges
+    }
 
+    public enum WerewolfForms
+    {
+        Hishu, Dalu, Gauru, Urshul, Urhan
     }
 }

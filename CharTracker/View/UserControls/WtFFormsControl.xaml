@@ -1,0 +1,58 @@
+﻿<UserControl x:Class="RetiraTracker.View.UserControls.WtFFormsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RetiraTracker.View.UserControls"
+             xmlns:core="clr-namespace:RetiraTracker.Core"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style x:Key="FormButton" TargetType="Border">
+            <Style.Setters>
+                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="Height" Value="32" />
+                <Setter Property="CornerRadius" Value="4" />
+                <Setter Property="Margin" Value="4,0" />
+                <Setter Property="BorderThickness" Value="2" />
+            </Style.Setters>
+        </Style>
+        <Style x:Key="ButtonText" TargetType="TextBlock">
+            <Style.Setters>
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="FontFamily" Value="Consolas" />
+                <Setter Property="FontWeight" Value="ExtraBold" />
+            </Style.Setters>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Border Name="HishuButton" Style="{StaticResource FormButton}" Grid.Column="0" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WtFFormsControl}}, Path=Button00Command}">
+            <TextBlock Style="{StaticResource ButtonText}" Text="Hishu" />
+        </Border>
+
+        <Border Name="DaluButton" Style="{StaticResource FormButton}" Grid.Column="1" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WtFFormsControl}}, Path=Button01Command}">
+            <TextBlock Style="{StaticResource ButtonText}" Text="Dalu" />
+        </Border>
+
+        <Border Name="GauruButton" Style="{StaticResource FormButton}" Grid.Column="2" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WtFFormsControl}}, Path=Button02Command}">
+            <TextBlock Style="{StaticResource ButtonText}" Text="Gauru" />
+        </Border>
+
+        <Border Name="UrshulButton" Style="{StaticResource FormButton}" Grid.Column="3" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WtFFormsControl}}, Path=Button03Command}">
+            <TextBlock Style="{StaticResource ButtonText}" Text="Urshul" />
+        </Border>
+
+        <Border Name="UrhanButton" Style="{StaticResource FormButton}" Grid.Column="4" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WtFFormsControl}}, Path=Button04Command}">
+            <TextBlock Style="{StaticResource ButtonText}" Text="Urhan" />
+        </Border>
+        
+    </Grid>
+</UserControl>

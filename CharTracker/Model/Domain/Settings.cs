@@ -20,5 +20,10 @@ namespace RetiraTracker.Model.Domain
 
             return false;
         }
+
+        public override int GetHashCode()
+        {
+            return FolderId.GetHashCode();
+        }
     }
 }

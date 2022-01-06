@@ -21,7 +21,7 @@
         <ListView Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" ItemsSource="{Binding SheetList}" SelectedItem="{Binding SelectedSheet}" SelectionMode="Single" Style="{StaticResource AngledList}" />
 
         <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
-            <controls:ButtonControl Text="Change Sheet" BorderWidth="126" BorderHeight="40" BorderBackground="{StaticResource Lila}" Visibility="{Binding ChangeSheetButtonVisibility}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+            <controls:ButtonControl Text="Change Sheet" BorderWidth="126" BorderHeight="40" BorderBackground="{StaticResource Lila}" Command="{Binding ChangeTemplateCommand}" Visibility="{Binding ChangeSheetButtonVisibility}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
             <controls:ButtonControl Text="Sync" BorderWidth="126" BorderHeight="40" BorderBackground="{StaticResource Blau}" Margin="8, 0" Command="{Binding SyncSheetsCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
         </StackPanel>
         

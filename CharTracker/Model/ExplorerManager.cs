@@ -65,7 +65,7 @@ namespace RetiraTracker.Model
                     case RequestResult.Cancelled:
                         return "## Operation canceled.";
                     case RequestResult.TokenExpired:
-                        return "## There was an authentiocation problem. PLease try again.";
+                        return "## There was an authentication problem. Please try again.";
                     default:
                         return "## 100";
                 }
@@ -93,9 +93,14 @@ namespace RetiraTracker.Model
             foreach (FileMetadata meta in metadata)
             {
                 byte[] fileBuffer = await Explorer.DownloadFileAsync(meta.ID, MimeTypes.Text);
-                string json = Encoding.UTF8.GetString(fileBuffer);
-                Settings settingItem = JsonConvert.DeserializeObject<Settings>(json);
-                settings.Add(settingItem);
+
+                if (fileBuffer != null)
+                {
+                    string json = Encoding.UTF8.GetString(fileBuffer);
+                    Settings settingItem = JsonConvert.DeserializeObject<Settings>(json);
+                    settings.Add(settingItem);
+                }
+
             }
 
             List<ListItem> output = new();
@@ -143,7 +148,7 @@ namespace RetiraTracker.Model
             string settingJson = JsonConvert.SerializeObject(settings);
             byte[] settingBuffer = Encoding.UTF8.GetBytes(settingJson);
 
-            await Explorer.OverwriteFileAsync(settingMeta.ID, settingBuffer, MimeTypes.Text);
+            await Explorer.OverwriteFileByIdAsync(settingMeta.ID, settingBuffer, MimeTypes.Text);
             
         }
 
@@ -184,14 +189,10 @@ namespace RetiraTracker.Model
                 string playerJson = JsonConvert.SerializeObject(player);
                 byte[] buffer = Encoding.UTF8.GetBytes(playerJson);
 
-                await Explorer.UploadFileAsync(filename, folderId, buffer, MimeTypes.Text);
+                await Explorer.OverwriteFileByNameAsync(filename, folderId, buffer, MimeTypes.Text);
             }
-            catch(Exception ex)
+            catch(Exception)
             {
-                Type exType = ex.GetType();
-                string strExType = exType.ToString();
-                Debug.WriteLine(strExType);
-
                 return false;
             }
 

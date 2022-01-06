@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SheetDrama;
 
 namespace RetiraTracker.Model.DataTransfer
 {
@@ -32,18 +33,18 @@ namespace RetiraTracker.Model.DataTransfer
             }
         }
 
-        public void SetAppSheet(Player player)
+        public AppSheet(Player player)
         {
             Player = player;
-            Sheet = SheetDrama.SheetDrama.GetSheet(player.SheetTemplate, player.SheetJson);
+            Sheet = SheetFactory.GetSheet(player.SheetTemplate, player.SheetJson);
         }
 
         public void SetAppSheet()
         {
             if (Player == null)
-                return;
+                throw new ArgumentNullException(nameof(Player), "Player is null.");
 
-            Sheet = SheetDrama.SheetDrama.GetSheet(Player.SheetTemplate, Player.SheetJson);
+            Sheet = SheetFactory.GetSheet(Player.SheetTemplate, Player.SheetJson);
         }
     }
 }

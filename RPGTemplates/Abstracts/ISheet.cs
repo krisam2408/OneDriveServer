@@ -5,7 +5,7 @@ namespace SheetDrama.Abstracts
 {
     public abstract class ISheet
     {
-        public Type[] CanChangeTo { get; init; }
+        public GameTemplates[] CanChangeTo { get; init; }
         public bool CanChange 
         { 
             get
@@ -32,6 +32,8 @@ namespace SheetDrama.Abstracts
             SheetScripts = scripts;
             LastModified = DateTime.Now;
         }
+
+        protected ISheet() { }
 
         public string JsonSheet()
         {

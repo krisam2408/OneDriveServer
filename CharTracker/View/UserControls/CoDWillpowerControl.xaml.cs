@@ -142,7 +142,7 @@ namespace RetiraTracker.View.UserControls
 
         private void SetDotFills(int val = 0)
         {
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < Dots.Length; i++)
                 Dots[i].Fill = transparent;
 
             for (int i = 0; i < val; i++)
@@ -151,7 +151,7 @@ namespace RetiraTracker.View.UserControls
 
         private void SetRectFills(int val = 0)
         {
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < Rects.Length; i++)
                 Rects[i].Fill = transparent;
 
             for (int i = 0; i < val; i++)
