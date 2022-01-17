@@ -1,8 +1,10 @@
-﻿using System;
+﻿using GoogleExplorer.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GFile = Google.Apis.Drive.v3.Data.File;
 
 namespace GoogleExplorer.DataTransfer
 {
@@ -12,5 +14,38 @@ namespace GoogleExplorer.DataTransfer
         public string Name { get; set; }
         public string[] ParentFolder { get; set; }
         public MimeTypes MimeType { get; set; }
+        public PermissionMetadata[] Permissions  { get; set; }
+        public bool IsShared
+        {
+            get
+            {
+                if (Permissions != null && Permissions.Length > 0)
+                    return true;
+                return false;
+            }
+        }
+
+        public FileMetadata() { }
+
+        public FileMetadata(GFile gFile)
+        {
+            ID = gFile.Id;
+            Name = gFile.Name;
+            ParentFolder = gFile.Parents.ToArray();
+            MimeType = gFile.MimeType.GetMimeTypes();
+            Permissions = gFile.Permissions
+                .Select(p => new PermissionMetadata(p))
+                .ToArray();
+        }
+
+        public bool ContainsEmailAddressPermission(string emailAddress)
+        {
+            if(IsShared)
+                foreach (PermissionMetadata p in Permissions)
+                    if (p.EmailAddress == emailAddress)
+                        return true;
+
+            return false;
+        }
     }
 }

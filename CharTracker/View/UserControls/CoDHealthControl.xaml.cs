@@ -63,7 +63,6 @@ namespace RetiraTracker.View.UserControls
 
             MaxHealthChanged += (sender, e) =>
             {
-                DamageMeter.Clear();
                 TranslateDamage();
                 PenTextBlock.Text = Penalties();
             };
@@ -74,8 +73,6 @@ namespace RetiraTracker.View.UserControls
                 PenTextBlock.Text = Penalties();
                 ValueChanged?.Execute(null);
             };
-
-            DamageMeter = new();
         }
 
         public static DependencyProperty MaxHealthProperty = DependencyProperty.Register("MaxHealth", typeof(int), typeof(CoDHealthControl), new PropertyMetadata(0, OnMaxHealthChanged));
@@ -159,7 +156,6 @@ namespace RetiraTracker.View.UserControls
                     TextBlock tblock = (TextBlock)sourceParent.Children[1];
                     int index = int.Parse(tblock.Text);
                     DamageDown(index);
-
                 });
             }
         }
@@ -212,6 +208,8 @@ namespace RetiraTracker.View.UserControls
                 }
             }
 
+            if (DamageMeter == null)
+                DamageMeter = new();
             DamageMeter.Clear();
             for(int i = 0; i < MaxHealth; i++)
             {

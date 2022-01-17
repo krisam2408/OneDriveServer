@@ -23,6 +23,22 @@ namespace GoogleExplorer
 
     }
 
+    public enum Permissions
+    {
+        [Display("owner")]
+        Owner,
+        [Display("organizer")]
+        Organizer,
+        [Display("fileOrganizer")]
+        FileOrganizer,
+        [Display("writer")]
+        Writer,
+        [Display("commenter")]
+        Commenter,
+        [Display("reader")]
+        Reader
+    }
+
     public enum RequestResult
     {
         Cancelled, TokenExpired, Success, Error

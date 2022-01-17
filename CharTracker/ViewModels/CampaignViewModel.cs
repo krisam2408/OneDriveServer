@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿#define TEST
+using Newtonsoft.Json;
 using RetiraTracker.Core;
 using RetiraTracker.Core.Abstracts;
 using RetiraTracker.Model;
@@ -8,6 +9,7 @@ using RetiraTracker.View.Popups;
 using RetiraTracker.ViewModels.TemplateCommand;
 using SheetDrama;
 using SheetDrama.Abstracts;
+using SheetDrama.Templates.ChroniclesOfDarkness;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -41,8 +43,10 @@ namespace RetiraTracker.ViewModels
                 {
                     AppSheet sheet = value.GetContent<AppSheet>();
                     sheet.SetAppSheet();
-                    SheetSource = $"SheetTemplates/{sheet.Sheet.SheetFrame}";
-                    SheetData = sheet.Sheet;
+
+                    List<Task> tasks = new List<Task>() { SetSheet(sheet.Sheet), SetSheetPage(sheet.Sheet.SheetFrame) };
+                    Task.WhenAll(tasks);
+
                     ChangeSheetButtonVisibility = OriginalSheetCanChangeValue(SheetData) && Terminal.Instance.Navigation.UserMail == CurrentCampaign.Narrator ? Visibility.Visible : Visibility.Hidden;
                 }
             }
@@ -84,25 +88,21 @@ namespace RetiraTracker.ViewModels
             string[] players = SetPlayersDisplay(campaign);
 
             ObservableCollection<ListItem> list = new();
-            ISheet firstSheet = null;
 
-            int i = 0;
+            List<Task> tasks = new();
             foreach(string ply in players)
             {
-                string playerJson = await ExplorerManager.Instance.GetPlayerAsync(ply, campaign.FolderID);
-                Player player = JsonConvert.DeserializeObject<Player>(playerJson);
-                AppSheet sheet = new(player);
-
-                if (i == 0)
-                    firstSheet = sheet.Sheet;
-
-                ListItem li = new(ply, sheet.Display);
-                li.SetContent(sheet);
-
-                list.Add(li);
-                i++;
+                tasks.Add(Task.Run(async () =>
+                {
+                    list.Add(await GetPlayerItem(ply, campaign.FolderID));
+                }));
             }
 
+            await Task.WhenAll(tasks);
+
+            AppSheet firstAppSheet = list[0].GetContent<AppSheet>();
+            firstAppSheet.SetAppSheet();
+            ISheet firstSheet = firstAppSheet.Sheet;
             vm.SetTemplateCommand(firstSheet.SheetScripts[0]);
 
             vm.SheetList = list;
@@ -110,6 +110,18 @@ namespace RetiraTracker.ViewModels
             vm.SelectedSheet = vm.SheetList[0];
 
             return vm;
+        }
+
+        private static async Task<ListItem> GetPlayerItem(string playerFilename, string campaignFolderId)
+        {
+            string playerJson = await ExplorerManager.Instance.GetPlayerAsync(playerFilename, campaignFolderId);
+            Player player = JsonConvert.DeserializeObject<Player>(playerJson);
+            AppSheet sheet = new(player);
+
+            ListItem li = new(playerFilename, sheet.Display);
+            li.SetContent(sheet);
+
+            return li;
         }
 
         private void UpdateSheet()
@@ -132,41 +144,53 @@ namespace RetiraTracker.ViewModels
             Terminal.Instance.Navigation.IsLoading(true);
             IsEnabled = false;
 
-            int result = 0;
-
+            List<Task> updateTasks = new();
             for(int i = 0; i < SheetList.Count; i++)
-            {
-                AppSheet localAppSheet = SheetList[i].GetContent<AppSheet>();
-                localAppSheet.SetAppSheet();
-                ISheet localSheet = localAppSheet.Sheet;
+                updateTasks.Add(UpdateCharacterSheet(i));
 
-                string playerID = SetPlayerDisplay(localAppSheet.Player.EmailAddress);
-                string onlinePlayerJson = await ExplorerManager.Instance.GetPlayerAsync(playerID, CurrentCampaign.FolderID);
-                Player onlinePlayer = JsonConvert.DeserializeObject<Player>(onlinePlayerJson);
-                AppSheet onlineAppSheet = new(onlinePlayer);
-                ISheet onlineSheet = onlineAppSheet.Sheet;
-
-                if(localSheet.LastModified > onlineSheet.LastModified)
-                {
-                    bool transResult = await ExplorerManager.Instance.UpdatePlayerAsync(playerID, CurrentCampaign.FolderID, localAppSheet.Player);
-
-                    if (!transResult)
-                        result++;
-                }
-                else
-                {
-                    SheetList[i].SetContent(onlineAppSheet);
-                    SelectedSheet = SelectedSheet;
-                }
-            }
-
-            if(result > 0)
-            {
-                // Popup de resultados con errores
-            }
+            await Task.WhenAll(updateTasks);
 
             IsEnabled = true;
             Terminal.Instance.Navigation.IsLoading(false);
+        }
+
+        private Task SetSheetPage(string page)
+        {
+            SheetSource = $"SheetTemplates/{page}";
+
+            return Task.CompletedTask;
+        }
+
+        private Task SetSheet(ISheet sheet)
+        {
+            SheetData = sheet;
+
+            return Task.CompletedTask;
+        }
+
+        private async Task UpdateCharacterSheet(int index)
+        {
+            AppSheet localAppSheet = SheetList[index].GetContent<AppSheet>();
+            localAppSheet.SetAppSheet();
+            ISheet localSheet = localAppSheet.Sheet;
+
+            string playerID = SetPlayerDisplay(localAppSheet.Player.EmailAddress);
+            string onlinePlayerJson = await ExplorerManager.Instance.GetPlayerAsync(playerID, CurrentCampaign.FolderID);
+            Player onlinePlayer = JsonConvert.DeserializeObject<Player>(onlinePlayerJson);
+            AppSheet onlineAppSheet = new(onlinePlayer);
+            ISheet onlineSheet = onlineAppSheet.Sheet;
+
+            if (localSheet.LastModified > onlineSheet.LastModified)
+            {
+                if (localSheet.UsesBonuses)
+                    localAppSheet = ResetBonuses(localAppSheet);
+                await ExplorerManager.Instance.UpdatePlayerAsync(playerID, CurrentCampaign.FolderID, localAppSheet.Player);
+            }
+            else
+            {
+                SheetList[index].SetContent(onlineAppSheet);
+                SelectedSheet = SelectedSheet;
+            }
         }
 
         private void ChangeSheetTemplate()
@@ -183,8 +207,7 @@ namespace RetiraTracker.ViewModels
         private string SheetPlayerDisplay()
         {
             if (!string.IsNullOrWhiteSpace(SheetData.CharacterName))
-                if (SelectedSheet.Display != SheetData.CharacterName)
-                    return SheetData.CharacterName;
+                return SheetData.CharacterName;
 
             string username = SheetData.PlayerName.Split('@')[0];
             return $"({username})";
@@ -237,6 +260,30 @@ namespace RetiraTracker.ViewModels
             Type sheetType = sheet.GetType();
             ISheet basicSheet = SheetFactory.GetBasicSheet(sheetType.Name);
             return basicSheet.CanChange;
+        }
+
+        private static AppSheet ResetBonuses(AppSheet appSheet)
+        {
+            Player player = new()
+            {
+                EmailAddress = appSheet.Player.EmailAddress,
+                SheetTemplate = appSheet.Player.SheetTemplate
+            };
+
+            switch (appSheet.Player.SheetTemplate)
+            {
+                case "WTFDarkAgesSheet":
+                    WtFDarkAgesSheet wtfSheet = (WtFDarkAgesSheet)appSheet.Sheet;
+                    wtfSheet.Forms = WerewolfForms.Hishu;
+                    player.SheetJson = JsonConvert.SerializeObject(wtfSheet);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(appSheet.Player.SheetTemplate), "SheetTemplate is not recognized as bonuses user.");
+            }
+
+            AppSheet output = new(player);
+
+            return output;
         }
     }
 }

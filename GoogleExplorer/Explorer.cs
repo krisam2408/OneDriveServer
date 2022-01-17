@@ -23,7 +23,8 @@ namespace GoogleExplorer
     {
         private readonly string[] scopes = new string[] { DriveService.Scope.Drive };
         private const string credentials = "credentials.json";
-        
+        private const string fileSearchProperties = "files(id, name, parents, mimeType, permissions)";
+
         public string ApplicationName { get; init; }
         public string UserMail { get; private set; }
         public string CoreFolder { get { return $"{ApplicationName}-{UserMail}"; } }
@@ -162,34 +163,6 @@ namespace GoogleExplorer
             DriveService = null;
         }
 
-        private async Task<GFile> GetFileAsync(string name, MimeTypes mime)
-        {
-            string pageToken = null;
-            List<GFile> gfiles = new();
-
-            do
-            {
-                FilesResource.ListRequest list = DriveService.Files.List();
-                list.Fields = "files(id, name, parents, mimeType)";
-                list.PageSize = 100;
-                list.PageToken = pageToken;
-
-                FileList glist = await list.ExecuteAsync();
-                pageToken = glist.NextPageToken;
-                gfiles.AddRange(glist.Files);
-            } while (pageToken != null && gfiles.Count < 3000);
-
-            if (gfiles != null && gfiles.Count > 0)
-            {
-                return gfiles.Where(f => f.Name == name && f.MimeType == mime.GetMimeType())
-                    .Distinct(new FileEqualityComparer())
-                    .FirstOrDefault();
-            }
-
-            return null;
-        }
-
-
         private async Task<GFile> GetFileByIdAsync(string fileId, MimeTypes mime)
         {
             string pageToken = null;
@@ -198,7 +171,7 @@ namespace GoogleExplorer
             do
             {
                 FilesResource.ListRequest list = DriveService.Files.List();
-                list.Fields = "nextPageToken, files(id, name, parents, mimeType)";
+                list.Fields = "nextPageToken, files(id, name, parents, mimeType, permissions)";
                 list.PageSize = 100;
                 list.PageToken = pageToken;
 
@@ -225,7 +198,7 @@ namespace GoogleExplorer
             do
             {
                 FilesResource.ListRequest list = DriveService.Files.List();
-                list.Fields = "nextPageToken, files(id, name, parents, mimeType)";
+                list.Fields = "nextPageToken, files(id, name, parents, mimeType, permissions)";
                 list.PageSize = 100;
                 list.PageToken = pageToken;
 
@@ -252,7 +225,7 @@ namespace GoogleExplorer
             do
             {
                 FilesResource.ListRequest list = DriveService.Files.List();
-                list.Fields = "files(id, name, parents, mimeType)";
+                list.Fields = $"nextPageToken, {fileSearchProperties}";
                 list.PageSize = 100;
                 list.PageToken = pageToken;
 
@@ -265,7 +238,7 @@ namespace GoogleExplorer
             {
                 return gfiles.Where(f => f.Name == name && f.MimeType == mime.GetMimeType() && f.Parents != null && f.Parents.Contains(folderId))
                     .Distinct(new FileEqualityComparer())
-                    .Select(g => new FileMetadata { ID = g.Id, Name = g.Name, ParentFolder = g.Parents.ToArray(), MimeType = g.MimeType.GetMimeTypes() })
+                    .Select(g => new FileMetadata(g))
                     .FirstOrDefault();
             }
 
@@ -280,7 +253,7 @@ namespace GoogleExplorer
             do
             {
                 FilesResource.ListRequest list = DriveService.Files.List();
-                list.Fields = "nextPageToken, files(id, name, parents, mimeType)";
+                list.Fields = $"nextPageToken, {fileSearchProperties}";
                 list.PageSize = 100;
                 list.PageToken = pageToken;
                 
@@ -294,13 +267,7 @@ namespace GoogleExplorer
             {
                 return gfiles.Where(f => f.Name == name)
                     .Distinct(new FileEqualityComparer())
-                    .Select(f => new FileMetadata
-                    {
-                        ID = f.Id,
-                        Name = f.Name,
-                        MimeType = f.MimeType.GetMimeTypes(),
-                        ParentFolder = f.Parents.ToArray()
-                    })
+                    .Select(f => new FileMetadata(f))
                     .ToArray();
             }
 
@@ -320,12 +287,12 @@ namespace GoogleExplorer
             FilesResource.CreateMediaUpload request = DriveService.Files
                 .Create(gfile, ms, mime.GetMimeType());
 
-            request.Fields = "files(id, name, parents, mimeType)";
+            request.Fields = fileSearchProperties;
             await request.UploadAsync();
 
             GFile nFile = await GetFileByNameAsync(name, folderId, mime);
 
-            return new FileMetadata { ID = nFile.Id, Name = nFile.Name, MimeType = nFile.MimeType.GetMimeTypes(), ParentFolder = nFile.Parents.ToArray() };
+            return new FileMetadata(nFile);
         }
 
         public async Task<byte[]> DownloadFileAsync(string fileId, MimeTypes mime)
@@ -359,7 +326,7 @@ namespace GoogleExplorer
 
             GFile nFile = await GetFileByIdAsync(fileId, mime);
 
-            return new FileMetadata { ID = nFile.Id, Name = nFile.Name, MimeType = nFile.MimeType.GetMimeTypes(), ParentFolder = nFile.Parents.ToArray() };
+            return new FileMetadata(nFile);
         }
 
         public async Task<FileMetadata> OverwriteFileByNameAsync(string filename, string folderId, byte[] fileBuffer, MimeTypes mime)
@@ -377,7 +344,7 @@ namespace GoogleExplorer
 
             GFile nFile = await GetFileByNameAsync(filename, folderId, mime);
 
-            return new FileMetadata { ID = nFile.Id, Name = nFile.Name, MimeType = nFile.MimeType.GetMimeTypes(), ParentFolder = nFile.Parents.ToArray() };
+            return new FileMetadata(nFile);
         }
 
         public async Task<FileMetadata> CreateFolderAsync(string name, string folderId)
@@ -396,24 +363,31 @@ namespace GoogleExplorer
 
             createRequest.Fields = "id";
 
-            GFile nfolder = await createRequest.ExecuteAsync();
+            GFile nFolder = await createRequest.ExecuteAsync();
 
-            return new FileMetadata { ID = nfolder.Id, Name = name, MimeType = MimeTypes.GoogleFolder };
+            return new FileMetadata(nFolder);
         }
 
-        public async Task ShareFile(string fileId, string userEmail)
+        public async Task ShareFile(string fileId, string userEmail, MimeTypes mimeType, Permissions permissions = Permissions.Reader)
         {
-            Permission gPermission = new Permission
+            GFile gFile = await GetFileByIdAsync(fileId, mimeType);
+            FileMetadata metadata = new(gFile);
+
+            if(!metadata.ContainsEmailAddressPermission(UserMail))
             {
-                Type = "user",
-                Role = "writer",
-                EmailAddress = userEmail
-            };
+                Permission gPermission = new Permission
+                {
+                    Type = "user",
+                    Role = permissions.Display(),
+                    EmailAddress = userEmail
+                };
 
-            PermissionsResource.CreateRequest request = DriveService.Permissions.Create(gPermission, fileId);
-            request.Fields = "id";
+                PermissionsResource.CreateRequest request = DriveService.Permissions.Create(gPermission, fileId);
+                request.Fields = "id";
 
-            await request.ExecuteAsync();
+                await request.ExecuteAsync();
+            }
+
         }
     }
 }

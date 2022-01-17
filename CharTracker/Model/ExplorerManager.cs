@@ -148,8 +148,11 @@ namespace RetiraTracker.Model
             string settingJson = JsonConvert.SerializeObject(settings);
             byte[] settingBuffer = Encoding.UTF8.GetBytes(settingJson);
 
-            await Explorer.OverwriteFileByIdAsync(settingMeta.ID, settingBuffer, MimeTypes.Text);
-            
+            FileMetadata newSettingsMetadata = await Explorer.OverwriteFileByIdAsync(settingMeta.ID, settingBuffer, MimeTypes.Text);
+
+            foreach (Campaign c in settings.Campaigns)
+                foreach (string p in c.Players)
+                    await Explorer.ShareFile(newSettingsMetadata.ID, p, MimeTypes.Text);
         }
 
         public async Task<string> CreateFolderAsync(string folderName, string settingFolder)
@@ -161,14 +164,13 @@ namespace RetiraTracker.Model
 
         public async Task ShareFolderAsync(string folderId, Player player)
         {
-            await Explorer.ShareFile(folderId, player.EmailAddress);
-
             string playerJson = JsonConvert.SerializeObject(player);
             byte[] buffer = Encoding.UTF8.GetBytes(playerJson);
 
             string filename = player.EmailAddress.Split('@')[0];
 
-            await Explorer.UploadFileAsync($"{filename}.json", folderId, buffer, MimeTypes.Text);
+            FileMetadata metadata = await Explorer.UploadFileAsync($"{filename}.json", folderId, buffer, MimeTypes.Text);
+            await Explorer.ShareFile(metadata.ID, player.EmailAddress, MimeTypes.Text, Permissions.Writer);
         }
 
         public async Task<string> GetPlayerAsync(string fileName, string folderId)

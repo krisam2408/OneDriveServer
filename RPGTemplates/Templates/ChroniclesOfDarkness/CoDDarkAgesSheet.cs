@@ -143,11 +143,7 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
             get
             {
                 if(damage == null)
-                {
                     damage = new();
-                    for (int i = 0; i < Health; i++)
-                        damage.Add(' ');
-                }
 
                 return damage;
             }
@@ -180,6 +176,7 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
         public CoDDarkAgesSheet(string frame, string[] styles, string[] scripts) : base(frame, styles, scripts)
         {
             CanChangeTo = new GameTemplates[] { GameTemplates.WerewolfTheForsakenDarkAges};
+            UsesBonuses = false;
 
             Intelligence = 1;
             Wits = 1;
@@ -199,6 +196,7 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
         public CoDDarkAgesSheet() : base()
         {
             CanChangeTo = new GameTemplates[] { GameTemplates.WerewolfTheForsakenDarkAges };
+            UsesBonuses=false;
         }
     }
 }

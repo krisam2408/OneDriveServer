@@ -20,6 +20,7 @@ namespace SheetDrama.Abstracts
         public string CharacterName { get; set; }
         public string PlayerName { get; set; }
         public DateTime LastModified { get; set; }
+        public bool UsesBonuses { get; protected set; }
         
         public string SheetFrame { get; init; }
         public string[] SheetStyles { get; init; }
@@ -30,7 +31,6 @@ namespace SheetDrama.Abstracts
             SheetFrame = frame;
             SheetStyles = styles;
             SheetScripts = scripts;
-            LastModified = DateTime.Now;
         }
 
         protected ISheet() { }

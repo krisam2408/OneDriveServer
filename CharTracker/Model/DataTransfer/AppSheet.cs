@@ -44,7 +44,8 @@ namespace RetiraTracker.Model.DataTransfer
             if (Player == null)
                 throw new ArgumentNullException(nameof(Player), "Player is null.");
 
-            Sheet = SheetFactory.GetSheet(Player.SheetTemplate, Player.SheetJson);
+            ISheet newSheet = SheetFactory.GetSheet(Player.SheetTemplate, Player.SheetJson);
+            Sheet = newSheet;
         }
     }
 }

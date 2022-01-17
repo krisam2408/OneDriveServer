@@ -246,11 +246,7 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
             get
             {
                 if (damage == null)
-                {
                     damage = new();
-                    for (int i = 0; i < Health; i++)
-                        damage.Add(' ');
-                }
 
                 return damage;
             }
@@ -373,6 +369,7 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
         public WtFDarkAgesSheet(string frame, string[] styles, string[] scripts) : base(frame, styles, scripts)
         {
             CanChangeTo = Array.Empty<GameTemplates>();
+            UsesBonuses = true;
 
             Intelligence = 1;
             Wits = 1;
@@ -396,6 +393,7 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
         public WtFDarkAgesSheet(CoDDarkAgesSheet sheet, string frame, string[] styles, string[] scripts) :base(frame, styles, scripts)
         {
             CanChangeTo = Array.Empty<GameTemplates>();
+            UsesBonuses = true;
 
             SheetId = sheet.SheetId;
             CharacterName = sheet.CharacterName;
@@ -466,6 +464,7 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
         public WtFDarkAgesSheet() : base()
         {
             CanChangeTo = Array.Empty<GameTemplates>();
+            UsesBonuses = true;
         }
 
     }
