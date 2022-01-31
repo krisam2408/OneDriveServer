@@ -34,7 +34,7 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    <Border Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CircleButtonControl}}, Path=Diameter}" Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CircleButtonControl}}, Path=Diameter}" Style="{StaticResource BtnBorder}" core:MouseBehaviour.MouseDownCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CircleButtonControl}}, Path=Command}" CornerRadius="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CircleButtonControl}}, Path=Radio}" >
+    <Border Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CircleButtonControl}}, Path=Diameter}" Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CircleButtonControl}}, Path=Diameter}" Style="{StaticResource BtnBorder}" core:MouseBehaviour.MouseLeftDownCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CircleButtonControl}}, Path=Command}" CornerRadius="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CircleButtonControl}}, Path=Radio}" >
         <Path Style="{StaticResource BtnImage}" Stretch="UniformToFill" Data="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CircleButtonControl}}, Path=Data}" Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CircleButtonControl}}, Path=PathDiameter}" Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CircleButtonControl}}, Path=PathDiameter}" />
     </Border>
 </UserControl>

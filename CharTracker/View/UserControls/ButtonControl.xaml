@@ -37,7 +37,7 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    <Border Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ButtonControl}}, Path=BorderWidth}" Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ButtonControl}}, Path=BorderHeight}" Style="{StaticResource ResourceKey=BtnBorder}" core:MouseBehaviour.MouseDownCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ButtonControl}}, Path=Command}">
+    <Border Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ButtonControl}}, Path=BorderWidth}" Height="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ButtonControl}}, Path=BorderHeight}" Style="{StaticResource ResourceKey=BtnBorder}" core:MouseBehaviour.MouseLeftDownCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ButtonControl}}, Path=Command}">
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ButtonControl}}, Path=Text}" Style="{StaticResource ResourceKey=BtnText}" />
         </StackPanel>

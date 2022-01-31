@@ -25,10 +25,10 @@
         </Style>
     </UserControl.Resources>
     <WrapPanel>
-        <Ellipse x:Name="Dot0" Style="{StaticResource EllipseButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Dot5NumberControl}}, Path=Dot0Command}" />
-        <Ellipse x:Name="Dot1" Style="{StaticResource EllipseButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Dot5NumberControl}}, Path=Dot1Command}" />
-        <Ellipse x:Name="Dot2" Style="{StaticResource EllipseButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Dot5NumberControl}}, Path=Dot2Command}"  />
-        <Ellipse x:Name="Dot3" Style="{StaticResource EllipseButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Dot5NumberControl}}, Path=Dot3Command}" />
-        <Ellipse x:Name="Dot4" Style="{StaticResource EllipseButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Dot5NumberControl}}, Path=Dot4Command}" />
+        <Ellipse x:Name="Dot0" Style="{StaticResource EllipseButton}" core:MouseBehaviour.MouseLeftUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Dot5NumberControl}}, Path=Dot0Command}" />
+        <Ellipse x:Name="Dot1" Style="{StaticResource EllipseButton}" core:MouseBehaviour.MouseLeftUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Dot5NumberControl}}, Path=Dot1Command}" />
+        <Ellipse x:Name="Dot2" Style="{StaticResource EllipseButton}" core:MouseBehaviour.MouseLeftUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Dot5NumberControl}}, Path=Dot2Command}"  />
+        <Ellipse x:Name="Dot3" Style="{StaticResource EllipseButton}" core:MouseBehaviour.MouseLeftUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Dot5NumberControl}}, Path=Dot3Command}" />
+        <Ellipse x:Name="Dot4" Style="{StaticResource EllipseButton}" core:MouseBehaviour.MouseLeftUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Dot5NumberControl}}, Path=Dot4Command}" />
     </WrapPanel>
 </UserControl>

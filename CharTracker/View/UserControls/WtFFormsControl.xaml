@@ -34,23 +34,23 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Border Name="HishuButton" Style="{StaticResource FormButton}" Grid.Column="0" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WtFFormsControl}}, Path=Button00Command}">
+        <Border Name="HishuButton" Style="{StaticResource FormButton}" Grid.Column="0" core:MouseBehaviour.MouseLeftUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WtFFormsControl}}, Path=Button00Command}">
             <TextBlock Style="{StaticResource ButtonText}" Text="Hishu" />
         </Border>
 
-        <Border Name="DaluButton" Style="{StaticResource FormButton}" Grid.Column="1" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WtFFormsControl}}, Path=Button01Command}">
+        <Border Name="DaluButton" Style="{StaticResource FormButton}" Grid.Column="1" core:MouseBehaviour.MouseLeftUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WtFFormsControl}}, Path=Button01Command}">
             <TextBlock Style="{StaticResource ButtonText}" Text="Dalu" />
         </Border>
 
-        <Border Name="GauruButton" Style="{StaticResource FormButton}" Grid.Column="2" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WtFFormsControl}}, Path=Button02Command}">
+        <Border Name="GauruButton" Style="{StaticResource FormButton}" Grid.Column="2" core:MouseBehaviour.MouseLeftUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WtFFormsControl}}, Path=Button02Command}">
             <TextBlock Style="{StaticResource ButtonText}" Text="Gauru" />
         </Border>
 
-        <Border Name="UrshulButton" Style="{StaticResource FormButton}" Grid.Column="3" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WtFFormsControl}}, Path=Button03Command}">
+        <Border Name="UrshulButton" Style="{StaticResource FormButton}" Grid.Column="3" core:MouseBehaviour.MouseLeftUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WtFFormsControl}}, Path=Button03Command}">
             <TextBlock Style="{StaticResource ButtonText}" Text="Urshul" />
         </Border>
 
-        <Border Name="UrhanButton" Style="{StaticResource FormButton}" Grid.Column="4" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WtFFormsControl}}, Path=Button04Command}">
+        <Border Name="UrhanButton" Style="{StaticResource FormButton}" Grid.Column="4" core:MouseBehaviour.MouseLeftUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:WtFFormsControl}}, Path=Button04Command}">
             <TextBlock Style="{StaticResource ButtonText}" Text="Urhan" />
         </Border>
         

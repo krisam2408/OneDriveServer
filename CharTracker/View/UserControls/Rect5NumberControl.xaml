@@ -31,10 +31,10 @@
             <ColumnDefinition Width="24" />
             <ColumnDefinition Width="24" />
         </Grid.ColumnDefinitions>
-        <Rectangle x:Name="Rect0" Grid.Column="0" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Rect5NumberControl}}, Path=Rect0Command}" />
-        <Rectangle x:Name="Rect1" Grid.Column="1" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Rect5NumberControl}}, Path=Rect1Command}" />
-        <Rectangle x:Name="Rect2" Grid.Column="2" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Rect5NumberControl}}, Path=Rect2Command}" />
-        <Rectangle x:Name="Rect3" Grid.Column="3" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Rect5NumberControl}}, Path=Rect3Command}" />
-        <Rectangle x:Name="Rect4" Grid.Column="4" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Rect5NumberControl}}, Path=Rect4Command}" />
+        <Rectangle x:Name="Rect0" Grid.Column="0" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseLeftUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Rect5NumberControl}}, Path=Rect0Command}" />
+        <Rectangle x:Name="Rect1" Grid.Column="1" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseLeftUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Rect5NumberControl}}, Path=Rect1Command}" />
+        <Rectangle x:Name="Rect2" Grid.Column="2" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseLeftUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Rect5NumberControl}}, Path=Rect2Command}" />
+        <Rectangle x:Name="Rect3" Grid.Column="3" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseLeftUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Rect5NumberControl}}, Path=Rect3Command}" />
+        <Rectangle x:Name="Rect4" Grid.Column="4" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseLeftUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:Rect5NumberControl}}, Path=Rect4Command}" />
     </Grid>
 </UserControl>

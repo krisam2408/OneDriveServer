@@ -19,7 +19,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="32" />
             </Grid.RowDefinitions>
-            <StackPanel Grid.Column="0" Background="Transparent" core:MouseBehaviour.MouseDownCommand="{Binding Path=AppMoveDownCommand}" />
+            <StackPanel Grid.Column="0" Background="Transparent" core:MouseBehaviour.MouseLeftDownCommand="{Binding Path=AppMoveDownCommand}" />
             <controls:MinimizeButtonControl Grid.Column="1" Command="{Binding Path=AppMinimizeCommand}" Margin="0,8,0,0" />
             <controls:MaximizeButtonControl Grid.Column="2" Command="{Binding Path=AppMaximizeCommand}" Margin="8,8,8,0" />
             <controls:CloseButtonControl Grid.Column="3" Command="{Binding Path=AppCloseCommand}" Margin="0,8,0,0" />

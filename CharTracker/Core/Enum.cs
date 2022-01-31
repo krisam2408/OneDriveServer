@@ -1,5 +1,5 @@
 ﻿
 namespace RetiraTracker.Core
 {
-    public enum MouseAction { Up, Down, Drag, Leave }
+    public enum DotNumberControlValueType { Number, Bonus, AutoBonus }
 }

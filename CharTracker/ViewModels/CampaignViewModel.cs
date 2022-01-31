@@ -1,5 +1,4 @@
-﻿#define TEST
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using RetiraTracker.Core;
 using RetiraTracker.Core.Abstracts;
 using RetiraTracker.Model;
@@ -9,7 +8,6 @@ using RetiraTracker.View.Popups;
 using RetiraTracker.ViewModels.TemplateCommand;
 using SheetDrama;
 using SheetDrama.Abstracts;
-using SheetDrama.Templates.ChroniclesOfDarkness;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -44,8 +42,10 @@ namespace RetiraTracker.ViewModels
                     AppSheet sheet = value.GetContent<AppSheet>();
                     sheet.SetAppSheet();
 
-                    List<Task> tasks = new List<Task>() { SetSheet(sheet.Sheet), SetSheetPage(sheet.Sheet.SheetFrame) };
-                    Task.WhenAll(tasks);
+                    if (!sheet.Sheet.SheetFrame.Contains("SheetTemplates/"))
+                        sheet.Sheet.SheetFrame = $"SheetTemplates/{sheet.Sheet.SheetFrame}";
+
+                    SheetData = sheet.Sheet;
 
                     ChangeSheetButtonVisibility = OriginalSheetCanChangeValue(SheetData) && Terminal.Instance.Navigation.UserMail == CurrentCampaign.Narrator ? Visibility.Visible : Visibility.Hidden;
                 }
@@ -58,14 +58,8 @@ namespace RetiraTracker.ViewModels
         public new bool IsEnabled
         {
             get { return Terminal.IsEnabled; }
-            set
-            {
-                Terminal.IsEnabled = value;
-            }
+            set { Terminal.IsEnabled = value; }
         }
-
-        private string sheetSource;
-        public string SheetSource { get { return sheetSource; } set { SetValue(ref sheetSource, value); } }
 
         private ISheet sheetData;
         public ISheet SheetData { get { return sheetData; } set { SetValue(ref sheetData, value); } }
@@ -154,20 +148,6 @@ namespace RetiraTracker.ViewModels
             Terminal.Instance.Navigation.IsLoading(false);
         }
 
-        private Task SetSheetPage(string page)
-        {
-            SheetSource = $"SheetTemplates/{page}";
-
-            return Task.CompletedTask;
-        }
-
-        private Task SetSheet(ISheet sheet)
-        {
-            SheetData = sheet;
-
-            return Task.CompletedTask;
-        }
-
         private async Task UpdateCharacterSheet(int index)
         {
             AppSheet localAppSheet = SheetList[index].GetContent<AppSheet>();
@@ -182,8 +162,6 @@ namespace RetiraTracker.ViewModels
 
             if (localSheet.LastModified > onlineSheet.LastModified)
             {
-                if (localSheet.UsesBonuses)
-                    localAppSheet = ResetBonuses(localAppSheet);
                 await ExplorerManager.Instance.UpdatePlayerAsync(playerID, CurrentCampaign.FolderID, localAppSheet.Player);
             }
             else
@@ -260,30 +238,6 @@ namespace RetiraTracker.ViewModels
             Type sheetType = sheet.GetType();
             ISheet basicSheet = SheetFactory.GetBasicSheet(sheetType.Name);
             return basicSheet.CanChange;
-        }
-
-        private static AppSheet ResetBonuses(AppSheet appSheet)
-        {
-            Player player = new()
-            {
-                EmailAddress = appSheet.Player.EmailAddress,
-                SheetTemplate = appSheet.Player.SheetTemplate
-            };
-
-            switch (appSheet.Player.SheetTemplate)
-            {
-                case "WTFDarkAgesSheet":
-                    WtFDarkAgesSheet wtfSheet = (WtFDarkAgesSheet)appSheet.Sheet;
-                    wtfSheet.Forms = WerewolfForms.Hishu;
-                    player.SheetJson = JsonConvert.SerializeObject(wtfSheet);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(appSheet.Player.SheetTemplate), "SheetTemplate is not recognized as bonuses user.");
-            }
-
-            AppSheet output = new(player);
-
-            return output;
         }
     }
 }

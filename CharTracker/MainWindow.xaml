@@ -40,7 +40,7 @@
                 <RowDefinition Height="24" />
             </Grid.RowDefinitions>
 
-            <Image Grid.Row="0" Grid.Column="0" Source="/Content/Images/btn-dice.png" Style="{StaticResource HomeIcon}" Margin="0,8,0,0" core:MouseBehaviour.MouseDownCommand="{Binding Navigation.AppHomeCommand}" IsEnabled="{Binding Navigation.IsEnabled}" />
+            <Image Grid.Row="0" Grid.Column="0" Source="/Content/Images/btn-dice.png" Style="{StaticResource HomeIcon}" Margin="0,8,0,0" core:MouseBehaviour.MouseLeftDownCommand="{Binding Navigation.AppHomeCommand}" IsEnabled="{Binding Navigation.IsEnabled}" />
 
             <Frame Grid.Row="0" Grid.Column="1" Source="View/NavigationPage.xaml" />
 

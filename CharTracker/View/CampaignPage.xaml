@@ -24,7 +24,7 @@
             <controls:ButtonControl Text="Change Sheet" BorderWidth="126" BorderHeight="40" BorderBackground="{StaticResource Lila}" Command="{Binding ChangeTemplateCommand}" Visibility="{Binding ChangeSheetButtonVisibility}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
             <controls:ButtonControl Text="Sync" BorderWidth="126" BorderHeight="40" BorderBackground="{StaticResource Blau}" Margin="8, 0" Command="{Binding SyncSheetsCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
         </StackPanel>
-        
-        <Frame Grid.Column="1" Grid.Row="1" Source="{Binding SheetSource}" Margin="8,0,0,0" />
+
+        <Frame Grid.Column="1" Grid.Row="1" Source="{Binding SheetData.SheetFrame}" Margin="8,0,0,0" />
     </Grid>
 </Page>

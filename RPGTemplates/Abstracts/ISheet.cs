@@ -19,12 +19,12 @@ namespace SheetDrama.Abstracts
         public string SheetId { get; set; }
         public string CharacterName { get; set; }
         public string PlayerName { get; set; }
+        // -> Add Character Image
         public DateTime LastModified { get; set; }
-        public bool UsesBonuses { get; protected set; }
         
-        public string SheetFrame { get; init; }
-        public string[] SheetStyles { get; init; }
-        public string[] SheetScripts { get; init; }
+        public string SheetFrame { get; set; }
+        public string[] SheetStyles { get; set; }
+        public string[] SheetScripts { get; set; }
 
         protected ISheet(string frame, string[] styles, string[] scripts)
         {

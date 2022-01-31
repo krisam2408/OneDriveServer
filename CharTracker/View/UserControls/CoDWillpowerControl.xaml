@@ -55,16 +55,16 @@
         </WrapPanel>
         
         <WrapPanel Grid.Row="1" HorizontalAlignment="Center" Orientation="Horizontal">
-            <Rectangle x:Name="Rect0" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDWillpowerControl}}, Path=Rect0Command}" />
-            <Rectangle x:Name="Rect1" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDWillpowerControl}}, Path=Rect1Command}" />
-            <Rectangle x:Name="Rect2" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDWillpowerControl}}, Path=Rect2Command}" />
-            <Rectangle x:Name="Rect3" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDWillpowerControl}}, Path=Rect3Command}" />
-            <Rectangle x:Name="Rect4" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDWillpowerControl}}, Path=Rect4Command}" />
-            <Rectangle x:Name="Rect5" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDWillpowerControl}}, Path=Rect5Command}" />
-            <Rectangle x:Name="Rect6" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDWillpowerControl}}, Path=Rect6Command}" />
-            <Rectangle x:Name="Rect7" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDWillpowerControl}}, Path=Rect7Command}" />
-            <Rectangle x:Name="Rect8" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDWillpowerControl}}, Path=Rect8Command}" />
-            <Rectangle x:Name="Rect9" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDWillpowerControl}}, Path=Rect9Command}" />
+            <Rectangle x:Name="Rect0" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseLeftUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDWillpowerControl}}, Path=Rect0Command}" />
+            <Rectangle x:Name="Rect1" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseLeftUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDWillpowerControl}}, Path=Rect1Command}" />
+            <Rectangle x:Name="Rect2" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseLeftUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDWillpowerControl}}, Path=Rect2Command}" />
+            <Rectangle x:Name="Rect3" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseLeftUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDWillpowerControl}}, Path=Rect3Command}" />
+            <Rectangle x:Name="Rect4" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseLeftUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDWillpowerControl}}, Path=Rect4Command}" />
+            <Rectangle x:Name="Rect5" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseLeftUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDWillpowerControl}}, Path=Rect5Command}" />
+            <Rectangle x:Name="Rect6" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseLeftUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDWillpowerControl}}, Path=Rect6Command}" />
+            <Rectangle x:Name="Rect7" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseLeftUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDWillpowerControl}}, Path=Rect7Command}" />
+            <Rectangle x:Name="Rect8" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseLeftUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDWillpowerControl}}, Path=Rect8Command}" />
+            <Rectangle x:Name="Rect9" Style="{StaticResource RectButton}" core:MouseBehaviour.MouseLeftUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDWillpowerControl}}, Path=Rect9Command}" />
         </WrapPanel>
         
     </Grid>

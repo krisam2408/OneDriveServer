@@ -5,57 +5,59 @@ namespace RetiraTracker.Core
 {
     public class MouseBehaviour
     {
-        public static readonly DependencyProperty MouseUpCommandProperty = DependencyProperty.RegisterAttached("MouseUpCommand", typeof(ICommand), typeof(MouseBehaviour), new FrameworkPropertyMetadata(new PropertyChangedCallback(MouseUpCommandChanged)));
-        public static readonly DependencyProperty MouseDownCommandProperty = DependencyProperty.RegisterAttached("MouseDownCommand", typeof(ICommand), typeof(MouseBehaviour), new FrameworkPropertyMetadata(new PropertyChangedCallback(MouseDownCommandChanged)));
+        public static readonly DependencyProperty MouseLeftUpCommandProperty = DependencyProperty.RegisterAttached("MouseLeftUpCommand", typeof(ICommand), typeof(MouseBehaviour), new FrameworkPropertyMetadata(new PropertyChangedCallback(MouseLeftUpCommandChanged)));
+        public static readonly DependencyProperty MouseLeftDownCommandProperty = DependencyProperty.RegisterAttached("MouseLeftDownCommand", typeof(ICommand), typeof(MouseBehaviour), new FrameworkPropertyMetadata(new PropertyChangedCallback(MouseLeftDownCommandChanged)));
         public static readonly DependencyProperty MouseDragCommandProperty = DependencyProperty.RegisterAttached("MouseDragCommand", typeof(ICommand), typeof(MouseBehaviour), new FrameworkPropertyMetadata(new PropertyChangedCallback(MouseDragCommandChanged)));
         public static readonly DependencyProperty MouseLeaveCommandProperty = DependencyProperty.RegisterAttached("MouseLeaveCommand", typeof(ICommand), typeof(MouseBehaviour), new FrameworkPropertyMetadata(new PropertyChangedCallback(MouseLeaveCommandChanged)));
+        public static readonly DependencyProperty MouseRightUpCommandProperty = DependencyProperty.RegisterAttached("MouseRightUpCommand", typeof(ICommand), typeof(MouseBehaviour), new FrameworkPropertyMetadata(new PropertyChangedCallback(MouseRightUpCommandChanged)));
+        public static readonly DependencyProperty MouseRightDownCommandProperty = DependencyProperty.RegisterAttached("MouseRightDownCommand", typeof(ICommand), typeof(MouseBehaviour), new FrameworkPropertyMetadata(new PropertyChangedCallback(MouseRightDownCommandChanged)));
 
-        private static void MouseUpCommandChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        private static void MouseLeftUpCommandChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             FrameworkElement element = (FrameworkElement)sender;
 
-            element.MouseUp += new MouseButtonEventHandler(MouseUpCommand);
+            element.MouseLeftButtonUp += new MouseButtonEventHandler(MouseLeftUpCommand);
         }
 
-        private static void MouseUpCommand(object sender, MouseEventArgs e)
+        private static void MouseLeftUpCommand(object sender, MouseEventArgs e)
         {
             FrameworkElement element = (FrameworkElement)sender;
-            ICommand command = GetMouseUpCommand(element);
+            ICommand command = GetMouseLeftUpCommand(element);
             command.Execute(e);
         }
 
-        public static void SetMouseUpCommand(UIElement element, ICommand command)
+        public static void SetMouseLeftUpCommand(UIElement element, ICommand command)
         {
-            element.SetValue(MouseUpCommandProperty, command);
+            element.SetValue(MouseLeftUpCommandProperty, command);
         }
 
-        public static ICommand GetMouseUpCommand(UIElement element)
+        public static ICommand GetMouseLeftUpCommand(UIElement element)
         {
-            return (ICommand)element.GetValue(MouseUpCommandProperty);
+            return (ICommand)element.GetValue(MouseLeftUpCommandProperty);
         }
 
-        private static void MouseDownCommandChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        private static void MouseLeftDownCommandChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
         {
             FrameworkElement element = (FrameworkElement)sender;
 
-            element.MouseDown += new MouseButtonEventHandler(MouseDownCommand);
+            element.MouseLeftButtonDown += new MouseButtonEventHandler(MouseLeftDownCommand);
         }
 
-        private static void MouseDownCommand(object sender, MouseEventArgs e)
+        private static void MouseLeftDownCommand(object sender, MouseEventArgs e)
         {
             FrameworkElement element = (FrameworkElement)sender;
-            ICommand command = GetMouseDownCommand(element);
+            ICommand command = GetMouseLeftDownCommand(element);
             command.Execute(e);
         }
 
-        public static void SetMouseDownCommand(UIElement element, ICommand command)
+        public static void SetMouseLeftDownCommand(UIElement element, ICommand command)
         {
-            element.SetValue(MouseDownCommandProperty, command);
+            element.SetValue(MouseLeftDownCommandProperty, command);
         }
 
-        public static ICommand GetMouseDownCommand(UIElement element)
+        public static ICommand GetMouseLeftDownCommand(UIElement element)
         {
-            return (ICommand)element.GetValue(MouseDownCommandProperty);
+            return (ICommand)element.GetValue(MouseLeftDownCommandProperty);
         }
 
         private static void MouseDragCommandChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
@@ -104,6 +106,54 @@ namespace RetiraTracker.Core
         public static ICommand GetMouseLeaveCommand(UIElement element)
         {
             return (ICommand)element.GetValue(MouseLeaveCommandProperty);
+        }
+
+        private static void MouseRightUpCommandChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            FrameworkElement element = (FrameworkElement)sender;
+
+            element.MouseRightButtonUp += new MouseButtonEventHandler(MouseRightUpCommand);
+        }
+
+        private static void MouseRightUpCommand(object sender, MouseEventArgs e)
+        {
+            FrameworkElement element = (FrameworkElement)sender;
+            ICommand command = GetMouseRightUpCommand(element);
+            command.Execute(e);
+        }
+
+        public static void SetMouseRightUpCommand(UIElement element, ICommand command)
+        {
+            element.SetValue(MouseRightUpCommandProperty, command);
+        }
+
+        public static ICommand GetMouseRightUpCommand(UIElement element)
+        {
+            return (ICommand)element.GetValue(MouseRightUpCommandProperty);
+        }
+
+        private static void MouseRightDownCommandChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            FrameworkElement element = (FrameworkElement)sender;
+
+            element.MouseRightButtonDown += new MouseButtonEventHandler(MouseRightDownCommand);
+        }
+
+        private static void MouseRightDownCommand(object sender, MouseEventArgs e)
+        {
+            FrameworkElement element = (FrameworkElement)sender;
+            ICommand command = GetMouseRightDownCommand(element);
+            command.Execute(e);
+        }
+
+        public static void SetMouseRightDownCommand(UIElement element, ICommand command)
+        {
+            element.SetValue(MouseRightUpCommandProperty, command);
+        }
+
+        public static ICommand GetMouseRightDownCommand(UIElement element)
+        {
+            return (ICommand)element.GetValue(MouseRightDownCommandProperty);
         }
     }
 }
