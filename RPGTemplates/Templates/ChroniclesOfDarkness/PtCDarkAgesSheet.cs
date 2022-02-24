@@ -6,18 +6,16 @@ using System.Linq;
 
 namespace SheetDrama.Templates.ChroniclesOfDarkness
 {
-    public class WtFDarkAgesSheet:ISheet
+    public class PtCDarkAgesSheet : ISheet
     {
         public string Age { get; set; }
         public string Concept { get; set; }
-        public string Blood { get; set; }
-        public string Bone { get; set; }
-        public string Auspice { get; set; }
-        public string Tribe { get; set; }
-        public string Lodge { get; set; }
+        public string Elpis { get; set; }
+        public string Torment { get; set; }
+        public string Lineage { get; set; }
+        public string Refinement { get; set; }
+        public string Role { get; set; }
 
-        public WerewolfForms Forms { get; set; }
-        
         public int Intelligence { get; set; }
         public int IntelligenceBonus { get; set; }
         public int Wits { get; set; }
@@ -27,70 +25,17 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
 
         public int Strength { get; set; }
         public int StrengthBonus { get; set; }
-        public int StrengthAutoBonus
-        {
-            get
-            {
-                return Forms switch
-                {
-                    WerewolfForms.Hishu or WerewolfForms.Urhan => 0,
-                    WerewolfForms.Dalu => 1,
-                    WerewolfForms.Gauru => 3,
-                    WerewolfForms.Urshul => 2,
-                    _ => throw new ArgumentOutOfRangeException()
-                };
-            }
-        }
         public int Dexterity { get; set; }
         public int DexterityBonus { get; set; }
-        public int DexterityAutoBonus
-        {
-            get
-            {
-                return Forms switch
-                {
-                    WerewolfForms.Hishu or WerewolfForms.Dalu => 0,
-                    WerewolfForms.Gauru => 1,
-                    WerewolfForms.Urshul or WerewolfForms.Urhan => 2,
-                    _ => throw new ArgumentOutOfRangeException()
-                };
-            }
-        }
         public int Stamina { get; set; }
         public int StaminaBonus { get; set; }
-        public int StaminaAutoBonus
-        {
-            get
-            {
-                return Forms switch
-                {
-                    WerewolfForms.Hishu => 0,
-                    WerewolfForms.Dalu or WerewolfForms.Urhan => 1,
-                    WerewolfForms.Gauru or WerewolfForms.Urshul => 2,
-                    _ => throw new ArgumentOutOfRangeException()
-                };
-            }
-        }
 
         public int Presence { get; set; }
         public int PresenceBonus { get; set; }
         public int Manipulation { get; set; }
         public int ManipulationBonus { get; set; }
-        public int ManipulationAutoBonus
-        {
-            get
-            {
-                return Forms switch
-                {
-                    WerewolfForms.Hishu or WerewolfForms.Gauru => 0,
-                    WerewolfForms.Dalu or WerewolfForms.Urshul or WerewolfForms.Urhan => -1,
-                    _ => throw new ArgumentOutOfRangeException()
-                };
-            }
-        }
         public int Composure { get; set; }
         public int ComposureBonus { get; set; }
-
 
         public int Academics { get; set; }
         public int AcademicsBonus { get; set; }
@@ -191,55 +136,21 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
             set { aspirations = value; }
         }
 
-        private int size;
-        public int Size { get { return size + SizeAutoBonus; } set { size = value; } }
-        public int SizeAutoBonus
-        {
-            get
-            {
-                return Forms switch
-                {
-                    WerewolfForms.Hishu => 0,
-                    WerewolfForms.Dalu or WerewolfForms.Urshul => 1,
-                    WerewolfForms.Gauru => 2,
-                    WerewolfForms.Urhan => -1,
-                    _ => throw new ArgumentOutOfRangeException()
-                };
-            }
-        }
+        public int Size { get; set; }
         public int Speed
         {
             get
             {
-                return Forms switch 
-                { 
-                    WerewolfForms.Hishu or WerewolfForms.Dalu or WerewolfForms.Gauru => Strength + StrengthBonus + StrengthAutoBonus + Dexterity + DexterityBonus + DexterityAutoBonus + 5,
-                    WerewolfForms.Urshul or WerewolfForms.Urhan => Strength + StrengthBonus + StrengthAutoBonus + Dexterity + DexterityBonus + DexterityAutoBonus + 8,
-                    _ => throw new ArgumentOutOfRangeException()
-                };
-            }
-        }
-        public int PerceptionBonus
-        {
-            get
-            {
-                return Forms switch
-                {
-                    WerewolfForms.Hishu => 1,
-                    WerewolfForms.Dalu => 2,
-                    WerewolfForms.Gauru or WerewolfForms.Urshul => 3,
-                    WerewolfForms.Urhan => 4,
-                    _ => throw new ArgumentOutOfRangeException()
-                };
+                return Strength+StrengthBonus + Dexterity+DexterityBonus + 5;
             }
         }
         public int Defense
         {
             get
             {
-                int[] attributes = { Wits + WitsBonus, Dexterity + DexterityBonus + DexterityAutoBonus };
+                int[] attributes = { Wits + WitsBonus, Dexterity + DexterityBonus };
                 int low = attributes.Min();
-                low += Athletics + AthleticsBonus;
+                low += Athletics+AthleticsBonus;
                 return low;
             }
         }
@@ -248,17 +159,19 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
         {
             get
             {
-                return Dexterity + DexterityBonus + DexterityAutoBonus + Composure + ComposureBonus;
+                return Dexterity + DexterityBonus + Composure + ComposureBonus;
             }
         }
         public int Beats { get; set; }
         public int Experience { get; set; }
+        public int VitriolBeats { get; set; }
+        public int VitriolExperience { get; set; }
 
         public int Health
         {
             get
             {
-                return Stamina + StaminaBonus + StaminaAutoBonus + Size;
+                return Stamina+StaminaBonus + Size;
             }
         }
 
@@ -279,18 +192,18 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
         {
             get
             {
-                return Resolve + ResolveBonus + Composure + ComposureBonus;
+                return Resolve+ResolveBonus + Composure+ComposureBonus;
             }
         }
         public int CurrentWillpower { get; set; }
 
-        public int PrimalUrge { get; set; }
-        public int Essence { get; set; }
-        public int MaxEssence
+        public int Azoth { get; set; }
+        public int Pyros { get; set; }
+        public int MaxPyros
         {
             get
             {
-                return PrimalUrge switch
+                return Azoth switch
                 {
                     1 => 10,
                     2 => 11,
@@ -298,56 +211,38 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
                     4 => 13,
                     5 => 15,
                     6 => 20,
-                    7 => 25,
-                    8 => 30,
+                    7 => 30,
+                    8 => 40,
                     9 => 50,
-                    _ => 75
+                    _ => 100
                 };
             }
         }
 
-        public int Harmony { get; set; }
-        public string FleshTouchstone { get; set; }
-        public string SpiritTouchstone { get; set; }
+        public int Pilgrimage { get; set; }
 
-        public int Purity { get; set; }
-        public int Glory { get; set; }
-        public int Honor { get; set; }
-        public int Wisdom { get; set; }
-        public int Cunning { get; set; }
+        private List<KeyStringValue> bestowments;
+        public List<KeyStringValue> Bestowments
+        {
+            get
+            {
+                if(bestowments == null)
+                    bestowments = new();
+                return bestowments;
+            }
+            set { bestowments = value; }
+        }
 
-        private List<KeyStringValue> passiveKuruthTriggers;
-        public List<KeyStringValue> PassiveKuruthTriggers
+        private List<TransmutationValue> transmutations;
+        public List<TransmutationValue> Transmutations
         {
             get
             {
-                if (passiveKuruthTriggers == null)
-                    passiveKuruthTriggers = new();
-                return passiveKuruthTriggers;
+                if(transmutations == null)
+                    transmutations = new();
+                return transmutations;
             }
-            set { passiveKuruthTriggers = value; }
-        }
-        private List<KeyStringValue> commonKuruthTriggers;
-        public List<KeyStringValue> CommonKuruthTriggers
-        {
-            get
-            {
-                if (commonKuruthTriggers == null)
-                    commonKuruthTriggers = new();
-                return commonKuruthTriggers;
-            }
-            set { commonKuruthTriggers = value; }
-        }
-        private List<KeyStringValue> specificKuruthTriggers;
-        public List<KeyStringValue> SpecificKuruthTriggers
-        {
-            get
-            {
-                if (specificKuruthTriggers == null)
-                    specificKuruthTriggers = new();
-                return specificKuruthTriggers;
-            }
-            set { specificKuruthTriggers = value; }
+            set { transmutations = value; }
         }
 
         private List<KeyStringValue> inventory;
@@ -362,52 +257,7 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
             set { inventory = value; }
         }
 
-        private List<KeyIntValue> moonGifts;
-        public List<KeyIntValue> MoonGifts
-        {
-            get
-            {
-                if(moonGifts == null)
-                    moonGifts = new();
-                return moonGifts;
-            }
-            set { moonGifts = value; }
-        }
-        private List<KeyStringValue> shadowGifts;
-        public List<KeyStringValue> ShadowGifts
-        {
-            get
-            {
-                if (shadowGifts == null)
-                    shadowGifts = new();
-                return shadowGifts;
-            }
-            set { shadowGifts = value; }
-        }
-        private List<KeyStringValue> wolfGifts;
-        public List<KeyStringValue> WolfGifts
-        {
-            get
-            {
-                if (wolfGifts == null)
-                    wolfGifts = new();
-                return wolfGifts;
-            }
-            set { wolfGifts = value; }
-        }
-        private List<KeyStringValue> rites;
-        public List<KeyStringValue> Rites
-        {
-            get
-            {
-                if (rites == null)
-                    rites = new();
-                return rites;
-            }
-            set { rites = value; }
-        }
-
-        public WtFDarkAgesSheet(string frame, string[] styles, string[] scripts) : base(frame, styles, scripts)
+        public PtCDarkAgesSheet(string frame, string[] styles, string[] scripts) : base(frame, styles, scripts)
         {
             CanChangeTo = Array.Empty<GameTemplates>();
 
@@ -423,32 +273,29 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
             Manipulation = 1;
             Composure = 1;
 
-            Harmony = 7;
+            Pilgrimage = 1;
 
-            Forms = WerewolfForms.Hishu;
-            PrimalUrge = 1;
-            Essence = 7;
+            Azoth = 1;
+            Pyros = 10;
         }
 
-        public WtFDarkAgesSheet(CoDDarkAgesSheet sheet, string frame, string[] styles, string[] scripts) :base(frame, styles, scripts)
+        public PtCDarkAgesSheet(CoDDarkAgesSheet sheet, string frame, string[] styles, string[] scripts):base(frame, styles, scripts)
         {
             CanChangeTo = Array.Empty<GameTemplates>();
 
             SheetId = sheet.SheetId;
             CharacterName = sheet.CharacterName;
             PlayerName = sheet.PlayerName;
-            
+
             Age = sheet.Age;
             Concept = sheet.Concept;
-
-            Forms = WerewolfForms.Hishu;
 
             Intelligence = sheet.Intelligence;
             Wits = sheet.Wits;
             Resolve = sheet.Resolve;
 
             Strength = sheet.Strength;
-            Dexterity= sheet.Dexterity;
+            Dexterity = sheet.Dexterity;
             Stamina = sheet.Stamina;
 
             Presence = sheet.Presence;
@@ -484,7 +331,8 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
 
             Merits = sheet.Merits;
             CurrentWillpower = sheet.CurrentWillpower;
-            Harmony = 9;
+            Pilgrimage = 1;
+
             Aspirations = sheet.Aspirations;
             Conditions = sheet.Conditions;
             Beats = sheet.Beats;
@@ -496,14 +344,13 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
             Armor = sheet.Armor;
             Size = sheet.Size;
 
-            PrimalUrge = 1;
-            Essence = 7;
+            Azoth = 1;
+            Pyros = 10;
         }
 
-        public WtFDarkAgesSheet() : base()
+        public PtCDarkAgesSheet() : base()
         {
             CanChangeTo = Array.Empty<GameTemplates>();
         }
-
     }
 }

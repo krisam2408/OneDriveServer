@@ -22,10 +22,12 @@ namespace RetiraTracker.View.UserControls
     public partial class RectNumberControl : UserControl
     {
         private readonly SolidColorBrush transparent = new SolidColorBrush(Color.FromArgb(30, 0, 0, 0));
+        private readonly SolidColorBrush disabled = (SolidColorBrush)Application.Current.Resources["Grau"];
         private readonly LinearGradientBrush slash;
         private Rectangle[] Rects;
 
         public EventHandler NumberChanged;
+        public EventHandler MaxNumberChanged;
 
         public RectNumberControl()
         {
@@ -49,8 +51,13 @@ namespace RetiraTracker.View.UserControls
 
             NumberChanged += (sender, e) =>
             {
-                SetRectFills(Number);
+                SetRectFills();
                 ValueChanged?.Execute(null);
+            };
+
+            MaxNumberChanged += (sender, e) =>
+            {
+                SetRectFills();
             };
         }
 
@@ -65,7 +72,7 @@ namespace RetiraTracker.View.UserControls
             set
             {
                 int input = 0;
-                if (value > 0 && value <= 5)
+                if (value > 0 && value <= MaxNumber)
                     input = value;
 
                 SetValue(NumberProperty, input);
@@ -78,6 +85,32 @@ namespace RetiraTracker.View.UserControls
 
             if (source.NumberChanged != null)
                 source.NumberChanged(source, EventArgs.Empty);
+        }
+
+        public static DependencyProperty MaxNumberProperty = DependencyProperty.Register("MaxNumber", typeof(int), typeof(RectNumberControl), new PropertyMetadata(0, OnMaxNumberChanged));
+        public int MaxNumber
+        {
+            get
+            {
+                int val = (int)GetValue(MaxNumberProperty);
+                return val;
+            }
+            set
+            {
+                int input = 0;
+                if (value > 0 && value <= 5)
+                    input = value;
+
+                SetValue(MaxNumberProperty, input);
+            }
+        }
+
+        private static void OnMaxNumberChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            RectNumberControl source = (RectNumberControl)d;
+
+            if (source.MaxNumberChanged != null)
+                source.MaxNumberChanged(source, EventArgs.Empty);
         }
 
         public static DependencyProperty ValueChangedProperty = DependencyProperty.Register("ValueChanged", typeof(ICommand), typeof(RectNumberControl));
@@ -122,13 +155,16 @@ namespace RetiraTracker.View.UserControls
         public ICommand Rect18Command { get { return new RelayCommand((e) => { Number = 19; }); } }
         public ICommand Rect19Command { get { return new RelayCommand((e) => { Number = 20; }); } }
 
-        public void SetRectFills(int val = 0)
+        public void SetRectFills()
         {
             for (int i = 0; i < Rects.Length; i++)
                 Rects[i].Fill = transparent;
 
-            for (int i = 0; i < val; i++)
+            for (int i = 0; i < Number; i++)
                 Rects[i].Fill = slash;
+
+            for (int i = MaxNumber; i < 20; i++)
+                Rects[i].Fill = disabled;
         }
     }
 }

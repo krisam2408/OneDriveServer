@@ -2,6 +2,7 @@
 using SheetDrama.Abstracts;
 using SheetDrama.DataTransfer;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SheetDrama.Templates.ChroniclesOfDarkness
 {
@@ -137,17 +138,16 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
         { 
             get
             {
-                return Strength + Dexterity + 5;
+                return Strength + StrengthBonus + Dexterity + DexterityBonus + 5;
             }
         }
         public int Defense
         {
             get
             {
-                int low;
-                if (Wits < Dexterity) low = Wits;
-                else low = Dexterity;
-                low += Athletics;
+                int[] attributes = { Wits + WitsBonus, Dexterity + DexterityBonus };
+                int low = attributes.Min();
+                low += Athletics+AthleticsBonus;
                 return low;
             }
         }
@@ -156,7 +156,7 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
         {
             get
             {
-                return Dexterity + Composure;
+                return Dexterity+DexterityBonus + Composure+ComposureBonus;
             }
         }
         public int Beats { get; set; }
@@ -166,7 +166,7 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
         { 
             get
             {
-                return Stamina + Size;
+                return Stamina+StaminaBonus + Size;
             }
         }
 
@@ -187,7 +187,7 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
         {
             get
             {
-                return Resolve + Composure;
+                return Resolve+ResolveBonus + Composure+ComposureBonus;
             }
         }
         public int CurrentWillpower { get; set; }
@@ -208,7 +208,7 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
 
         public CoDDarkAgesSheet(string frame, string[] styles, string[] scripts) : base(frame, styles, scripts)
         {
-            CanChangeTo = new GameTemplates[] { GameTemplates.WerewolfTheForsakenDarkAges};
+            CanChangeTo = new GameTemplates[] { GameTemplates.WerewolfTheForsakenDarkAges, GameTemplates.PrometheanTheCreatedDarkAges };
 
             Intelligence = 1;
             Wits = 1;
@@ -227,7 +227,7 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
 
         public CoDDarkAgesSheet() : base()
         {
-            CanChangeTo = new GameTemplates[] { GameTemplates.WerewolfTheForsakenDarkAges };
+            CanChangeTo = new GameTemplates[] { GameTemplates.WerewolfTheForsakenDarkAges, GameTemplates.PrometheanTheCreatedDarkAges };
         }
     }
 }
