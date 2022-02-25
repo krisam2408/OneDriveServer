@@ -39,5 +39,18 @@ namespace SheetDrama.Abstracts
         {
             return JsonConvert.SerializeObject(this);
         }
+
+        public override bool Equals(object obj)
+        {
+            if(obj is ISheet isheet)
+                if (isheet.SheetId == SheetId)
+                    return true;
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return SheetId.GetHashCode();
+        }
     }
 }

@@ -25,6 +25,6 @@
             <controls:ButtonControl Text="Sync" BorderWidth="126" BorderHeight="40" BorderBackground="{StaticResource Blau}" Margin="8, 0" Command="{Binding SyncSheetsCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
         </StackPanel>
 
-        <Frame Grid.Column="1" Grid.Row="1" Source="{Binding SheetData.SheetFrame}" Margin="8,0,0,0" />
+        <ItemsControl Grid.Column="1" Grid.Row="1" ItemsSource="{Binding FrameList}" Margin="8,0,0,0" />
     </Grid>
 </Page>

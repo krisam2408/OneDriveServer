@@ -15,6 +15,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace RetiraTracker.ViewModels
@@ -42,15 +43,15 @@ namespace RetiraTracker.ViewModels
                     AppSheet sheet = value.GetContent<AppSheet>();
                     sheet.SetAppSheet();
 
-                    if (!sheet.Sheet.SheetFrame.Contains("SheetTemplates/"))
-                        sheet.Sheet.SheetFrame = $"SheetTemplates/{sheet.Sheet.SheetFrame}";
+                    SetVisibleSheetFrame(sheet.Sheet);
 
-                    SheetData = sheet.Sheet;
-
-                    ChangeSheetButtonVisibility = OriginalSheetCanChangeValue(SheetData) && Terminal.Instance.Navigation.UserMail == CurrentCampaign.Narrator ? Visibility.Visible : Visibility.Hidden;
+                    ChangeSheetButtonVisibility = OriginalSheetCanChangeValue(sheet.Sheet) && Terminal.Instance.Navigation.UserMail == CurrentCampaign.Narrator ? Visibility.Visible : Visibility.Hidden;
                 }
             }
         }
+
+        private ObservableCollection<Frame> frameList;
+        public ObservableCollection<Frame> FrameList { get { return frameList; } set { SetValue(ref frameList, value); } }
 
         private Visibility changeSheetButtonVisibility;
         public Visibility ChangeSheetButtonVisibility { get { return changeSheetButtonVisibility; } set { SetValue(ref changeSheetButtonVisibility, value); } }
@@ -60,9 +61,6 @@ namespace RetiraTracker.ViewModels
             get { return Terminal.IsEnabled; }
             set { Terminal.IsEnabled = value; }
         }
-
-        private ISheet sheetData;
-        public ISheet SheetData { get { return sheetData; } set { SetValue(ref sheetData, value); } }
 
         public ICommand UpdateSheetCommand { get { return new RelayCommand((e) => UpdateSheet()); } }
         public ICommand SyncSheetsCommand { get { return new RelayCommand(async (e) => await SyncSheets()); } }
@@ -94,12 +92,14 @@ namespace RetiraTracker.ViewModels
 
             await Task.WhenAll(tasks);
 
-            AppSheet firstAppSheet = list[0].GetContent<AppSheet>();
+            vm.SheetList = list;
+            vm.FrameList = SetFrames(list);
+
+            vm.SelectedSheet = list[0];
+            AppSheet firstAppSheet = vm.SelectedSheet.GetContent<AppSheet>();
             firstAppSheet.SetAppSheet();
             ISheet firstSheet = firstAppSheet.Sheet;
             vm.SetTemplateCommand(firstSheet.SheetScripts[0]);
-
-            vm.SheetList = list;
 
             vm.SelectedSheet = vm.SheetList[0];
 
@@ -120,17 +120,10 @@ namespace RetiraTracker.ViewModels
 
         private void UpdateSheet()
         {
-            SheetData.LastModified = DateTime.Now;
-
-            AppSheet newSheet = SelectedSheet.GetContent<AppSheet>();
-            newSheet.Player.SheetJson = JsonConvert.SerializeObject(SheetData);
-            newSheet.SetAppSheet();
-
-            SelectedSheet.SetContent(newSheet);
-            SelectedSheet.SetDisplay(SheetPlayerDisplay());
-            NotifyPropertyChanged(nameof(SheetList));
+            ISheet selectedSheet = GetSelectedSheet();
+            selectedSheet.LastModified = DateTime.Now;
             
-            NotifyPropertyChanged(nameof(SheetData));
+            SelectedSheet.SetDisplay(SheetPlayerDisplay(selectedSheet));
         }
 
         private async Task SyncSheets()
@@ -139,10 +132,14 @@ namespace RetiraTracker.ViewModels
             IsEnabled = false;
 
             List<Task> updateTasks = new();
-            for(int i = 0; i < SheetList.Count; i++)
+            for(int i = 0; i < FrameList.Count; i++)
                 updateTasks.Add(UpdateCharacterSheet(i));
 
             await Task.WhenAll(updateTasks);
+
+            ListItem temp = SelectedSheet;
+            SelectedSheet = null;
+            SelectedSheet = temp;
 
             IsEnabled = true;
             Terminal.Instance.Navigation.IsLoading(false);
@@ -151,8 +148,7 @@ namespace RetiraTracker.ViewModels
         private async Task UpdateCharacterSheet(int index)
         {
             AppSheet localAppSheet = SheetList[index].GetContent<AppSheet>();
-            localAppSheet.SetAppSheet();
-            ISheet localSheet = localAppSheet.Sheet;
+            ISheet localSheet = (ISheet)FrameList[index].DataContext;
 
             string playerID = SetPlayerDisplay(localAppSheet.Player.EmailAddress);
             string onlinePlayerJson = await ExplorerManager.Instance.GetPlayerAsync(playerID, CurrentCampaign.FolderID);
@@ -162,12 +158,14 @@ namespace RetiraTracker.ViewModels
 
             if (localSheet.LastModified > onlineSheet.LastModified)
             {
-                await ExplorerManager.Instance.UpdatePlayerAsync(playerID, CurrentCampaign.FolderID, localAppSheet.Player);
+                AppSheet updatedAppSheet = new(localAppSheet.Player);
+                updatedAppSheet.Sheet = localSheet;
+                await ExplorerManager.Instance.UpdatePlayerAsync(playerID, CurrentCampaign.FolderID, updatedAppSheet.Player);
             }
             else
             {
                 SheetList[index].SetContent(onlineAppSheet);
-                SelectedSheet = SelectedSheet;
+                FrameList[index].DataContext = onlineSheet;
             }
         }
 
@@ -175,19 +173,21 @@ namespace RetiraTracker.ViewModels
         {
             IsEnabled = false;
 
-            string sheetType = SheetData.GetType().Name;
+            ISheet selectedSheet = GetSelectedSheet();
+
+            string sheetType = selectedSheet.GetType().Name;
             ISheet basicSheet = SheetFactory.GetBasicSheet(sheetType);
 
             ChangeSheetTemplatePopup popup = new(basicSheet.CanChangeTo);
             popup.Show();
         }
 
-        private string SheetPlayerDisplay()
+        private string SheetPlayerDisplay(ISheet sheet)
         {
-            if (!string.IsNullOrWhiteSpace(SheetData.CharacterName))
-                return SheetData.CharacterName;
+            if (!string.IsNullOrWhiteSpace(sheet.CharacterName))
+                return sheet.CharacterName;
 
-            string username = SheetData.PlayerName.Split('@')[0];
+            string username = sheet.PlayerName.Split('@')[0];
             return $"({username})";
         }
 
@@ -233,11 +233,54 @@ namespace RetiraTracker.ViewModels
             return $"{user}.json";
         }
 
+        private static ObservableCollection<Frame> SetFrames(ObservableCollection<ListItem> sheetList)
+        {
+            ObservableCollection<Frame> output = new();
+
+            foreach (ListItem item in sheetList)
+            {
+                Frame frame = new();
+                AppSheet appSheet = item.GetContent<AppSheet>();
+                appSheet.SetAppSheet();
+
+                if (!appSheet.Sheet.SheetFrame.Contains("SheetTemplates/"))
+                    appSheet.Sheet.SheetFrame = $"SheetTemplates/{appSheet.Sheet.SheetFrame}";
+
+                frame.Source = new(appSheet.Sheet.SheetFrame);
+                frame.DataContext = appSheet.Sheet;
+                frame.Visibility = Visibility.Collapsed;
+                output.Add(frame);
+            }
+
+            return output;
+        }
+
         private static bool OriginalSheetCanChangeValue(ISheet sheet)
         {
             Type sheetType = sheet.GetType();
             ISheet basicSheet = SheetFactory.GetBasicSheet(sheetType.Name);
             return basicSheet.CanChange;
+        }
+
+        private void SetVisibleSheetFrame(ISheet selectedSheet)
+        {
+            foreach (Frame frame in FrameList)
+            {
+                frame.Visibility = Visibility.Collapsed;
+                if(frame.DataContext == selectedSheet)
+                    frame.Visibility = Visibility.Visible;
+            }
+        }
+
+        private ISheet GetSelectedSheet()
+        {
+            AppSheet selectedSheet = SelectedSheet.GetContent<AppSheet>();
+            selectedSheet.SetAppSheet();
+
+            foreach(Frame frame in FrameList)
+                if(frame.DataContext == selectedSheet.Sheet)
+                    return (ISheet)frame.DataContext;
+            throw new ArgumentOutOfRangeException(nameof(selectedSheet), $"{nameof(selectedSheet)} out of range.");
         }
     }
 }
