@@ -18,7 +18,7 @@ namespace RetiraTracker.View.SheetTemplates
     /// <summary>
     /// Interaction logic for WTFDarkAgesPage.xaml
     /// </summary>
-    public partial class WTFDarkAgesPage : Page
+    public partial class WTFDarkAgesPage : UserControl
     {
         public WTFDarkAgesPage()
         {

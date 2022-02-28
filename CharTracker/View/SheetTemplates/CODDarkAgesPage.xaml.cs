@@ -1,5 +1,4 @@
-﻿using RetiraTracker.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,12 +18,11 @@ namespace RetiraTracker.View.SheetTemplates
     /// <summary>
     /// Interaction logic for CoDDarkAgesPage.xaml
     /// </summary>
-    public partial class CODDarkAgesPage : Page
+    public partial class CODDarkAgesPage : UserControl
     {
         public CODDarkAgesPage()
         {
             InitializeComponent();
-
         }
     }
 }

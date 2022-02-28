@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Navigation;
 
 namespace RetiraTracker.ViewModels
 {
@@ -41,17 +42,25 @@ namespace RetiraTracker.ViewModels
                 if(value != null)
                 {
                     AppSheet sheet = value.GetContent<AppSheet>();
-                    sheet.SetAppSheet();
-
-                    SetVisibleSheetFrame(sheet.Sheet);
+                    sheet.Initialize();
 
                     ChangeSheetButtonVisibility = OriginalSheetCanChangeValue(sheet.Sheet) && Terminal.Instance.Navigation.UserMail == CurrentCampaign.Narrator ? Visibility.Visible : Visibility.Hidden;
+
+                    for(int i = 0; i < SheetList.Count; i++)
+                        if(SheetList[i].Equals(value))
+                        {
+                            CurrentSheet = Sheets[i];
+                            break;
+                        }
+
                 }
             }
         }
 
-        private ObservableCollection<Frame> frameList;
-        public ObservableCollection<Frame> FrameList { get { return frameList; } set { SetValue(ref frameList, value); } }
+        private ObservableCollection<ISheet> Sheets { get; set; }
+
+        private ISheet currentSheet;
+        public ISheet CurrentSheet { get { return currentSheet; } set { SetValue(ref currentSheet, value); } }
 
         private Visibility changeSheetButtonVisibility;
         public Visibility ChangeSheetButtonVisibility { get { return changeSheetButtonVisibility; } set { SetValue(ref changeSheetButtonVisibility, value); } }
@@ -80,28 +89,30 @@ namespace RetiraTracker.ViewModels
             string[] players = SetPlayersDisplay(campaign);
 
             ObservableCollection<ListItem> list = new();
+            vm.Sheets = new();
 
             List<Task> tasks = new();
             foreach(string ply in players)
             {
                 tasks.Add(Task.Run(async () =>
                 {
-                    list.Add(await GetPlayerItem(ply, campaign.FolderID));
+                    ListItem item = await GetPlayerItem(ply, campaign.FolderID);
+                    list.Add(item);
+
+                    AppSheet appSheet = item.GetContent<AppSheet>();
+                    appSheet.Initialize();
+
+                    vm.Sheets.Add(appSheet.Sheet);
                 }));
             }
 
             await Task.WhenAll(tasks);
 
             vm.SheetList = list;
-            vm.FrameList = SetFrames(list);
-
-            vm.SelectedSheet = list[0];
-            AppSheet firstAppSheet = vm.SelectedSheet.GetContent<AppSheet>();
-            firstAppSheet.SetAppSheet();
-            ISheet firstSheet = firstAppSheet.Sheet;
-            vm.SetTemplateCommand(firstSheet.SheetScripts[0]);
-
             vm.SelectedSheet = vm.SheetList[0];
+
+            vm.SetTemplateCommand(vm.CurrentSheet.SheetScripts[0]);
+
 
             return vm;
         }
@@ -120,10 +131,8 @@ namespace RetiraTracker.ViewModels
 
         private void UpdateSheet()
         {
-            ISheet selectedSheet = GetSelectedSheet();
-            selectedSheet.LastModified = DateTime.Now;
-            
-            SelectedSheet.SetDisplay(SheetPlayerDisplay(selectedSheet));
+            CurrentSheet.LastModified = DateTime.Now;
+            NotifyPropertyChanged(nameof(CurrentSheet));
         }
 
         private async Task SyncSheets()
@@ -132,7 +141,7 @@ namespace RetiraTracker.ViewModels
             IsEnabled = false;
 
             List<Task> updateTasks = new();
-            for(int i = 0; i < FrameList.Count; i++)
+            for(int i = 0; i < Sheets.Count; i++)
                 updateTasks.Add(UpdateCharacterSheet(i));
 
             await Task.WhenAll(updateTasks);
@@ -148,7 +157,7 @@ namespace RetiraTracker.ViewModels
         private async Task UpdateCharacterSheet(int index)
         {
             AppSheet localAppSheet = SheetList[index].GetContent<AppSheet>();
-            ISheet localSheet = (ISheet)FrameList[index].DataContext;
+            ISheet localSheet = Sheets[index];
 
             string playerID = SetPlayerDisplay(localAppSheet.Player.EmailAddress);
             string onlinePlayerJson = await ExplorerManager.Instance.GetPlayerAsync(playerID, CurrentCampaign.FolderID);
@@ -159,36 +168,24 @@ namespace RetiraTracker.ViewModels
             if (localSheet.LastModified > onlineSheet.LastModified)
             {
                 AppSheet updatedAppSheet = new(localAppSheet.Player);
-                updatedAppSheet.Sheet = localSheet;
+                updatedAppSheet.UpdatePlayer(localSheet);
                 await ExplorerManager.Instance.UpdatePlayerAsync(playerID, CurrentCampaign.FolderID, updatedAppSheet.Player);
+                return;
             }
-            else
-            {
-                SheetList[index].SetContent(onlineAppSheet);
-                FrameList[index].DataContext = onlineSheet;
-            }
+            
+            SheetList[index].SetContent(onlineAppSheet);
+            Sheets[index] = onlineSheet;
         }
 
         private void ChangeSheetTemplate()
         {
             IsEnabled = false;
 
-            ISheet selectedSheet = GetSelectedSheet();
-
-            string sheetType = selectedSheet.GetType().Name;
+            string sheetType = CurrentSheet.GetType().Name;
             ISheet basicSheet = SheetFactory.GetBasicSheet(sheetType);
 
             ChangeSheetTemplatePopup popup = new(basicSheet.CanChangeTo);
             popup.Show();
-        }
-
-        private string SheetPlayerDisplay(ISheet sheet)
-        {
-            if (!string.IsNullOrWhiteSpace(sheet.CharacterName))
-                return sheet.CharacterName;
-
-            string username = sheet.PlayerName.Split('@')[0];
-            return $"({username})";
         }
 
         private void SetTemplateCommand(string commandName)
@@ -233,54 +230,11 @@ namespace RetiraTracker.ViewModels
             return $"{user}.json";
         }
 
-        private static ObservableCollection<Frame> SetFrames(ObservableCollection<ListItem> sheetList)
-        {
-            ObservableCollection<Frame> output = new();
-
-            foreach (ListItem item in sheetList)
-            {
-                Frame frame = new();
-                AppSheet appSheet = item.GetContent<AppSheet>();
-                appSheet.SetAppSheet();
-
-                if (!appSheet.Sheet.SheetFrame.Contains("SheetTemplates/"))
-                    appSheet.Sheet.SheetFrame = $"SheetTemplates/{appSheet.Sheet.SheetFrame}";
-
-                frame.Source = new(appSheet.Sheet.SheetFrame);
-                frame.DataContext = appSheet.Sheet;
-                frame.Visibility = Visibility.Collapsed;
-                output.Add(frame);
-            }
-
-            return output;
-        }
-
         private static bool OriginalSheetCanChangeValue(ISheet sheet)
         {
             Type sheetType = sheet.GetType();
             ISheet basicSheet = SheetFactory.GetBasicSheet(sheetType.Name);
             return basicSheet.CanChange;
-        }
-
-        private void SetVisibleSheetFrame(ISheet selectedSheet)
-        {
-            foreach (Frame frame in FrameList)
-            {
-                frame.Visibility = Visibility.Collapsed;
-                if(frame.DataContext == selectedSheet)
-                    frame.Visibility = Visibility.Visible;
-            }
-        }
-
-        private ISheet GetSelectedSheet()
-        {
-            AppSheet selectedSheet = SelectedSheet.GetContent<AppSheet>();
-            selectedSheet.SetAppSheet();
-
-            foreach(Frame frame in FrameList)
-                if(frame.DataContext == selectedSheet.Sheet)
-                    return (ISheet)frame.DataContext;
-            throw new ArgumentOutOfRangeException(nameof(selectedSheet), $"{nameof(selectedSheet)} out of range.");
         }
     }
 }

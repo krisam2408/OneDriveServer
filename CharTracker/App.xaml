@@ -10,6 +10,7 @@
                 <ResourceDictionary Source="/Content/Dictionaries/StandardStyleDictionary.xaml" />
                 <ResourceDictionary Source="/Content/Dictionaries/AngledListDictionary.xaml" />
                 <ResourceDictionary Source="/Content/Dictionaries/ScrollBarDictionary.xaml" />
+                <ResourceDictionary Source="/Content/Dictionaries/CoDStylesDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

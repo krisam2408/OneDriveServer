@@ -5,6 +5,7 @@ namespace SheetDrama.Abstracts
 {
     public abstract class ISheet
     {
+        public GameTemplates Template { get; init; }
         public GameTemplates[] CanChangeTo { get; init; }
         public bool CanChange 
         { 
@@ -28,6 +29,7 @@ namespace SheetDrama.Abstracts
 
         protected ISheet(string frame, string[] styles, string[] scripts)
         {
+            SheetId = Guid.NewGuid().ToString();
             SheetFrame = frame;
             SheetStyles = styles;
             SheetScripts = scripts;
@@ -38,19 +40,6 @@ namespace SheetDrama.Abstracts
         public string JsonSheet()
         {
             return JsonConvert.SerializeObject(this);
-        }
-
-        public override bool Equals(object obj)
-        {
-            if(obj is ISheet isheet)
-                if (isheet.SheetId == SheetId)
-                    return true;
-            return false;
-        }
-
-        public override int GetHashCode()
-        {
-            return SheetId.GetHashCode();
         }
     }
 }

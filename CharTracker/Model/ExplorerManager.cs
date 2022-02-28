@@ -37,7 +37,7 @@ namespace RetiraTracker.Model
             await Explorer.Dispose();
             Explorer = null;
 
-            if(Timer != null)
+            if (Timer != null)
             {
                 Timer.Stop();
                 Timer.Dispose();
@@ -51,7 +51,7 @@ namespace RetiraTracker.Model
         {
             Explorer = await Explorer.CreateAsync("Retira");
 
-            if(Explorer == null)
+            if (Explorer == null)
             {
                 return "## Application credetials are missing. Please contact your administrator.";
             }
@@ -60,7 +60,7 @@ namespace RetiraTracker.Model
 
             if (authTry != RequestResult.Success)
             {
-                switch(authTry)
+                switch (authTry)
                 {
                     case RequestResult.Cancelled:
                         return "## Operation canceled.";
@@ -83,7 +83,7 @@ namespace RetiraTracker.Model
         {
             FileMetadata[] metadata = await Explorer.GetAllFilesAsync("retiraSettings.json");
 
-            if(metadata.Length == 0)
+            if (metadata.Length == 0)
             {
                 FileMetadata settingMetadata = await CreateOwnSetting();
                 metadata = new FileMetadata[1] { settingMetadata };
@@ -92,11 +92,11 @@ namespace RetiraTracker.Model
             List<Settings> settings = new();
             foreach (FileMetadata meta in metadata)
             {
-                byte[] fileBuffer = await Explorer.DownloadFileAsync(meta.ID, MimeTypes.Text);
+                byte[] fileBuffer = await Explorer.DownloadFileAsync(meta.ID);
 
                 if (fileBuffer != null)
                 {
-                    string json = Encoding.UTF8.GetString(fileBuffer);
+                    string json = ReadFileText(fileBuffer, meta.MimeType);
                     Settings settingItem = JsonConvert.DeserializeObject<Settings>(json);
                     settings.Add(settingItem);
                 }
@@ -105,7 +105,7 @@ namespace RetiraTracker.Model
 
             List<ListItem> output = new();
             int i = 0;
-            foreach(Settings set in settings)
+            foreach (Settings set in settings)
             {
                 ListItem li = new(i.ToString(), $"Settings from {set.Owner}");
                 li.SetContent(set);
@@ -136,7 +136,7 @@ namespace RetiraTracker.Model
             {
                 Name = "retiraSettings.json",
                 MimeType = MimeTypes.Text,
-                ParentFolder = new string[] { settings.FolderId}
+                ParentFolder = new string[] { settings.FolderId }
             };
 
             FileMetadata[] metadata = await Explorer.GetAllFilesAsync("retiraSettings.json");
@@ -152,7 +152,7 @@ namespace RetiraTracker.Model
 
             foreach (Campaign c in settings.Campaigns)
                 foreach (string p in c.Players)
-                    await Explorer.ShareFile(newSettingsMetadata.ID, p, MimeTypes.Text);
+                    await Explorer.ShareFile(newSettingsMetadata.ID, p);
         }
 
         public async Task<string> CreateFolderAsync(string folderName, string settingFolder)
@@ -170,16 +170,16 @@ namespace RetiraTracker.Model
             string filename = player.EmailAddress.Split('@')[0];
 
             FileMetadata metadata = await Explorer.UploadFileAsync($"{filename}.json", folderId, buffer, MimeTypes.Text);
-            await Explorer.ShareFile(metadata.ID, player.EmailAddress, MimeTypes.Text, Permissions.Writer);
+            await Explorer.ShareFile(metadata.ID, player.EmailAddress, Permissions.Writer);
         }
 
         public async Task<string> GetPlayerAsync(string fileName, string folderId)
         {
-            FileMetadata metadata = await Explorer.GetFileMetaDataAsync(fileName, folderId, MimeTypes.Text);
+            FileMetadata metadata = await Explorer.GetFileMetaDataAsync(fileName, folderId);
 
-            byte[] fileBuffer = await Explorer.DownloadFileAsync(metadata.ID, MimeTypes.Text);
+            byte[] fileBuffer = await Explorer.DownloadFileAsync(metadata.ID);
 
-            string output = Encoding.UTF8.GetString(fileBuffer);
+            string output = ReadFileText(fileBuffer, metadata.MimeType);
 
             return output;
         }
@@ -193,7 +193,7 @@ namespace RetiraTracker.Model
 
                 await Explorer.OverwriteFileByNameAsync(filename, folderId, buffer, MimeTypes.Text);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return false;
             }
@@ -201,5 +201,18 @@ namespace RetiraTracker.Model
             return true;
         }
 
+        private static string ReadFileText(byte[] buffer, MimeTypes mimeType)
+        {
+            switch(mimeType)
+            {
+                case MimeTypes.Text:
+                    return Encoding.UTF8.GetString(buffer);
+                case MimeTypes.OfficeWord:
+                    string text = Encoding.UTF8.GetString(buffer);
+                    return text;
+                default:
+                    throw new FormatException("Not a text format file.");
+            }
+        }
     }
 }

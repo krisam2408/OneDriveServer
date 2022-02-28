@@ -126,11 +126,18 @@ namespace RetiraTracker.ViewModels
                 return;
             }
 
+            Application.Current.MainWindow.MaxHeight = GetCurrentScreenWorkAreaHeight();
             Application.Current.MainWindow.WindowState = WindowState.Maximized;
         }
 
         private void AppMove(MouseEventArgs e)
         {
+            if(Application.Current.MainWindow.WindowState == WindowState.Maximized)
+            {
+                Application.Current.MainWindow.WindowState = WindowState.Normal;
+                Application.Current.MainWindow.Top = e.GetPosition((IInputElement)e.Source).Y;
+            }
+
             if (e.LeftButton == MouseButtonState.Pressed)
                 Application.Current.MainWindow.DragMove();
         }
@@ -151,6 +158,11 @@ namespace RetiraTracker.ViewModels
             await ExplorerManager.Instance.DisposeAsync();
             IsMenuVisible(false);
             await Navigation(Pages.LogIn);
+        }
+
+        private double GetCurrentScreenWorkAreaHeight()
+        {
+            return SystemParameters.MaximizedPrimaryScreenHeight;
         }
 
         public enum Pages

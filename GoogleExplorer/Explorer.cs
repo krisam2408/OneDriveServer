@@ -163,61 +163,7 @@ namespace GoogleExplorer
             DriveService = null;
         }
 
-        private async Task<GFile> GetFileByIdAsync(string fileId, MimeTypes mime)
-        {
-            string pageToken = null;
-            List<GFile> gfiles = new();
-
-            do
-            {
-                FilesResource.ListRequest list = DriveService.Files.List();
-                list.Fields = "nextPageToken, files(id, name, parents, mimeType, permissions)";
-                list.PageSize = 100;
-                list.PageToken = pageToken;
-
-                FileList glist = await list.ExecuteAsync();
-                pageToken = glist.NextPageToken;
-                gfiles.AddRange(glist.Files);
-            } while (pageToken != null && gfiles.Count < 3000);
-
-            if (gfiles != null && gfiles.Count > 0)
-            {
-                return gfiles.Where(f => f.Id == fileId && f.MimeType == mime.GetMimeType())
-                    .Distinct(new FileEqualityComparer())
-                    .FirstOrDefault();
-            }
-
-            return null;
-        }
-
-        private async Task<GFile> GetFileByNameAsync(string filename, string folderId, MimeTypes mime)
-        {
-            string pageToken = null;
-            List<GFile> gfiles = new();
-
-            do
-            {
-                FilesResource.ListRequest list = DriveService.Files.List();
-                list.Fields = "nextPageToken, files(id, name, parents, mimeType, permissions)";
-                list.PageSize = 100;
-                list.PageToken = pageToken;
-
-                FileList glist = await list.ExecuteAsync();
-                pageToken = glist.NextPageToken;
-                gfiles.AddRange(glist.Files);
-            } while (pageToken != null && gfiles.Count < 3000);
-
-            if (gfiles != null && gfiles.Count > 0)
-            {
-                return gfiles.Where(f => f.Name == filename && f.MimeType == mime.GetMimeType() && f.Parents != null && f.Parents.Contains(folderId))
-                    .Distinct(new FileEqualityComparer())
-                    .FirstOrDefault();
-            }
-
-            return null;
-        }
-
-        public async Task<FileMetadata> GetFileMetaDataAsync(string name, string folderId, MimeTypes mime)
+        private async Task<GFile[]> GetAllFilesAsync()
         {
             string pageToken = null;
             List<GFile> gfiles = new();
@@ -234,70 +180,59 @@ namespace GoogleExplorer
                 gfiles.AddRange(glist.Files);
             } while (pageToken != null && gfiles.Count < 3000);
 
-            if (gfiles != null && gfiles.Count > 0)
-            {
-                return gfiles.Where(f => f.Name == name && f.MimeType == mime.GetMimeType() && f.Parents != null && f.Parents.Contains(folderId))
-                    .Distinct(new FileEqualityComparer())
-                    .Select(g => new FileMetadata(g))
-                    .FirstOrDefault();
-            }
-
-            return null;
+            return gfiles.Distinct(new FileEqualityComparer())
+                .ToArray();
         }
 
-        public async Task<FileMetadata[]> GetAllFilesAsync(string name)
+        private async Task<GFile> GetFileByIdAsync(string fileId)
         {
-            string pageToken = null;
-            List<GFile> gfiles = new();
+            GFile[] data = await GetAllFilesAsync();
 
-            do
-            {
-                FilesResource.ListRequest list = DriveService.Files.List();
-                list.Fields = $"nextPageToken, {fileSearchProperties}";
-                list.PageSize = 100;
-                list.PageToken = pageToken;
-                
-                FileList glist = await list.ExecuteAsync();
-                pageToken = glist.NextPageToken;
-                gfiles.AddRange(glist.Files);
-
-            } while (pageToken != null && gfiles.Count < 3000);
-
-            if (gfiles != null && gfiles.Count > 0)
-            {
-                return gfiles.Where(f => f.Name == name)
-                    .Distinct(new FileEqualityComparer())
-                    .Select(f => new FileMetadata(f))
-                    .ToArray();
-            }
-
-            return Array.Empty<FileMetadata>();
+            return data
+                .Where(f => f.Id == fileId)
+                .FirstOrDefault();
         }
 
-        public async Task<FileMetadata> UploadFileAsync(string name, string folderId, byte[] fileBuffer, MimeTypes mime)
+        private async Task<GFile[]> GetAllFilesOfNameAsync(string filename)
         {
-            GFile gfile = new()
-            {
-                Name = name,
-                Parents = new List<string> { folderId }
-            };
+            GFile[] data = await GetAllFilesAsync();
 
-            using MemoryStream ms = new(fileBuffer);
-
-            FilesResource.CreateMediaUpload request = DriveService.Files
-                .Create(gfile, ms, mime.GetMimeType());
-
-            request.Fields = fileSearchProperties;
-            await request.UploadAsync();
-
-            GFile nFile = await GetFileByNameAsync(name, folderId, mime);
-
-            return new FileMetadata(nFile);
+            return data
+                .Where(f => f.Name == filename)
+                .ToArray();
         }
 
-        public async Task<byte[]> DownloadFileAsync(string fileId, MimeTypes mime)
+        private async Task<GFile> GetFileByNameAsync(string filename, string folderId)
         {
-            GFile gfile = await GetFileByIdAsync(fileId, mime);
+            GFile[] data = await GetAllFilesOfNameAsync(filename);
+
+            return data
+                .Where(f => f.Parents != null && f.Parents.Contains(folderId))
+                .FirstOrDefault();
+        }
+
+        public async Task<FileMetadata> GetFileMetaDataAsync(string filename, string folderId)
+        {
+            GFile gFile = await GetFileByNameAsync(filename, folderId);
+
+            if (gFile == null)
+                return null;
+
+            return new FileMetadata(gFile);
+        }
+
+        public async Task<FileMetadata[]> GetAllFilesAsync(string filename)
+        {
+            GFile[] data = await GetAllFilesOfNameAsync(filename);
+
+            return data
+                .Select(f=> new FileMetadata(f))
+                .ToArray();
+        }
+
+        public async Task<byte[]> DownloadFileAsync(string fileId)
+        {
+            GFile gfile = await GetFileByIdAsync(fileId);
 
             if (gfile == null)
                 return null;
@@ -311,27 +246,48 @@ namespace GoogleExplorer
             return ms.ToArray();
         }
 
-        public async Task<FileMetadata> OverwriteFileByIdAsync(string fileId, byte[] fileBuffer, MimeTypes mime)
+        public async Task<FileMetadata> UploadFileAsync(string filename, string folderId, byte[] fileBuffer, MimeTypes mimeType)
         {
-            GFile gfile = await GetFileByIdAsync(fileId, mime);
+            GFile gfile = new()
+            {
+                Name = filename,
+                Parents = new List<string> { folderId }
+            };
+
+            using MemoryStream ms = new(fileBuffer);
+
+            FilesResource.CreateMediaUpload request = DriveService.Files
+                .Create(gfile, ms, mimeType.GetMimeType());
+
+            request.Fields = fileSearchProperties;
+            await request.UploadAsync();
+
+            GFile nFile = await GetFileByNameAsync(filename, folderId);
+
+            return new FileMetadata(nFile);
+        }
+
+        public async Task<FileMetadata> OverwriteFileByIdAsync(string fileId, byte[] fileBuffer, MimeTypes mimeType)
+        {
+            GFile gfile = await GetFileByIdAsync(fileId);
 
             GFile fileBody = new();
 
             using MemoryStream ms = new(fileBuffer);
 
             FilesResource.UpdateMediaUpload request = DriveService.Files
-                .Update(fileBody, gfile.Id, ms, mime.GetMimeType());
+                .Update(fileBody, gfile.Id, ms, mimeType.GetMimeType());
 
             await request.UploadAsync();
 
-            GFile nFile = await GetFileByIdAsync(fileId, mime);
+            GFile nFile = await GetFileByIdAsync(fileId);
 
             return new FileMetadata(nFile);
         }
 
         public async Task<FileMetadata> OverwriteFileByNameAsync(string filename, string folderId, byte[] fileBuffer, MimeTypes mime)
         {
-            GFile gfile = await GetFileByNameAsync(filename, folderId, mime);
+            GFile gfile = await GetFileByNameAsync(filename, folderId);
 
             GFile fileBody = new();
 
@@ -342,7 +298,7 @@ namespace GoogleExplorer
 
             await request.UploadAsync();
 
-            GFile nFile = await GetFileByNameAsync(filename, folderId, mime);
+            GFile nFile = await GetFileByNameAsync(filename, folderId);
 
             return new FileMetadata(nFile);
         }
@@ -368,9 +324,9 @@ namespace GoogleExplorer
             return new FileMetadata(nFolder);
         }
 
-        public async Task ShareFile(string fileId, string userEmail, MimeTypes mimeType, Permissions permissions = Permissions.Reader)
+        public async Task ShareFile(string fileId, string userEmail, Permissions permissions = Permissions.Reader)
         {
-            GFile gFile = await GetFileByIdAsync(fileId, mimeType);
+            GFile gFile = await GetFileByIdAsync(fileId);
             FileMetadata metadata = new(gFile);
 
             if(!metadata.ContainsEmailAddressPermission(UserMail))

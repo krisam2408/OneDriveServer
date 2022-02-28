@@ -18,7 +18,7 @@ namespace RetiraTracker.View.SheetTemplates
     /// <summary>
     /// Interaction logic for PtCDarkAgesPage.xaml
     /// </summary>
-    public partial class PTCDarkAgesPage : Page
+    public partial class PTCDarkAgesPage : UserControl
     {
         public PTCDarkAgesPage()
         {

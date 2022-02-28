@@ -279,7 +279,10 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
         {
             get
             {
-                return Resolve + ResolveBonus + Composure + ComposureBonus;
+                int val = Resolve + ResolveBonus + Composure + ComposureBonus;
+                if (val > 10)
+                    return 10;
+                return val;
             }
         }
         public int CurrentWillpower { get; set; }
@@ -409,6 +412,7 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
 
         public WtFDarkAgesSheet(string frame, string[] styles, string[] scripts) : base(frame, styles, scripts)
         {
+            Template = GameTemplates.WerewolfTheForsakenDarkAges;
             CanChangeTo = Array.Empty<GameTemplates>();
 
             Intelligence = 1;
@@ -432,6 +436,7 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
 
         public WtFDarkAgesSheet(CoDDarkAgesSheet sheet, string frame, string[] styles, string[] scripts) :base(frame, styles, scripts)
         {
+            Template = GameTemplates.WerewolfTheForsakenDarkAges;
             CanChangeTo = Array.Empty<GameTemplates>();
 
             SheetId = sheet.SheetId;
@@ -502,6 +507,7 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
 
         public WtFDarkAgesSheet() : base()
         {
+            Template = GameTemplates.WerewolfTheForsakenDarkAges;
             CanChangeTo = Array.Empty<GameTemplates>();
         }
 

@@ -234,7 +234,7 @@ namespace RetiraTracker.View.UserControls
 
         private string Penalties()
         {
-            if(CalculatePenalties)
+            if(CalculatePenalties && Damage.Count > 0)
             {
                 if (Damage[^1] != ' ')
                     return "-3";

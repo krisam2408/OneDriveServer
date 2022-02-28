@@ -274,7 +274,7 @@ namespace RetiraTracker.ViewModels
                 PlayersList = new();
 
             GameTemplates template = SelectedTemplate.GetContent<GameTemplates>();
-            string frame = $"SheetTemplates/{template.GetTemplatePage()}";
+            string frame = template.GetTemplatePage();
             ISheet sheet = SheetFactory.GetSheet(template.GetTemplate(), frame, null, template.TemplateGame().GetGameCommands());
 
             if(sheet.IsNull())

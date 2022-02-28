@@ -1,4 +1,4 @@
-﻿<Page x:Class="RetiraTracker.View.SheetTemplates.CODDarkAgesPage"
+﻿<UserControl x:Class="RetiraTracker.View.SheetTemplates.CODDarkAgesPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,158 +6,16 @@
       xmlns:local="clr-namespace:RetiraTracker.View.SheetTemplates"
       xmlns:controls="clr-namespace:RetiraTracker.View.UserControls"
       xmlns:core="clr-namespace:RetiraTracker.Core"
-      mc:Ignorable="d">
-    <Page.Resources>
-        <Style x:Key="SheetText" TargetType="TextBlock">
-            <Style.Setters>
-                <Setter Property="FontFamily" Value="Consolas" />
-                <Setter Property="Foreground" Value="{StaticResource Dark}" />
-                <Setter Property="VerticalAlignment" Value="Center" />
-                <Setter Property="Padding" Value="8,0,0,0" />
-            </Style.Setters>
-        </Style>
+      mc:Ignorable="d"
+      DataContext="{Binding Source={StaticResource Locator}, Path=Terminal}">
 
-        <Style x:Key="SheetEntry" TargetType="TextBox">
-            <Style.Setters>
-                <Setter Property="Width" Value="256" />
-                <Setter Property="Background" Value="#aaffffff" />
-                <Setter Property="BorderThickness" Value="0,0,0,1.5" />
-                <Setter Property="BorderBrush" Value="{StaticResource Dark}" />
-                <Setter Property="FontFamily" Value="Consolas" />
-                <Setter Property="Padding" Value="8,2" />
-            </Style.Setters>
-        </Style>
+    <Border Background="{StaticResource Light}" DataContext="{Binding Campaign}" Padding="8,8,8,32">
+        <StackPanel Orientation="Vertical">
+            <TextBlock Text="{Binding CampaignsName}" HorizontalAlignment="Center" FontSize="24" Style="{StaticResource CoDText}" FontWeight="Bold" />
 
-        <Style x:Key="SheetTitle" TargetType="TextBlock">
-            <Style.Setters>
-                <Setter Property="FontFamily" Value="Consolas" />
-                <Setter Property="HorizontalAlignment" Value="Center" />
-                <Setter Property="FontSize" Value="24" />
-                <Setter Property="Foreground" Value="{StaticResource Dark}" />
-                <Setter Property="VerticalAlignment" Value="Bottom" />
-            </Style.Setters>
-        </Style>
-    </Page.Resources>
-    <ScrollViewer HorizontalContentAlignment="Center" Margin="0,0,0,16">
-        <Border Background="{StaticResource Light}" Padding="8,8,8,32">
-            <StackPanel Orientation="Vertical">
-                <TextBlock Text="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.CampaignsName}" HorizontalAlignment="Center" FontSize="24" Style="{StaticResource SheetText}" FontWeight="Bold" />
-
-                <!-- Data -->
-                <Border Background="{StaticResource DarkLight}" CornerRadius="8" Padding="8,4" Margin="0,16,0,0">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-
-                        <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="0" Margin="0,4">
-                            <TextBlock Text="Name:" Style="{StaticResource SheetText}" Width="72" />
-                            <TextBox Text="{Binding CharacterName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                        </StackPanel>
-
-                        <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1" Margin="0,4">
-                            <TextBlock Text="Age:" Style="{StaticResource SheetText}" Width="72" />
-                            <TextBox Text="{Binding Age, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                        </StackPanel>
-
-                        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0" Margin="0,4">
-                            <TextBlock Text="Virtue:" Style="{StaticResource SheetText}" Width="72" />
-                            <TextBox Text="{Binding Virtue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                        </StackPanel>
-
-                        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" Margin="0,4">
-                            <TextBlock Text="Vice:" Style="{StaticResource SheetText}" Width="72" />
-                            <TextBox Text="{Binding Vice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                        </StackPanel>
-
-                        <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="0" Margin="0,4">
-                            <TextBlock Text="Player:" Style="{StaticResource SheetText}" Width="72" />
-                            <TextBlock Text="{Binding PlayerName}" Style="{StaticResource SheetText}" />
-                        </StackPanel>
-
-                        <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="1" Margin="0,4">
-                            <TextBlock Text="Concept:" Style="{StaticResource SheetText}" Width="72" />
-                            <TextBox Text="{Binding Concept, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                        </StackPanel>
-                    </Grid>
-                </Border>
-
-                <!-- Attributes -->
-                <Border Background="{StaticResource DarkLight}" CornerRadius="8" Padding="8" Margin="0,16,0,0">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        
-                        <Border Grid.Column="1" Grid.Row="0" BorderThickness="0,2" BorderBrush="{StaticResource Dark}" Padding="2">
-                            <TextBlock Text="Attributes" Style="{StaticResource SheetTitle}" />
-                        </Border>
-
-                        <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1" Margin="0,4">
-                            <TextBlock Text="Intelligence:" Style="{StaticResource SheetText}" Width="120" />
-                            <controls:DotNumberControl Number="{Binding Intelligence, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding IntelligenceBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                        </StackPanel>
-
-                        <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="2" Margin="0,4">
-                            <TextBlock Text="Wits:" Style="{StaticResource SheetText}" Width="120" />
-                            <controls:DotNumberControl Number="{Binding Wits, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding WitsBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                        </StackPanel>
-
-                        <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="3" Margin="0,4">
-                            <TextBlock Text="Resolve:" Style="{StaticResource SheetText}" Width="120" />
-                            <controls:DotNumberControl Number="{Binding Resolve, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding ResolveBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                        </StackPanel>
-
-                        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" Margin="0,4">
-                            <TextBlock Text="Strength:" Style="{StaticResource SheetText}" Width="120" />
-                            <controls:DotNumberControl Number="{Binding Strength, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding StrengthBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                        </StackPanel>
-
-                        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="2" Margin="0,4">
-                            <TextBlock Text="Dexterity:" Style="{StaticResource SheetText}" Width="120" />
-                            <controls:DotNumberControl Number="{Binding Dexterity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding DexterityBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                        </StackPanel>
-
-                        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="3" Margin="0,4">
-                            <TextBlock Text="Stamina:" Style="{StaticResource SheetText}" Width="120" />
-                            <controls:DotNumberControl Number="{Binding Stamina, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding StaminaBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                        </StackPanel>
-
-                        <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="1" Margin="0,4">
-                            <TextBlock Text="Presence:" Style="{StaticResource SheetText}" Width="120" />
-                            <controls:DotNumberControl Number="{Binding Presence, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding PresenceBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                        </StackPanel>
-
-                        <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="2" Margin="0,4">
-                            <TextBlock Text="Manipulation:" Style="{StaticResource SheetText}" Width="120" />
-                            <controls:DotNumberControl Number="{Binding Manipulation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding ManipulationBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                        </StackPanel>
-
-                        <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="3" Margin="0,4">
-                            <TextBlock Text="Composure:" Style="{StaticResource SheetText}" Width="120" />
-                            <controls:DotNumberControl Number="{Binding Composure, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding ComposureBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                        </StackPanel>
-                        
-                    </Grid>
-                </Border>
-
-                <!-- Main Body -->
-                <Grid Margin="0,16,0,0">
+            <!-- Data -->
+            <Border Background="{StaticResource DarkLight}" CornerRadius="8" Padding="8,4" Margin="0,16,0,0">
+                <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
@@ -165,340 +23,451 @@
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
-                        <RowDefinition />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <Border Grid.Column="0" Grid.Row="0" BorderThickness="0,0,1.5,0" BorderBrush="{StaticResource Dark}">
-                        <Border Background="{StaticResource DarkLight}" CornerRadius="8" Padding="32,8" Margin="0,0,8,0">
-                            <Border BorderThickness="0,2" BorderBrush="{StaticResource Dark}" Padding="2">
-                                <TextBlock Text="Skills" Style="{StaticResource SheetTitle}" />
-                            </Border>
-                        </Border>
-                    </Border>
-
-                    <Border Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="0" Background="{StaticResource DarkLight}" CornerRadius="8" Padding="80,8" Margin="8,0,0,0">
-                        <Border BorderThickness="0,2" BorderBrush="{StaticResource Dark}" Padding="2">
-                            <TextBlock Text="Other Traits" Style="{StaticResource SheetTitle}" />
-                        </Border>
-                    </Border>
-
-                    <!-- First Column -->
-                    <Border Grid.Column="0" Grid.Row="1" BorderThickness="0,0,1.5,0" BorderBrush="{StaticResource Dark}" Padding="0,0,8,0">
-                        <StackPanel Margin="0,8,0,0">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                <TextBlock Text="Mental" Style="{StaticResource SheetTitle}" />
-                                <TextBlock Text="(-3 unskilled)" HorizontalAlignment="Center" Foreground="{StaticResource Dark}" FontFamily="Consolas" FontSize="12" VerticalAlignment="Bottom" Margin="8,0,0,0" FontStyle="Italic" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal" Margin="0,4">
-                                <TextBlock Text="Academics:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Academics, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding AcademicsBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal" Margin="0,4">
-                                <TextBlock Text="Enigmas:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Enigmas, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding EnigmasBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal" Margin="0,4">
-                                <TextBlock Text="Crafts:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Crafts, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CraftsBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal" Margin="0,4">
-                                <TextBlock Text="Investigation:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Investigation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding InvestigationBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal" Margin="0,4">
-                                <TextBlock Text="Medicine:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Medicine, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding MedicineBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal" Margin="0,4">
-                                <TextBlock Text="Occult:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Occult, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding OccultBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal" Margin="0,4">
-                                <TextBlock Text="Politics:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Politics, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding PoliticsBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal" Margin="0,4">
-                                <TextBlock Text="Science:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Science, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding ScienceBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,8,0,0">
-                                <TextBlock Text="Physical" Style="{StaticResource SheetTitle}" />
-                                <TextBlock Text="(-1 unskilled)" HorizontalAlignment="Center" Foreground="{StaticResource Dark}" FontFamily="Consolas" FontSize="12" VerticalAlignment="Bottom" Margin="8,0,0,0" FontStyle="Italic" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal" Margin="0,4">
-                                <TextBlock Text="Athletics:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Athletics, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding AthleticsBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal" Margin="0,4">
-                                <TextBlock Text="Brawl:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Brawl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding BrawlBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal" Margin="0,4">
-                                <TextBlock Text="Ride:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Ride, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding RideBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal" Margin="0,4">
-                                <TextBlock Text="Archery:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Archery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding ArcheryBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal" Margin="0,4">
-                                <TextBlock Text="Larceny:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Larceny, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding LarcenyBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal" Margin="0,4">
-                                <TextBlock Text="Stealth:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Stealth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding StealthBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal" Margin="0,4">
-                                <TextBlock Text="Survival:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Survival, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding SurvivalBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal" Margin="0,4">
-                                <TextBlock Text="Weaponry:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Weaponry, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding WeaponryBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,8,0,0">
-                                <TextBlock Text="Social" Style="{StaticResource SheetTitle}" />
-                                <TextBlock Text="(-1 unskilled)" HorizontalAlignment="Center" Foreground="{StaticResource Dark}" FontFamily="Consolas" FontSize="12" VerticalAlignment="Bottom" Margin="8,0,0,0" FontStyle="Italic" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal" Margin="0,4">
-                                <TextBlock Text="Animal Ken:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding AnimalKen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding AnimalKenBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal" Margin="0,4">
-                                <TextBlock Text="Empathy:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Empathy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding EmpathyBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal" Margin="0,4">
-                                <TextBlock Text="Expression:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Expression, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding ExpressionBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal" Margin="0,4">
-                                <TextBlock Text="Intimidation:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Intimidation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding IntimidationBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal" Margin="0,4">
-                                <TextBlock Text="Persuasion:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Persuasion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding PersuasionBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal" Margin="0,4">
-                                <TextBlock Text="Socialize:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Socialize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding SocializeBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal" Margin="0,4">
-                                <TextBlock Text="Streetwise:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Streetwise, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding StreetwiseBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                            </StackPanel>
-
-                            <StackPanel Orientation="Horizontal" Margin="0,4">
-                                <TextBlock Text="Subterfuge:" Style="{StaticResource SheetText}" Width="104" VerticalAlignment="Center" />
-                                <controls:DotNumberControl Number="{Binding Subterfuge, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding SubterfugeBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                            </StackPanel>
-                        </StackPanel>
-                    </Border>
-
-                    <!-- Second Column -->
-                    <StackPanel Grid.Column="1" Grid.Row="1" Margin="0,8,0,0">
-                        <!-- Merits -->
-                        <StackPanel Margin="8,0">
-                            <TextBlock Text="Merits" Style="{StaticResource SheetTitle}" />
-                            <ListView x:Name="MeritList" ItemsSource="{Binding Merits, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <controls:CircleButtonControl Diameter="16" Command="{Binding Terminal.Campaign.Commands.RemoveIntValueCommand, Source={StaticResource Locator}}" BorderBackground="{StaticResource Rot}" Data="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" CustomParameter="{x:Reference MeritList}" Margin="0,0,8,0" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                                            <TextBox Text="{Binding Key, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding Terminal.Campaign.UpdateSheetCommand, Source={StaticResource Locator}}" Margin="0,0,8,0" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                                            <controls:Dot5NumberControl Number="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand, Source={StaticResource Locator}}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ListView>
-                            <controls:CircleButtonControl Diameter="40" Command="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.Commands.AddIntValueCommand}" Data="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" BorderBackground="{StaticResource Blau}" HorizontalAlignment="Center" CustomParameter="{x:Reference MeritList}" Margin="0,8,0,0" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                        </StackPanel>
-
-                        <!-- Other Data -->
-                        <StackPanel Margin="8,8">
-                            <StackPanel Orientation="Horizontal" Margin="0,4">
-                                <TextBlock Text="Size:" Style="{StaticResource SheetText}" Width="120" VerticalAlignment="Center" />
-                                <TextBox Style="{StaticResource SheetEntry}" Text="{Binding Size, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" core:TextBehaviour.TextChangedCommand="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                            </StackPanel>
-                            
-                            <StackPanel Orientation="Horizontal" Margin="0,4">
-                                <TextBlock Text="Speed:" Style="{StaticResource SheetText}" Width="120" VerticalAlignment="Center" />
-                                <TextBox Style="{StaticResource SheetEntry}" Text="{Binding Speed, Mode=OneWay}" core:TextBehaviour.TextChangedCommand="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                            </StackPanel>
-                            
-                            <StackPanel Orientation="Horizontal" Margin="0,4">
-                                <TextBlock Text="Defense:" Style="{StaticResource SheetText}" Width="120" VerticalAlignment="Center" />
-                                <TextBox Style="{StaticResource SheetEntry}" Text="{Binding Defense, Mode=OneWay}" core:TextBehaviour.TextChangedCommand="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsReadOnly="True" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                            </StackPanel>
-                            
-                            <StackPanel Orientation="Horizontal" Margin="0,4">
-                                <TextBlock Text="Armor:" Style="{StaticResource SheetText}" Width="120" VerticalAlignment="Center" />
-                                <TextBox Style="{StaticResource SheetEntry}" Text="{Binding Armor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" core:TextBehaviour.TextChangedCommand="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                            </StackPanel>
-                            
-                            <StackPanel Orientation="Horizontal" Margin="0,4">
-                                <TextBlock Text="Initiative Mod:" Style="{StaticResource SheetText}" Width="120" VerticalAlignment="Center" />
-                                <TextBox Style="{StaticResource SheetEntry}" Text="{Binding IniativeMod, Mode=OneWay}" IsReadOnly="True" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                            </StackPanel>
-                            
-                            <StackPanel Orientation="Horizontal" Margin="0,4">
-                                <TextBlock Text="Beats:" Style="{StaticResource SheetText}" Width="120" VerticalAlignment="Center" />
-                                <controls:Rect5NumberControl Number="{Binding Beats, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                            </StackPanel>
-                            
-                            <StackPanel Orientation="Horizontal" Margin="0,4">
-                                <TextBlock Text="Experience:" Style="{StaticResource SheetText}" Width="120" VerticalAlignment="Center" />
-                                <TextBox Style="{StaticResource SheetEntry}" Text="{Binding Experience, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" core:TextBehaviour.TextChangedCommand="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                            </StackPanel>
-                            
-                        </StackPanel>
-
-                        <!-- Specialties -->
-                        <StackPanel Margin="8,8,8,0">
-                            <TextBlock Text="Specialties" Style="{StaticResource SheetTitle}" />
-                            <ListView x:Name="SpecialtiesList" ItemsSource="{Binding Specialties, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <controls:CircleButtonControl Diameter="16" Command="{Binding Terminal.Campaign.Commands.RemoveStringValueCommand, Source={StaticResource Locator}}" BorderBackground="{StaticResource Rot}" Data="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" CustomParameter="{x:Reference SpecialtiesList}" Margin="0,0,8,0" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                                            <TextBox Text="{Binding Key, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding Terminal.Campaign.UpdateSheetCommand, Source={StaticResource Locator}}" Margin="0,0,8,0" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ListView>
-                            <controls:CircleButtonControl Diameter="40" Command="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.Commands.AddStringValueCommand}" Data="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" BorderBackground="{StaticResource Blau}" HorizontalAlignment="Center" CustomParameter="{x:Reference SpecialtiesList}" Margin="0,8,0,0" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                        </StackPanel>
-
+                    <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="0" Margin="0,4">
+                        <TextBlock Text="Name:" Style="{StaticResource CoDText}" Width="72" />
+                        <TextBox Text="{Binding CurrentSheet.CharacterName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CoDEntry}" core:TextBehaviour.TextChangedCommand="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                     </StackPanel>
 
-                    <!-- Third Column -->
-                    <StackPanel Grid.Column="2" Grid.Row="1" Margin="0,8,0,0">
-
-                        <StackPanel Margin="8,0">
-                            <TextBlock Text="Health" Style="{StaticResource SheetTitle}" />
-                            <controls:CoDHealthControl MaxHealth="{Binding Health, Mode=OneWay}" Damage="{Binding Damage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                        </StackPanel>
-                        
-                        <StackPanel Margin="8,8,8,0">
-                            <TextBlock Text="Willpower" Style="{StaticResource SheetTitle}" />
-                            <controls:CoDWillpowerControl MaxWillpower="{Binding Willpower, Mode=OneWay}" CurrentWillpower="{Binding CurrentWillpower, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" Margin="0,8,0,0" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                        </StackPanel>
-
-                        <StackPanel Margin="8,8,8,0">
-                            <TextBlock Text="Integrity" Style="{StaticResource SheetTitle}" />
-                            <controls:DotNumberControl Number="{Binding Integrity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.UpdateSheetCommand}" Margin="0,8,0,0" HorizontalAlignment="Center" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                        </StackPanel>
-
-                        <StackPanel Margin="8,8,8,0">
-                            <TextBlock Text="Conditions" Style="{StaticResource SheetTitle}" />
-                            <ListView x:Name="ConditionsList" ItemsSource="{Binding Conditions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <controls:CircleButtonControl Diameter="16" Command="{Binding Terminal.Campaign.Commands.RemoveStringValueCommand, Source={StaticResource Locator}}" BorderBackground="{StaticResource Rot}" Data="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" CustomParameter="{x:Reference ConditionsList}" Margin="0,0,8,0" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                                            <TextBox Text="{Binding Key, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding Terminal.Campaign.UpdateSheetCommand, Source={StaticResource Locator}}" Margin="0,0,8,0" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ListView>
-                            <controls:CircleButtonControl Diameter="40" Command="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.Commands.AddStringValueCommand}" Data="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" BorderBackground="{StaticResource Blau}" HorizontalAlignment="Center" CustomParameter="{x:Reference ConditionsList}" Margin="0,8,0,0" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                        </StackPanel>
-
-                        <StackPanel Margin="8,8,8,0">
-                            <TextBlock Text="Aspirations" Style="{StaticResource SheetTitle}" />
-                            <ListView x:Name="AspirationsList" ItemsSource="{Binding Aspirations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <controls:CircleButtonControl Diameter="16" Command="{Binding Terminal.Campaign.Commands.RemoveStringValueCommand, Source={StaticResource Locator}}" BorderBackground="{StaticResource Rot}" Data="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" CustomParameter="{x:Reference AspirationsList}" Margin="0,0,8,0" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                                            <TextBox Text="{Binding Key, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding Terminal.Campaign.UpdateSheetCommand, Source={StaticResource Locator}}" Margin="0,0,8,0" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ListView>
-                            <controls:CircleButtonControl Diameter="40" Command="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.Commands.AddStringValueCommand}" Data="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" BorderBackground="{StaticResource Blau}" HorizontalAlignment="Center" CustomParameter="{x:Reference AspirationsList}" Margin="0,8,0,0" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                        </StackPanel>
-
+                    <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1" Margin="0,4">
+                        <TextBlock Text="Age:" Style="{StaticResource CoDText}" Width="72" />
+                        <TextBox Text="{Binding CurrentSheet.Age, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CoDEntry}" core:TextBehaviour.TextChangedCommand="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                     </StackPanel>
-                    
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0" Margin="0,4">
+                        <TextBlock Text="Virtue:" Style="{StaticResource CoDText}" Width="72" />
+                        <TextBox Text="{Binding CurrentSheet.Virtue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CoDEntry}" core:TextBehaviour.TextChangedCommand="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" Margin="0,4">
+                        <TextBlock Text="Vice:" Style="{StaticResource CoDText}" Width="72" />
+                        <TextBox Text="{Binding CurrentSheet.Vice, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CoDEntry}" core:TextBehaviour.TextChangedCommand="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="0" Margin="0,4">
+                        <TextBlock Text="Player:" Style="{StaticResource CoDText}" Width="72" />
+                        <TextBlock Text="{Binding CurrentSheet.PlayerName}" Style="{StaticResource CoDText}" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="1" Margin="0,4">
+                        <TextBlock Text="Concept:" Style="{StaticResource CoDText}" Width="72" />
+                        <TextBox Text="{Binding CurrentSheet.Concept, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CoDEntry}" core:TextBehaviour.TextChangedCommand="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                    </StackPanel>
                 </Grid>
+            </Border>
 
-                <!-- Inventory -->
-                <Border BorderBrush="{StaticResource Dark}" BorderThickness="0,2,0,0" Margin="0,8,0,0" Padding="8">
+            <!-- Attributes -->
+            <Border Background="{StaticResource DarkLight}" CornerRadius="8" Padding="8" Margin="0,16,0,0">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Column="1" Grid.Row="0" BorderThickness="0,2" BorderBrush="{StaticResource Dark}" Padding="2">
+                        <TextBlock Text="Attributes" Style="{StaticResource CoDTitle}" />
+                    </Border>
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1" Margin="0,4">
+                        <TextBlock Text="Intelligence:" Style="{StaticResource CoDText}" Width="120" />
+                        <controls:DotNumberControl Number="{Binding CurrentSheet.Intelligence, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.IntelligenceBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="2" Margin="0,4">
+                        <TextBlock Text="Wits:" Style="{StaticResource CoDText}" Width="120" />
+                        <controls:DotNumberControl Number="{Binding CurrentSheet.Wits, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.WitsBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="3" Margin="0,4">
+                        <TextBlock Text="Resolve:" Style="{StaticResource CoDText}" Width="120" />
+                        <controls:DotNumberControl Number="{Binding CurrentSheet.Resolve, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.ResolveBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" Margin="0,4">
+                        <TextBlock Text="Strength:" Style="{StaticResource CoDText}" Width="120" />
+                        <controls:DotNumberControl Number="{Binding CurrentSheet.Strength, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.StrengthBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="2" Margin="0,4">
+                        <TextBlock Text="Dexterity:" Style="{StaticResource CoDText}" Width="120" />
+                        <controls:DotNumberControl Number="{Binding CurrentSheet.Dexterity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.DexterityBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="3" Margin="0,4">
+                        <TextBlock Text="Stamina:" Style="{StaticResource CoDText}" Width="120" />
+                        <controls:DotNumberControl Number="{Binding CurrentSheet.Stamina, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.StaminaBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="1" Margin="0,4">
+                        <TextBlock Text="Presence:" Style="{StaticResource CoDText}" Width="120" />
+                        <controls:DotNumberControl Number="{Binding CurrentSheet.Presence, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.PresenceBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="2" Margin="0,4">
+                        <TextBlock Text="Manipulation:" Style="{StaticResource CoDText}" Width="120" />
+                        <controls:DotNumberControl Number="{Binding CurrentSheet.Manipulation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.ManipulationBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="3" Margin="0,4">
+                        <TextBlock Text="Composure:" Style="{StaticResource CoDText}" Width="120" />
+                        <controls:DotNumberControl Number="{Binding CurrentSheet.Composure, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.ComposureBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                    </StackPanel>
+
+                </Grid>
+            </Border>
+
+            <!-- Main Body -->
+            <Grid Margin="0,16,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <Border Grid.Column="0" Grid.Row="0" BorderThickness="0,0,1.5,0" BorderBrush="{StaticResource Dark}">
+                    <Border Background="{StaticResource DarkLight}" CornerRadius="8" Padding="32,8" Margin="0,0,8,0">
+                        <Border BorderThickness="0,2" BorderBrush="{StaticResource Dark}" Padding="2">
+                            <TextBlock Text="Skills" Style="{StaticResource CoDTitle}" />
+                        </Border>
+                    </Border>
+                </Border>
+
+                <Border Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="0" Background="{StaticResource DarkLight}" CornerRadius="8" Padding="80,8" Margin="8,0,0,0">
+                    <Border BorderThickness="0,2" BorderBrush="{StaticResource Dark}" Padding="2">
+                        <TextBlock Text="Other Traits" Style="{StaticResource CoDTitle}" />
+                    </Border>
+                </Border>
+
+                <!-- First Column -->
+                <Border Grid.Column="0" Grid.Row="1" BorderThickness="0,0,1.5,0" BorderBrush="{StaticResource Dark}" Padding="0,0,8,0">
+                    <StackPanel Margin="0,8,0,0">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Text="Mental" Style="{StaticResource CoDTitle}" />
+                            <TextBlock Text="(-3 unskilled)" HorizontalAlignment="Center" Foreground="{StaticResource Dark}" FontFamily="Consolas" FontSize="12" VerticalAlignment="Bottom" Margin="8,0,0,0" FontStyle="Italic" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,4">
+                            <TextBlock Text="Academics:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
+                            <controls:DotNumberControl Number="{Binding CurrentSheet.Academics, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.AcademicsBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,4">
+                            <TextBlock Text="Enigmas:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
+                            <controls:DotNumberControl Number="{Binding CurrentSheet.Enigmas, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.EnigmasBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,4">
+                            <TextBlock Text="Crafts:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
+                            <controls:DotNumberControl Number="{Binding CurrentSheet.Crafts, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.CraftsBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,4">
+                            <TextBlock Text="Investigation:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
+                            <controls:DotNumberControl Number="{Binding CurrentSheet.Investigation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.InvestigationBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,4">
+                            <TextBlock Text="Medicine:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
+                            <controls:DotNumberControl Number="{Binding CurrentSheet.Medicine, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.MedicineBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,4">
+                            <TextBlock Text="Occult:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
+                            <controls:DotNumberControl Number="{Binding CurrentSheet.Occult, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.OccultBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,4">
+                            <TextBlock Text="Politics:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
+                            <controls:DotNumberControl Number="{Binding CurrentSheet.Politics, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.PoliticsBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,4">
+                            <TextBlock Text="Science:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
+                            <controls:DotNumberControl Number="{Binding CurrentSheet.Science, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.ScienceBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,8,0,0">
+                            <TextBlock Text="Physical" Style="{StaticResource CoDTitle}" />
+                            <TextBlock Text="(-1 unskilled)" HorizontalAlignment="Center" Foreground="{StaticResource Dark}" FontFamily="Consolas" FontSize="12" VerticalAlignment="Bottom" Margin="8,0,0,0" FontStyle="Italic" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,4">
+                            <TextBlock Text="Athletics:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
+                            <controls:DotNumberControl Number="{Binding CurrentSheet.Athletics, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.AthleticsBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,4">
+                            <TextBlock Text="Brawl:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
+                            <controls:DotNumberControl Number="{Binding CurrentSheet.Brawl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.BrawlBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,4">
+                            <TextBlock Text="Ride:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
+                            <controls:DotNumberControl Number="{Binding CurrentSheet.Ride, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.RideBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,4">
+                            <TextBlock Text="Archery:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
+                            <controls:DotNumberControl Number="{Binding CurrentSheet.Archery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.ArcheryBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,4">
+                            <TextBlock Text="Larceny:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
+                            <controls:DotNumberControl Number="{Binding CurrentSheet.Larceny, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.LarcenyBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,4">
+                            <TextBlock Text="Stealth:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
+                            <controls:DotNumberControl Number="{Binding CurrentSheet.Stealth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.StealthBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,4">
+                            <TextBlock Text="Survival:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
+                            <controls:DotNumberControl Number="{Binding CurrentSheet.Survival, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.SurvivalBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,4">
+                            <TextBlock Text="Weaponry:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
+                            <controls:DotNumberControl Number="{Binding CurrentSheet.Weaponry, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.WeaponryBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,8,0,0">
+                            <TextBlock Text="Social" Style="{StaticResource CoDTitle}" />
+                            <TextBlock Text="(-1 unskilled)" HorizontalAlignment="Center" Foreground="{StaticResource Dark}" FontFamily="Consolas" FontSize="12" VerticalAlignment="Bottom" Margin="8,0,0,0" FontStyle="Italic" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,4">
+                            <TextBlock Text="Animal Ken:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
+                            <controls:DotNumberControl Number="{Binding CurrentSheet.AnimalKen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.AnimalKenBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,4">
+                            <TextBlock Text="Empathy:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
+                            <controls:DotNumberControl Number="{Binding CurrentSheet.Empathy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.EmpathyBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,4">
+                            <TextBlock Text="Expression:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
+                            <controls:DotNumberControl Number="{Binding CurrentSheet.Expression, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.ExpressionBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,4">
+                            <TextBlock Text="Intimidation:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
+                            <controls:DotNumberControl Number="{Binding CurrentSheet.Intimidation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.IntimidationBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,4">
+                            <TextBlock Text="Persuasion:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
+                            <controls:DotNumberControl Number="{Binding CurrentSheet.Persuasion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.PersuasionBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,4">
+                            <TextBlock Text="Socialize:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
+                            <controls:DotNumberControl Number="{Binding CurrentSheet.Socialize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.SocializeBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,4">
+                            <TextBlock Text="Streetwise:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
+                            <controls:DotNumberControl Number="{Binding CurrentSheet.Streetwise, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.StreetwiseBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,4">
+                            <TextBlock Text="Subterfuge:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
+                            <controls:DotNumberControl Number="{Binding CurrentSheet.Subterfuge, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.SubterfugeBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Second Column -->
+                <StackPanel Grid.Column="1" Grid.Row="1" Margin="0,8,0,0">
+                    <!-- Merits -->
                     <StackPanel Margin="8,0">
-                        <TextBlock Text="Inventory" Style="{StaticResource SheetTitle}" TextAlignment="Left" HorizontalAlignment="Left" />
-                        <ListView x:Name="InventoryList" ItemsSource="{Binding Inventory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent">
+                        <TextBlock Text="Merits" Style="{StaticResource CoDTitle}" />
+                        <ListView x:Name="MeritList" ItemsSource="{Binding CurrentSheet.Merits, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" Margin="0,2">
-                                        <controls:CircleButtonControl Diameter="16" Command="{Binding Terminal.Campaign.Commands.RemoveStringValueCommand, Source={StaticResource Locator}}" BorderBackground="{StaticResource Rot}" Data="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" CustomParameter="{x:Reference InventoryList}" Margin="0,0,8,0" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                                        <TextBox Text="{Binding Key, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource SheetEntry}" core:TextBehaviour.TextChangedCommand="{Binding Terminal.Campaign.UpdateSheetCommand, Source={StaticResource Locator}}" Margin="0,0,8,0" Width="1024" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <controls:CircleButtonControl Diameter="16" Command="{Binding Terminal.Campaign.Commands.RemoveIntValueCommand, Source={StaticResource Locator}}" BorderBackground="{StaticResource Rot}" Data="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" CustomParameter="{x:Reference MeritList}" Margin="0,0,8,0" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                                        <TextBox Text="{Binding Key, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CoDEntry}" core:TextBehaviour.TextChangedCommand="{Binding Terminal.Campaign.UpdateSheetCommand, Source={StaticResource Locator}}" Margin="0,0,8,0" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                                        <controls:Dot5NumberControl Number="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand, Source={StaticResource Locator}}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ListView>
-                        <controls:CircleButtonControl Diameter="40" Command="{Binding Source={StaticResource Locator}, Path=Terminal.Campaign.Commands.AddStringValueCommand}" Data="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" BorderBackground="{StaticResource Blau}" HorizontalAlignment="Center" CustomParameter="{x:Reference InventoryList}" Margin="0,8,0,0" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        <controls:CircleButtonControl Diameter="40" Command="{Binding Commands.AddIntValueCommand}" Data="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" BorderBackground="{StaticResource Blau}" HorizontalAlignment="Center" CustomParameter="{x:Reference MeritList}" Margin="0,8,0,0" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                     </StackPanel>
-                </Border>
-                
-                <!-- Experience Chart -->
-                <Grid Margin="0,16,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="192" />
-                        <ColumnDefinition Width="192" />
-                        <ColumnDefinition Width="3*" />
-                        <ColumnDefinition Width="192" />
-                        <ColumnDefinition Width="192" />
-                        <ColumnDefinition Width="6*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
 
-                    <TextBlock Style="{StaticResource SheetTitle}" Text="Experience Costs" Grid.Column="1" Grid.ColumnSpan="6" Grid.Row="0" HorizontalAlignment="Left" />
-                    <TextBlock Style="{StaticResource SheetText}" Text="Attribute" Grid.Column="1" Grid.Row="1" />
-                    <TextBlock Style="{StaticResource SheetText}" Text="4 points per dot" Grid.Column="2" Grid.Row="1" />
-                    <TextBlock Style="{StaticResource SheetText}" Text="Merit" Grid.Column="1" Grid.Row="2" />
-                    <TextBlock Style="{StaticResource SheetText}" Text="1 point per dot" Grid.Column="2" Grid.Row="2" />
-                    <TextBlock Style="{StaticResource SheetText}" Text="Specialty" Grid.Column="1" Grid.Row="3" />
-                    <TextBlock Style="{StaticResource SheetText}" Text="1 point" Grid.Column="2" Grid.Row="3" />
-                    <TextBlock Style="{StaticResource SheetText}" Text="Skill" Grid.Column="4" Grid.Row="1" />
-                    <TextBlock Style="{StaticResource SheetText}" Text="2 points per dot" Grid.Column="5" Grid.Row="1" />
-                    <TextBlock Style="{StaticResource SheetText}" Text="Integrity" Grid.Column="4" Grid.Row="2" />
-                    <TextBlock Style="{StaticResource SheetText}" Text="2 points per dot" Grid.Column="5" Grid.Row="2" />
-                </Grid>
-            </StackPanel>
-        </Border>
-    </ScrollViewer>
-</Page>
+                    <!-- Other Data -->
+                    <StackPanel Margin="8,8">
+                        <StackPanel Orientation="Horizontal" Margin="0,4">
+                            <TextBlock Text="Size:" Style="{StaticResource CoDText}" Width="120" VerticalAlignment="Center" />
+                            <TextBox Style="{StaticResource CoDEntry}" Text="{Binding CurrentSheet.Size, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" core:TextBehaviour.TextChangedCommand="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,4">
+                            <TextBlock Text="Speed:" Style="{StaticResource CoDText}" Width="120" VerticalAlignment="Center" />
+                            <TextBox Style="{StaticResource CoDEntry}" Text="{Binding CurrentSheet.Speed, Mode=OneWay}" core:TextBehaviour.TextChangedCommand="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,4">
+                            <TextBlock Text="Defense:" Style="{StaticResource CoDText}" Width="120" VerticalAlignment="Center" />
+                            <TextBox Style="{StaticResource CoDEntry}" Text="{Binding CurrentSheet.Defense, Mode=OneWay}" core:TextBehaviour.TextChangedCommand="{Binding UpdateSheetCommand}" IsReadOnly="True" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,4">
+                            <TextBlock Text="Armor:" Style="{StaticResource CoDText}" Width="120" VerticalAlignment="Center" />
+                            <TextBox Style="{StaticResource CoDEntry}" Text="{Binding CurrentSheet.Armor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" core:TextBehaviour.TextChangedCommand="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,4">
+                            <TextBlock Text="Initiative Mod:" Style="{StaticResource CoDText}" Width="120" VerticalAlignment="Center" />
+                            <TextBox Style="{StaticResource CoDEntry}" Text="{Binding CurrentSheet.IniativeMod, Mode=OneWay}" IsReadOnly="True" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,4">
+                            <TextBlock Text="Beats:" Style="{StaticResource CoDText}" Width="120" VerticalAlignment="Center" />
+                            <controls:Rect5NumberControl Number="{Binding CurrentSheet.Beats, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0,4">
+                            <TextBlock Text="Experience:" Style="{StaticResource CoDText}" Width="120" VerticalAlignment="Center" />
+                            <TextBox Style="{StaticResource CoDEntry}" Text="{Binding CurrentSheet.Experience, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" core:TextBehaviour.TextChangedCommand="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        </StackPanel>
+
+                    </StackPanel>
+
+                    <!-- Specialties -->
+                    <StackPanel Margin="8,8,8,0">
+                        <TextBlock Text="Specialties" Style="{StaticResource CoDTitle}" />
+                        <ListView x:Name="SpecialtiesList" ItemsSource="{Binding CurrentSheet.Specialties, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <controls:CircleButtonControl Diameter="16" Command="{Binding Terminal.Campaign.Commands.RemoveStringValueCommand, Source={StaticResource Locator}}" BorderBackground="{StaticResource Rot}" Data="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" CustomParameter="{x:Reference SpecialtiesList}" Margin="0,0,8,0" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                                        <TextBox Text="{Binding Key, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CoDEntry}" core:TextBehaviour.TextChangedCommand="{Binding Terminal.Campaign.UpdateSheetCommand, Source={StaticResource Locator}}" Margin="0,0,8,0" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ListView>
+                        <controls:CircleButtonControl Diameter="40" Command="{Binding Commands.AddStringValueCommand}" Data="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" BorderBackground="{StaticResource Blau}" HorizontalAlignment="Center" CustomParameter="{x:Reference SpecialtiesList}" Margin="0,8,0,0" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                    </StackPanel>
+
+                </StackPanel>
+
+                <!-- Third Column -->
+                <StackPanel Grid.Column="2" Grid.Row="1" Margin="0,8,0,0">
+
+                    <StackPanel Margin="8,0">
+                        <TextBlock Text="Health" Style="{StaticResource CoDTitle}" />
+                        <controls:CoDHealthControl MaxHealth="{Binding CurrentSheet.Health, Mode=OneWay}" Damage="{Binding CurrentSheet.Damage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                    </StackPanel>
+
+                    <StackPanel Margin="8,8,8,0">
+                        <TextBlock Text="Willpower" Style="{StaticResource CoDTitle}" />
+                        <controls:CoDWillpowerControl MaxWillpower="{Binding CurrentSheet.Willpower, Mode=OneWay}" CurrentWillpower="{Binding CurrentSheet.CurrentWillpower, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" Margin="0,8,0,0" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                    </StackPanel>
+
+                    <StackPanel Margin="8,8,8,0">
+                        <TextBlock Text="Integrity" Style="{StaticResource CoDTitle}" />
+                        <controls:DotNumberControl Number="{Binding CurrentSheet.Integrity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" Margin="0,8,0,0" HorizontalAlignment="Center" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                    </StackPanel>
+
+                    <StackPanel Margin="8,8,8,0">
+                        <TextBlock Text="Conditions" Style="{StaticResource CoDTitle}" />
+                        <ListView x:Name="ConditionsList" ItemsSource="{Binding CurrentSheet.Conditions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <controls:CircleButtonControl Diameter="16" Command="{Binding Terminal.Campaign.Commands.RemoveStringValueCommand, Source={StaticResource Locator}}" BorderBackground="{StaticResource Rot}" Data="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" CustomParameter="{x:Reference ConditionsList}" Margin="0,0,8,0" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                                        <TextBox Text="{Binding Key, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CoDEntry}" core:TextBehaviour.TextChangedCommand="{Binding Terminal.Campaign.UpdateSheetCommand, Source={StaticResource Locator}}" Margin="0,0,8,0" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ListView>
+                        <controls:CircleButtonControl Diameter="40" Command="{Binding Commands.AddStringValueCommand}" Data="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" BorderBackground="{StaticResource Blau}" HorizontalAlignment="Center" CustomParameter="{x:Reference ConditionsList}" Margin="0,8,0,0" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                    </StackPanel>
+
+                    <StackPanel Margin="8,8,8,0">
+                        <TextBlock Text="Aspirations" Style="{StaticResource CoDTitle}" />
+                        <ListView x:Name="AspirationsList" ItemsSource="{Binding CurrentSheet.Aspirations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <controls:CircleButtonControl Diameter="16" Command="{Binding Terminal.Campaign.Commands.RemoveStringValueCommand, Source={StaticResource Locator}}" BorderBackground="{StaticResource Rot}" Data="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" CustomParameter="{x:Reference AspirationsList}" Margin="0,0,8,0" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                                        <TextBox Text="{Binding Key, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CoDEntry}" core:TextBehaviour.TextChangedCommand="{Binding Terminal.Campaign.UpdateSheetCommand, Source={StaticResource Locator}}" Margin="0,0,8,0" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ListView>
+                        <controls:CircleButtonControl Diameter="40" Command="{Binding Commands.AddStringValueCommand}" Data="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" BorderBackground="{StaticResource Blau}" HorizontalAlignment="Center" CustomParameter="{x:Reference AspirationsList}" Margin="0,8,0,0" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                    </StackPanel>
+
+                </StackPanel>
+
+            </Grid>
+
+            <!-- Inventory -->
+            <Border BorderBrush="{StaticResource Dark}" BorderThickness="0,2,0,0" Margin="0,8,0,0" Padding="8">
+                <StackPanel Margin="8,0">
+                    <TextBlock Text="Inventory" Style="{StaticResource CoDTitle}" TextAlignment="Left" HorizontalAlignment="Left" />
+                    <ListView x:Name="InventoryList" ItemsSource="{Binding CurrentSheet.Inventory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Margin="0,2">
+                                    <controls:CircleButtonControl Diameter="16" Command="{Binding Terminal.Campaign.Commands.RemoveStringValueCommand, Source={StaticResource Locator}}" BorderBackground="{StaticResource Rot}" Data="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" CustomParameter="{x:Reference InventoryList}" Margin="0,0,8,0" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                                    <TextBox Text="{Binding Key, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CoDEntry}" core:TextBehaviour.TextChangedCommand="{Binding Terminal.Campaign.UpdateSheetCommand, Source={StaticResource Locator}}" Margin="0,0,8,0" Width="1024" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ListView>
+                    <controls:CircleButtonControl Diameter="40" Command="{Binding Commands.AddStringValueCommand}" Data="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" BorderBackground="{StaticResource Blau}" HorizontalAlignment="Center" CustomParameter="{x:Reference InventoryList}" Margin="0,8,0,0" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                </StackPanel>
+            </Border>
+
+            <!-- Experience Chart -->
+            <Grid Margin="0,16,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="192" />
+                    <ColumnDefinition Width="192" />
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="192" />
+                    <ColumnDefinition Width="192" />
+                    <ColumnDefinition Width="6*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Style="{StaticResource CoDTitle}" Text="Experience Costs" Grid.Column="1" Grid.ColumnSpan="6" Grid.Row="0" HorizontalAlignment="Left" />
+                <TextBlock Style="{StaticResource CoDText}" Text="Attribute" Grid.Column="1" Grid.Row="1" />
+                <TextBlock Style="{StaticResource CoDText}" Text="4 points per dot" Grid.Column="2" Grid.Row="1" />
+                <TextBlock Style="{StaticResource CoDText}" Text="Merit" Grid.Column="1" Grid.Row="2" />
+                <TextBlock Style="{StaticResource CoDText}" Text="1 point per dot" Grid.Column="2" Grid.Row="2" />
+                <TextBlock Style="{StaticResource CoDText}" Text="Specialty" Grid.Column="1" Grid.Row="3" />
+                <TextBlock Style="{StaticResource CoDText}" Text="1 point" Grid.Column="2" Grid.Row="3" />
+                <TextBlock Style="{StaticResource CoDText}" Text="Skill" Grid.Column="4" Grid.Row="1" />
+                <TextBlock Style="{StaticResource CoDText}" Text="2 points per dot" Grid.Column="5" Grid.Row="1" />
+                <TextBlock Style="{StaticResource CoDText}" Text="Integrity" Grid.Column="4" Grid.Row="2" />
+                <TextBlock Style="{StaticResource CoDText}" Text="2 points per dot" Grid.Column="5" Grid.Row="2" />
+            </Grid>
+        </StackPanel>
+    </Border>
+</UserControl>

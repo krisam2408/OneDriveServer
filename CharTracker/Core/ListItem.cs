@@ -49,5 +49,18 @@ namespace RetiraTracker.Core
         }
 
         public override string ToString() { return Display; }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is ListItem li)
+                if (li.Key == Key)
+                    return true;
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return Key.GetHashCode();
+        }
     }
 }

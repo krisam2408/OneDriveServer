@@ -30,7 +30,7 @@ namespace GoogleExplorer.Extensions
 
     public static class MimeExtensions
     {
-        public static string GetMimeType(this Enum mime)
+        public static string GetMimeType(this MimeTypes mime)
         {
             MimeTypeAttribute mimeAttribute = (MimeTypeAttribute)mime.GetType()
                 .GetMember(mime.ToString())
@@ -40,7 +40,7 @@ namespace GoogleExplorer.Extensions
             return mimeAttribute.MimeTypes.First();
         }
 
-        public static string[] GetMimeTypes(this Enum mime)
+        public static string[] GetMimeTypes(this MimeTypes mime)
         {
             MimeTypeAttribute mimeAttribute = (MimeTypeAttribute)mime.GetType()
                 .GetMember(mime.ToString())
@@ -48,6 +48,15 @@ namespace GoogleExplorer.Extensions
                 .GetCustomAttributes(typeof(MimeTypeAttribute), false)
                 .First();
             return mimeAttribute.MimeTypes;
+        }
+
+        public static string[] GetMimeTypes(this MimeTypes[] mime)
+        {
+            List<string> mimeTypes = new List<string>();
+            foreach(MimeTypes e in mime)
+                mimeTypes.AddRange(e.GetMimeTypes());
+
+            return mimeTypes.ToArray();
         }
 
         public static MimeTypes GetMimeTypes(this string mime)

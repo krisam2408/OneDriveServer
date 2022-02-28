@@ -4,7 +4,9 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:RetiraTracker.View"
+      xmlns:templates="clr-namespace:RetiraTracker.View.SheetTemplates"
       xmlns:controls="clr-namespace:RetiraTracker.View.UserControls"
+      xmlns:drama="clr-namespace:SheetDrama.Templates.ChroniclesOfDarkness;assembly=SheetDrama"
       mc:Ignorable="d"
       DataContext="{Binding Terminal, Source={StaticResource Locator}}">
 
@@ -25,6 +27,21 @@
             <controls:ButtonControl Text="Sync" BorderWidth="126" BorderHeight="40" BorderBackground="{StaticResource Blau}" Margin="8, 0" Command="{Binding SyncSheetsCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
         </StackPanel>
 
-        <ItemsControl Grid.Column="1" Grid.Row="1" ItemsSource="{Binding FrameList}" Margin="8,0,0,0" />
+        <ScrollViewer Grid.Column="1" Grid.Row="1" HorizontalContentAlignment="Center">
+            <ContentControl Content="{Binding CurrentSheet}">
+                <ContentControl.Resources>
+                    <DataTemplate DataType="{x:Type drama:CoDDarkAgesSheet}">
+                        <templates:CODDarkAgesPage />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type drama:WtFDarkAgesSheet}">
+                        <templates:WTFDarkAgesPage />
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type drama:PtCDarkAgesSheet}">
+                        <templates:PTCDarkAgesPage />
+                    </DataTemplate>
+                    
+                </ContentControl.Resources>
+            </ContentControl>
+        </ScrollViewer>
     </Grid>
 </Page>

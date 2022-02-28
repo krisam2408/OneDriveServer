@@ -108,7 +108,7 @@ namespace RetiraTracker.View.Popups
                 return new RelayCommand(e =>
                 { 
                     AppSheet selectedSheet = Terminal.Instance.Campaign.SelectedSheet.GetContent<AppSheet>();
-                    selectedSheet.SetAppSheet();
+                    selectedSheet.Initialize();
 
                     GameTemplates newGameTemplate = ((ListItem)TemplateComboBox.SelectedItem).GetContent<GameTemplates>();
 
