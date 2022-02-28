@@ -287,7 +287,19 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
         }
         public int CurrentWillpower { get; set; }
 
-        public int PrimalUrge { get; set; }
+        public int primalUrge;
+        public int PrimalUrge 
+        {
+            get { return primalUrge; }
+            set
+            {
+                if(value < 1)
+                    primalUrge = 1;
+                if(value > 10)
+                    primalUrge = 10;
+                primalUrge = value;
+            }
+        }
         public int Essence { get; set; }
         public int MaxEssence
         {

@@ -1,6 +1,7 @@
 ﻿using RetiraTracker.Core;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,10 +23,9 @@ namespace RetiraTracker.View.UserControls
     public partial class RectNumberControl : UserControl
     {
         private readonly SolidColorBrush transparent = new SolidColorBrush(Color.FromArgb(30, 0, 0, 0));
-        private readonly SolidColorBrush disabled = (SolidColorBrush)Application.Current.Resources["Grau"];
+        private readonly SolidColorBrush disabled;
         private readonly LinearGradientBrush slash;
-        private Rectangle[] Rects;
-
+        
         public EventHandler NumberChanged;
         public EventHandler MaxNumberChanged;
 
@@ -47,7 +47,9 @@ namespace RetiraTracker.View.UserControls
                 new Point(1, 1)
             );
 
-            Rects = new Rectangle[20] { Rect00, Rect01, Rect02, Rect03, Rect04, Rect05, Rect06, Rect07, Rect08, Rect09, Rect10, Rect11, Rect12, Rect13, Rect14, Rect15, Rect16, Rect17, Rect18, Rect19, };
+            Color disabledColor = (Color)Application.Current.Resources["GrauColor"];
+            disabledColor.A = 162;
+            disabled = new SolidColorBrush(disabledColor);
 
             NumberChanged += (sender, e) =>
             {
@@ -72,8 +74,10 @@ namespace RetiraTracker.View.UserControls
             set
             {
                 int input = 0;
-                if (value > 0 && value <= MaxNumber)
+                if (value > 0)
                     input = value;
+                if(value > MaxNumber)
+                    input = MaxNumber;
 
                 SetValue(NumberProperty, input);
             }
@@ -83,8 +87,7 @@ namespace RetiraTracker.View.UserControls
         {
             RectNumberControl source = (RectNumberControl)d;
 
-            if (source.NumberChanged != null)
-                source.NumberChanged(source, EventArgs.Empty);
+            source.NumberChanged?.Invoke(source, EventArgs.Empty);
         }
 
         public static DependencyProperty MaxNumberProperty = DependencyProperty.Register("MaxNumber", typeof(int), typeof(RectNumberControl), new PropertyMetadata(0, OnMaxNumberChanged));
@@ -98,8 +101,10 @@ namespace RetiraTracker.View.UserControls
             set
             {
                 int input = 0;
-                if (value > 0 && value <= 5)
+                if (value > 0)
                     input = value;
+                if(value > 100)
+                    input = 100;
 
                 SetValue(MaxNumberProperty, input);
             }
@@ -109,8 +114,7 @@ namespace RetiraTracker.View.UserControls
         {
             RectNumberControl source = (RectNumberControl)d;
 
-            if (source.MaxNumberChanged != null)
-                source.MaxNumberChanged(source, EventArgs.Empty);
+            source.MaxNumberChanged?.Invoke(source, EventArgs.Empty);
         }
 
         public static DependencyProperty ValueChangedProperty = DependencyProperty.Register("ValueChanged", typeof(ICommand), typeof(RectNumberControl));
@@ -120,51 +124,82 @@ namespace RetiraTracker.View.UserControls
             set { SetValue(ValueChangedProperty, value); }
         }
 
-        public ICommand Rect00Command
+        private int CalculateNumber(int val)
         {
-            get
-            {
-                return new RelayCommand((e) =>
-                {
-                    if (Number >= 1)
-                    {
-                        Number = 0;
-                        return;
-                    }
-                    Number = 1;
-                });
-            }
+            if (val == 1 && Number >= 1)
+                return 0;
+            return val;
         }
-        public ICommand Rect01Command { get { return new RelayCommand((e) => { Number = 2; }); } }
-        public ICommand Rect02Command { get { return new RelayCommand((e) => { Number = 3; }); } }
-        public ICommand Rect03Command { get { return new RelayCommand((e) => { Number = 4; }); } }
-        public ICommand Rect04Command { get { return new RelayCommand((e) => { Number = 5; }); } }
-        public ICommand Rect05Command { get { return new RelayCommand((e) => { Number = 6; }); } }
-        public ICommand Rect06Command { get { return new RelayCommand((e) => { Number = 7; }); } }
-        public ICommand Rect07Command { get { return new RelayCommand((e) => { Number = 8; }); } }
-        public ICommand Rect08Command { get { return new RelayCommand((e) => { Number = 9; }); } }
-        public ICommand Rect09Command { get { return new RelayCommand((e) => { Number = 10; }); } }
-        public ICommand Rect10Command { get { return new RelayCommand((e) => { Number = 11; }); } }
-        public ICommand Rect11Command { get { return new RelayCommand((e) => { Number = 12; }); } }
-        public ICommand Rect12Command { get { return new RelayCommand((e) => { Number = 13; }); } }
-        public ICommand Rect13Command { get { return new RelayCommand((e) => { Number = 14; }); } }
-        public ICommand Rect14Command { get { return new RelayCommand((e) => { Number = 15; }); } }
-        public ICommand Rect15Command { get { return new RelayCommand((e) => { Number = 16; }); } }
-        public ICommand Rect16Command { get { return new RelayCommand((e) => { Number = 17; }); } }
-        public ICommand Rect17Command { get { return new RelayCommand((e) => { Number = 18; }); } }
-        public ICommand Rect18Command { get { return new RelayCommand((e) => { Number = 19; }); } }
-        public ICommand Rect19Command { get { return new RelayCommand((e) => { Number = 20; }); } }
 
         public void SetRectFills()
         {
-            for (int i = 0; i < Rects.Length; i++)
-                Rects[i].Fill = transparent;
+            Panel.Children.Clear();
+
+            int val = 0;
+            int maxVal = SetMaxValue();
 
             for (int i = 0; i < Number; i++)
-                Rects[i].Fill = slash;
+            {
+                val++;
+                Panel.Children.Add(DefaultRect(slash, val));
+            }
 
-            for (int i = MaxNumber; i < 20; i++)
-                Rects[i].Fill = disabled;
+            for(int i = Number; i < MaxNumber; i++)
+            {
+                val++;
+                Panel.Children.Add(DefaultRect(transparent, val));
+            }
+
+            for(int i = MaxNumber; i < maxVal; i++)
+            {
+                val++;
+                Panel.Children.Add(DefaultRect(disabled, val));
+            }
+        }
+
+        private Rectangle DefaultRect(Brush fill, int val)
+        {
+            Rectangle rect = new();
+
+            rect.Stroke = (SolidColorBrush)Application.Current.Resources["Dark"];
+            rect.StrokeThickness = 1.5;
+            rect.Width = 16;
+            rect.Height = 16;
+            rect.Fill = fill;
+            rect.Margin = new Thickness(3);
+
+            if(fill != disabled)
+            {
+                rect.Cursor = Cursors.Hand;
+                rect.IsMouseDirectlyOverChanged += (sender, e) =>
+                {
+                    Rectangle r = (Rectangle)sender;
+                    bool val = (bool)e.NewValue;
+                    if (val)
+                    {
+                        r.Opacity = 0.8;
+                        return;
+                    }
+
+                    r.Opacity = 1;
+                };
+                rect.MouseLeftButtonUp += (sender, e) =>
+                {
+                    Number = CalculateNumber(val);
+                };
+            }
+
+
+            return rect;
+        }
+
+        private int SetMaxValue()
+        {
+            int output = 10;
+            while (MaxNumber > output && MaxNumber <= 100)
+                output += 10;
+
+            return output;
         }
     }
 }

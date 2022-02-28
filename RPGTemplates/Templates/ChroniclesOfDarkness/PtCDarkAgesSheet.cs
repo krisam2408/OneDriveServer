@@ -200,7 +200,19 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
         }
         public int CurrentWillpower { get; set; }
 
-        public int Azoth { get; set; }
+        private int azoth;
+        public int Azoth 
+        {
+            get { return azoth; }
+            set 
+            {
+                if (value < 1)
+                    azoth = 1;
+                if (value > 10)
+                    azoth = 10;
+                azoth = value;
+            }
+        }
         public int Pyros { get; set; }
         public int MaxPyros
         {
@@ -208,7 +220,6 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
             {
                 return Azoth switch
                 {
-                    1 => 10,
                     2 => 11,
                     3 => 12,
                     4 => 13,
@@ -217,7 +228,8 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
                     7 => 30,
                     8 => 40,
                     9 => 50,
-                    _ => 100
+                    10 => 100,
+                    _ => 10
                 };
             }
         }
