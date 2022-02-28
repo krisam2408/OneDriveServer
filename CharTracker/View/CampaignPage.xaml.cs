@@ -24,5 +24,12 @@ namespace RetiraTracker.View
         {
             InitializeComponent();
         }
+
+        private void ScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ScrollViewer scrollviewer = (ScrollViewer)sender;
+            scrollviewer.ScrollToVerticalOffset(scrollviewer.VerticalOffset - e.Delta);
+            e.Handled = true;
+        }
     }
 }

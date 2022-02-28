@@ -47,7 +47,7 @@
         </StackPanel>
 
         <StackPanel Grid.Column="1" Grid.Row="0">
-            <Border BorderBrush="{StaticResource Light}" BorderThickness="2" CornerRadius="8" MinHeight="216" Margin="0,40,0,0">
+            <Border BorderBrush="{StaticResource Indigo}" BorderThickness="2" CornerRadius="8" MinHeight="216" Margin="0,40,0,0">
                 <ListView Background="Transparent" ItemsSource="{Binding PlayersList}">
                     <ListView.ItemTemplate>
                         <DataTemplate>

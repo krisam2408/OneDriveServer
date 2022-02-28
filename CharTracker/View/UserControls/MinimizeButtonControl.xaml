@@ -7,7 +7,7 @@
              xmlns:core="clr-namespace:RetiraTracker.Core"
              mc:Ignorable="d" Margin="4,0">
     <UserControl.Resources>
-        <Style x:Key="BtnBorder" TargetType="Border">
+        <Style x:Key="BtnBorder" TargetType="{x:Type Border}">
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="False">
                     <Setter Property="Background" Value="{StaticResource Orange}" />

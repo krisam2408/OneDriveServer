@@ -7,7 +7,7 @@
              xmlns:core="clr-namespace:RetiraTracker.Core"
              mc:Ignorable="d">
     <UserControl.Resources>
-        <Style x:Key="BtnBorder" TargetType="Border">
+        <Style x:Key="BtnBorder" TargetType="{x:Type Border}">
             <Style.Setters>
                 <Setter Property="Cursor" Value="Hand" />
             </Style.Setters>
@@ -23,7 +23,7 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        <Style x:Key="BtnImage" TargetType="Path">
+        <Style x:Key="BtnImage" TargetType="{x:Type Path}">
             <Style.Setters>
                 <Setter Property="Fill" Value="{StaticResource Light}" />
             </Style.Setters>

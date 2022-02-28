@@ -312,7 +312,7 @@
                     <!-- Merits -->
                     <StackPanel Margin="8,0">
                         <TextBlock Text="Merits" Style="{StaticResource CoDTitle}" />
-                        <ListView x:Name="MeritList" ItemsSource="{Binding CurrentSheet.Merits, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent">
+                        <ListView x:Name="MeritList" ItemsSource="{Binding CurrentSheet.Merits, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CoDList}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
@@ -407,7 +407,7 @@
                     <!-- Specialties -->
                     <StackPanel Margin="8,8,8,0">
                         <TextBlock Text="Specialties" Style="{StaticResource CoDTitle}" />
-                        <ListView x:Name="SpecialtiesList" ItemsSource="{Binding CurrentSheet.Specialties, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent">
+                        <ListView x:Name="SpecialtiesList" ItemsSource="{Binding CurrentSheet.Specialties, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CoDList}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
@@ -462,7 +462,7 @@
 
                     <StackPanel Margin="8,8,8,0">
                         <TextBlock Text="Conditions" Style="{StaticResource CoDTitle}" />
-                        <ListView x:Name="ConditionsList" ItemsSource="{Binding CurrentSheet.Conditions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent">
+                        <ListView x:Name="ConditionsList" ItemsSource="{Binding CurrentSheet.Conditions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CoDList}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
@@ -477,7 +477,7 @@
 
                     <StackPanel Margin="8,8,8,0">
                         <TextBlock Text="Aspirations" Style="{StaticResource CoDTitle}" />
-                        <ListView x:Name="AspirationsList" ItemsSource="{Binding CurrentSheet.Aspirations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent">
+                        <ListView x:Name="AspirationsList" ItemsSource="{Binding CurrentSheet.Aspirations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CoDList}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
@@ -514,7 +514,7 @@
                     <Border Background="{StaticResource DarkLight}" CornerRadius="8" Padding="4" Margin="0,0,4,0">
                         <TextBlock Style="{StaticResource CoDText}" Text="Passive" HorizontalAlignment="Center" />
                     </Border>
-                    <ListView x:Name="PassiveTriggersList" ItemsSource="{Binding CurrentSheet.PassiveKuruthTriggers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent">
+                    <ListView x:Name="PassiveTriggersList" ItemsSource="{Binding CurrentSheet.PassiveKuruthTriggers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CoDList}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -531,7 +531,7 @@
                     <Border Background="{StaticResource DarkLight}" CornerRadius="8" Padding="4" Margin="4,0">
                         <TextBlock Style="{StaticResource CoDText}" Text="Common" HorizontalAlignment="Center" />
                     </Border>
-                    <ListView x:Name="CommonTriggersList" ItemsSource="{Binding CurrentSheet.CommonKuruthTriggers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent">
+                    <ListView x:Name="CommonTriggersList" ItemsSource="{Binding CurrentSheet.CommonKuruthTriggers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CoDList}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -548,7 +548,7 @@
                     <Border Background="{StaticResource DarkLight}" CornerRadius="8" Padding="4" Margin="4,0,0,0">
                         <TextBlock Style="{StaticResource CoDText}" Text="Specific" HorizontalAlignment="Center" />
                     </Border>
-                    <ListView x:Name="SpecificTriggersList" ItemsSource="{Binding CurrentSheet.SpecificKuruthTriggers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent">
+                    <ListView x:Name="SpecificTriggersList" ItemsSource="{Binding CurrentSheet.SpecificKuruthTriggers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CoDList}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -583,7 +583,7 @@
                     <Border Background="{StaticResource DarkLight}" CornerRadius="8" Padding="4" Margin="0,0,4,0">
                         <TextBlock Style="{StaticResource CoDText}" Text="Moon Gifts" HorizontalAlignment="Center" />
                     </Border>
-                    <ListView x:Name="MoonGiftsList" ItemsSource="{Binding CurrentSheet.MoonGifts, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent">
+                    <ListView x:Name="MoonGiftsList" ItemsSource="{Binding CurrentSheet.MoonGifts, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CoDList}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -601,7 +601,7 @@
                     <Border Background="{StaticResource DarkLight}" CornerRadius="8" Padding="4" Margin="4,0">
                         <TextBlock Style="{StaticResource CoDText}" Text="Shadow Gifts" HorizontalAlignment="Center" />
                     </Border>
-                    <ListView x:Name="ShadowGiftsList" ItemsSource="{Binding CurrentSheet.ShadowGifts, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent">
+                    <ListView x:Name="ShadowGiftsList" ItemsSource="{Binding CurrentSheet.ShadowGifts, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CoDList}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -618,7 +618,7 @@
                     <Border Background="{StaticResource DarkLight}" CornerRadius="8" Padding="4" Margin="4,0,0,0">
                         <TextBlock Style="{StaticResource CoDText}" Text="Wolf Gifts" HorizontalAlignment="Center" />
                     </Border>
-                    <ListView x:Name="WolfGiftsList" ItemsSource="{Binding CurrentSheet.WolfGifts, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent">
+                    <ListView x:Name="WolfGiftsList" ItemsSource="{Binding CurrentSheet.WolfGifts, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CoDList}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -637,7 +637,7 @@
             <Border BorderBrush="{StaticResource Dark}" BorderThickness="0,2,0,0" Margin="0,8,0,0" Padding="8">
                 <StackPanel Margin="8,0">
                     <TextBlock Text="Rites" Style="{StaticResource CoDTitle}" TextAlignment="Left" HorizontalAlignment="Left" />
-                    <ListView x:Name="RitesList" ItemsSource="{Binding CurrentSheet.Rites, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent">
+                    <ListView x:Name="RitesList" ItemsSource="{Binding CurrentSheet.Rites, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CoDList}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" Margin="0,2">
@@ -655,7 +655,7 @@
             <Border BorderBrush="{StaticResource Dark}" BorderThickness="0,2,0,0" Margin="0,8,0,0" Padding="8">
                 <StackPanel Margin="8,0">
                     <TextBlock Text="Inventory" Style="{StaticResource CoDTitle}" TextAlignment="Left" HorizontalAlignment="Left" />
-                    <ListView x:Name="InventoryList" ItemsSource="{Binding CurrentSheet.Inventory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent">
+                    <ListView x:Name="InventoryList" ItemsSource="{Binding CurrentSheet.Inventory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CoDList}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" Margin="0,2">

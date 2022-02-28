@@ -7,7 +7,7 @@
              xmlns:core="clr-namespace:RetiraTracker.Core"
              mc:Ignorable="d">
     <UserControl.Resources>
-        <Style x:Key="FormButton" TargetType="Border">
+        <Style x:Key="FormButton" TargetType="{x:Type Border}">
             <Style.Setters>
                 <Setter Property="Cursor" Value="Hand" />
                 <Setter Property="Height" Value="32" />
@@ -16,7 +16,7 @@
                 <Setter Property="BorderThickness" Value="2" />
             </Style.Setters>
         </Style>
-        <Style x:Key="ButtonText" TargetType="TextBlock">
+        <Style x:Key="ButtonText" TargetType="{x:Type TextBlock}">
             <Style.Setters>
                 <Setter Property="HorizontalAlignment" Value="Center" />
                 <Setter Property="VerticalAlignment" Value="Center" />

@@ -27,7 +27,7 @@
             <controls:ButtonControl Text="Sync" BorderWidth="126" BorderHeight="40" BorderBackground="{StaticResource Blau}" Margin="8, 0" Command="{Binding SyncSheetsCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
         </StackPanel>
 
-        <ScrollViewer Grid.Column="1" Grid.Row="1" HorizontalContentAlignment="Center">
+        <ScrollViewer Grid.Column="1" Grid.Row="1" HorizontalContentAlignment="Center" PreviewMouseWheel="ScrollViewer_PreviewMouseWheel">
             <ContentControl Content="{Binding CurrentSheet}">
                 <ContentControl.Resources>
                     <DataTemplate DataType="{x:Type drama:CoDDarkAgesSheet}">

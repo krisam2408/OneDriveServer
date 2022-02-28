@@ -7,7 +7,7 @@
              xmlns:core="clr-namespace:RetiraTracker.Core"
              mc:Ignorable="d">
     <UserControl.Resources>
-        <Style x:Key="EllipseDot" TargetType="Ellipse">
+        <Style x:Key="EllipseDot" TargetType="{x:Type Ellipse}">
             <Style.Setters>
                 <Setter Property="Stroke" Value="{StaticResource Dark}" />
                 <Setter Property="StrokeThickness" Value="1.5" />
@@ -17,7 +17,7 @@
             </Style.Setters>
         </Style>
 
-        <Style x:Key="RectDot" TargetType="Rectangle">
+        <Style x:Key="RectDot" TargetType="{x:Type Rectangle}">
             <Style.Setters>
                 <Setter Property="Stroke" Value="{StaticResource Dark}" />
                 <Setter Property="StrokeThickness" Value="1.5" />
@@ -26,7 +26,7 @@
             </Style.Setters>
         </Style>
 
-        <Style x:Key="PathButton" TargetType="Path">
+        <Style x:Key="PathButton" TargetType="{x:Type Path}">
             <Style.Setters>
                 <Setter Property="Fill" Value="{StaticResource Blau}" />
                 <Setter Property="Stretch" Value="UniformToFill" />
@@ -41,10 +41,27 @@
             </Style.Triggers>
         </Style>
 
-        <Style x:Key="HealthDotsList" TargetType="ListView">
+        <Style x:Key="HealthDotListItem" TargetType="{x:Type ListViewItem}">
+            <Style.Setters>
+                <Setter Property="Focusable" Value="False" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ListViewItem}">
+                            <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style.Setters>
+        </Style>
+
+        <Style x:Key="HealthDotsList" TargetType="{x:Type ListView}">
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderBrush" Value="Transparent" />
             <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="ItemContainerStyle" Value="{StaticResource HealthDotListItem}" />
             <Setter Property="ItemsPanel">
                 <Setter.Value>
                     <ItemsPanelTemplate>
@@ -53,24 +70,13 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
-        <Style x:Key="HealthDotListItem" TargetType="ListViewItem">
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="Transparent" />
-                </Trigger>
-                <Trigger Property="IsSelected" Value="True">
-                    <Setter Property="Background" Value="Transparent" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
     </UserControl.Resources>
     <Grid Margin="8,0,32,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <ListView Grid.Column="0" ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDHealthControl}}, Path=DamageMeter}" Style="{StaticResource HealthDotsList}" ItemContainerStyle="{StaticResource HealthDotListItem}">
+        <ListView Grid.Column="0" ItemsSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDHealthControl}}, Path=DamageMeter}" Style="{StaticResource HealthDotsList}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0">

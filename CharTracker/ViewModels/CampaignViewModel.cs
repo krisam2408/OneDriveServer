@@ -88,7 +88,7 @@ namespace RetiraTracker.ViewModels
 
             string[] players = SetPlayersDisplay(campaign);
 
-            ObservableCollection<ListItem> list = new();
+            ObservableCollection<ListItem> appSheetlist = new();
             vm.Sheets = new();
 
             List<Task> tasks = new();
@@ -97,18 +97,22 @@ namespace RetiraTracker.ViewModels
                 tasks.Add(Task.Run(async () =>
                 {
                     ListItem item = await GetPlayerItem(ply, campaign.FolderID);
-                    list.Add(item);
-
-                    AppSheet appSheet = item.GetContent<AppSheet>();
-                    appSheet.Initialize();
-
-                    vm.Sheets.Add(appSheet.Sheet);
+                    appSheetlist.Add(item);
                 }));
             }
 
             await Task.WhenAll(tasks);
 
-            vm.SheetList = list;
+            vm.SheetList = appSheetlist.OrderBy(l => l.Key)
+                .ToObservableCollection();
+            vm.Sheets = vm.SheetList
+                .Select(l =>
+                {
+                    AppSheet appSheet = l.GetContent<AppSheet>();
+                    appSheet.Initialize();
+                    return appSheet.Sheet;
+                })
+                .ToObservableCollection();
             vm.SelectedSheet = vm.SheetList[0];
 
             vm.SetTemplateCommand(vm.CurrentSheet.SheetScripts[0]);
@@ -123,7 +127,7 @@ namespace RetiraTracker.ViewModels
             Player player = JsonConvert.DeserializeObject<Player>(playerJson);
             AppSheet sheet = new(player);
 
-            ListItem li = new(playerFilename, sheet.Display);
+            ListItem li = new(sheet.Sheet.SheetId, sheet.Display);
             li.SetContent(sheet);
 
             return li;
