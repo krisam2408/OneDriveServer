@@ -225,7 +225,7 @@ namespace RetiraTracker.View.UserControls
             if (input >= 0)
                 input++;
 
-            if(input == 1 && Bonus > 0)
+            if(input == Bonus)
                 input = 0;
 
             return input;
