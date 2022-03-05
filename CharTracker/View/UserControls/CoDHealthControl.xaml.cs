@@ -1,5 +1,4 @@
 ﻿using RetiraTracker.Core;
-using RetiraTracker.Core.Abstracts;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,10 +23,10 @@ namespace RetiraTracker.View.UserControls
     /// </summary>
     public partial class CoDHealthControl : UserControl
     {
-        private readonly SolidColorBrush transparent = new SolidColorBrush(Color.FromArgb(30, 0, 0, 0));
-        private readonly SolidColorBrush dark = (SolidColorBrush)Application.Current.Resources["Dark"];
-        private readonly LinearGradientBrush slash;
-        private readonly LinearGradientBrush half;
+        private readonly SolidColorBrush m_transparent = new SolidColorBrush(Color.FromArgb(30, 0, 0, 0));
+        private readonly SolidColorBrush m_dark = (SolidColorBrush)Application.Current.Resources["Dark"];
+        private readonly LinearGradientBrush m_slash;
+        private readonly LinearGradientBrush m_half;
 
         public EventHandler MaxHealthChanged;
         public EventHandler DamageChanged;
@@ -38,10 +37,10 @@ namespace RetiraTracker.View.UserControls
         {
             InitializeComponent();
 
-            Color darkColor = dark.Color;
-            Color transparentColor = transparent.Color;
+            Color darkColor = m_dark.Color;
+            Color transparentColor = m_transparent.Color;
             
-            slash = new LinearGradientBrush(new GradientStopCollection(new List<GradientStop>
+            m_slash = new LinearGradientBrush(new GradientStopCollection(new List<GradientStop>
                 { 
                     new GradientStop(transparentColor, 0.4),
                     new GradientStop(darkColor, 0.47),
@@ -52,7 +51,7 @@ namespace RetiraTracker.View.UserControls
                 new Point(1, 1)
             );
 
-            half = new LinearGradientBrush(new GradientStopCollection(new List<GradientStop>
+            m_half = new LinearGradientBrush(new GradientStopCollection(new List<GradientStop>
                 {
                     new GradientStop(transparentColor, 0.49),
                     new GradientStop(darkColor, 0.51)
@@ -134,7 +133,7 @@ namespace RetiraTracker.View.UserControls
                 return new RelayCommand((e) =>
                 {
                     MouseEventArgs me = (MouseEventArgs)e;
-                    Path originalSource = (Path)me.OriginalSource;
+                    Rectangle originalSource = (Rectangle)me.OriginalSource;
                     Grid sourceParent = (Grid)originalSource.Parent;
                     TextBlock tblock = (TextBlock)sourceParent.Children[1];
                     int index = int.Parse(tblock.Text);
@@ -151,7 +150,7 @@ namespace RetiraTracker.View.UserControls
                 return new RelayCommand((e) =>
                 {
                     MouseEventArgs me = (MouseEventArgs)e;
-                    Path originalSource = (Path)me.OriginalSource;
+                    Rectangle originalSource = (Rectangle)me.OriginalSource;
                     Grid sourceParent = (Grid)originalSource.Parent;
                     TextBlock tblock = (TextBlock)sourceParent.Children[1];
                     int index = int.Parse(tblock.Text);
@@ -216,17 +215,17 @@ namespace RetiraTracker.View.UserControls
                 switch(Damage[i])
                 {
                     case ' ':
-                        DamageMeter.Add(new EnumeratedBrush(i, ' ', transparent));
+                        DamageMeter.Add(new EnumeratedBrush(i, ' ', m_transparent));
                         break;
                     case '/':
-                        DamageMeter.Add(new EnumeratedBrush(i, '/', slash));
+                        DamageMeter.Add(new EnumeratedBrush(i, '/', m_slash));
                         break;
                     case 'X':
-                        DamageMeter.Add(new EnumeratedBrush(i, 'X', half));
+                        DamageMeter.Add(new EnumeratedBrush(i, 'X', m_half));
                         break;
                     case '*':
                     default:
-                        DamageMeter.Add(new EnumeratedBrush(i, '*', dark));
+                        DamageMeter.Add(new EnumeratedBrush(i, '*', m_dark));
                         break;
                 }
             }
@@ -244,6 +243,20 @@ namespace RetiraTracker.View.UserControls
                     return "-1";
             }
             return "0";
+        }
+
+        public struct EnumeratedBrush
+        {
+            public int Enumerator { get; set; }
+            public char Type { get; set; }
+            public Brush Brush { get; set; }
+
+            public EnumeratedBrush(int enumerator, char type, Brush brush)
+            {
+                Enumerator = enumerator;
+                Type = type;
+                Brush = brush;
+            }
         }
     }
 }

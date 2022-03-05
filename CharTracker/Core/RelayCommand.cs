@@ -5,8 +5,8 @@ namespace RetiraTracker.Core
 {
     public class RelayCommand:ICommand
     {
-        private Action<object> execute;
-        private Func<object, bool> canExecute;
+        private readonly Action<object> m_execute;
+        private readonly Func<object, bool> m_canExecute;
 
         public event EventHandler CanExecuteChanged
         {
@@ -16,18 +16,18 @@ namespace RetiraTracker.Core
 
         public RelayCommand(Action<object> execute, Func<object, bool> canExecute = null)
         {
-            this.execute = execute;
-            this.canExecute = canExecute;
+            m_execute = execute;
+            m_canExecute = canExecute;
         }
 
         public bool CanExecute(object parameter)
         {
-            return canExecute == null || canExecute(parameter);
+            return m_canExecute == null || m_canExecute(parameter);
         }
 
         public void Execute(object parameter)
         {
-            execute(parameter);
+            m_execute(parameter);
         }
     }
 }

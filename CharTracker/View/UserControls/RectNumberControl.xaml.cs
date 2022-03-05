@@ -22,9 +22,9 @@ namespace RetiraTracker.View.UserControls
     /// </summary>
     public partial class RectNumberControl : UserControl
     {
-        private readonly SolidColorBrush transparent = new SolidColorBrush(Color.FromArgb(30, 0, 0, 0));
-        private readonly SolidColorBrush disabled;
-        private readonly LinearGradientBrush slash;
+        private readonly SolidColorBrush m_transparent = new SolidColorBrush(Color.FromArgb(30, 0, 0, 0));
+        private readonly SolidColorBrush m_disabled;
+        private readonly LinearGradientBrush m_slash;
         
         public EventHandler NumberChanged;
         public EventHandler MaxNumberChanged;
@@ -33,10 +33,10 @@ namespace RetiraTracker.View.UserControls
         {
             InitializeComponent();
 
-            Color transparentColor = transparent.Color;
+            Color transparentColor = m_transparent.Color;
             Color darkColor = (Color)Application.Current.Resources["DarkColor"];
 
-            slash = new LinearGradientBrush(new GradientStopCollection(new List<GradientStop>
+            m_slash = new LinearGradientBrush(new GradientStopCollection(new List<GradientStop>
                 {
                     new GradientStop(transparentColor, 0.4),
                     new GradientStop(darkColor, 0.47),
@@ -49,7 +49,7 @@ namespace RetiraTracker.View.UserControls
 
             Color disabledColor = (Color)Application.Current.Resources["GrauColor"];
             disabledColor.A = 162;
-            disabled = new SolidColorBrush(disabledColor);
+            m_disabled = new SolidColorBrush(disabledColor);
 
             NumberChanged += (sender, e) =>
             {
@@ -61,6 +61,8 @@ namespace RetiraTracker.View.UserControls
             {
                 SetRectFills();
             };
+
+            SetRectFills();
         }
 
         public static DependencyProperty NumberProperty = DependencyProperty.Register("Number", typeof(int), typeof(RectNumberControl), new PropertyMetadata(0, OnNumberChanged));
@@ -141,19 +143,19 @@ namespace RetiraTracker.View.UserControls
             for (int i = 0; i < Number; i++)
             {
                 val++;
-                Panel.Children.Add(DefaultRect(slash, val));
+                Panel.Children.Add(DefaultRect(m_slash, val));
             }
 
             for(int i = Number; i < MaxNumber; i++)
             {
                 val++;
-                Panel.Children.Add(DefaultRect(transparent, val));
+                Panel.Children.Add(DefaultRect(m_transparent, val));
             }
 
             for(int i = MaxNumber; i < maxVal; i++)
             {
                 val++;
-                Panel.Children.Add(DefaultRect(disabled, val));
+                Panel.Children.Add(DefaultRect(m_disabled, val));
             }
         }
 
@@ -168,14 +170,14 @@ namespace RetiraTracker.View.UserControls
             rect.Fill = fill;
             rect.Margin = new Thickness(3);
 
-            if(fill != disabled)
+            if(fill != m_disabled)
             {
                 rect.Cursor = Cursors.Hand;
                 rect.IsMouseDirectlyOverChanged += (sender, e) =>
                 {
                     Rectangle r = (Rectangle)sender;
-                    bool val = (bool)e.NewValue;
-                    if (val)
+                    bool mouseOver = (bool)e.NewValue;
+                    if (mouseOver)
                     {
                         r.Opacity = 0.8;
                         return;
@@ -189,12 +191,14 @@ namespace RetiraTracker.View.UserControls
                 };
             }
 
-
             return rect;
         }
 
         private int SetMaxValue()
         {
+            if(MaxNumber < 10)
+                return MaxNumber;
+
             int output = 10;
             while (MaxNumber > output && MaxNumber <= 100)
                 output += 10;

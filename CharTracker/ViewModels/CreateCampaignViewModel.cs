@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,17 +22,17 @@ namespace RetiraTracker.ViewModels
 {
     public class CreateCampaignViewModel : BaseViewModel
     {
-        private ObservableCollection<ListItem> gamesList;
-        public ObservableCollection<ListItem> GamesList { get { return gamesList; } set { SetValue(ref gamesList, value); } }
+        private ObservableCollection<ListItem> m_gamesList;
+        public ObservableCollection<ListItem> GamesList { get { return m_gamesList; } set { SetValue(ref m_gamesList, value); } }
 
-        private ListItem selectedGame;
+        private ListItem m_selectedGame;
         public ListItem SelectedGame 
         { 
-            get { return selectedGame; } 
+            get { return m_selectedGame; } 
             set 
             {
                 PlayerEnabled = false;
-                SetValue(ref selectedGame, value);
+                SetValue(ref m_selectedGame, value);
                 if (value != null)
                 {
                     PlayersList?.Clear();
@@ -42,71 +41,71 @@ namespace RetiraTracker.ViewModels
                     Games g = value.GetContent<Games>();
                     TemplatesList = SetTemplatesList(g);
 
-                    if (!string.IsNullOrWhiteSpace(CampaignsName) && validCampaign)
+                    if (!string.IsNullOrWhiteSpace(CampaignsName) && m_validCampaign)
                         PlayerEnabled = true;
                 }
             } 
         }
 
-        private ObservableCollection<ListItem> templatesList;
-        public ObservableCollection<ListItem> TemplatesList { get { return templatesList; } set { SetValue(ref templatesList, value); } }
+        private ObservableCollection<ListItem> m_templatesList;
+        public ObservableCollection<ListItem> TemplatesList { get { return m_templatesList; } set { SetValue(ref m_templatesList, value); } }
 
-        private ListItem selectedTemplate;
+        private ListItem m_selectedTemplate;
         public ListItem SelectedTemplate
         {
-            get { return selectedTemplate; }
+            get { return m_selectedTemplate; }
             set
             {
                 AddPlayerEnabled = false;
-                SetValue(ref selectedTemplate, value);
-                if (value != null && !string.IsNullOrWhiteSpace(PlayersEmail) && validPlayer)
+                SetValue(ref m_selectedTemplate, value);
+                if (value != null && !string.IsNullOrWhiteSpace(PlayersEmail) && m_validPlayer)
                     AddPlayerEnabled = true;
             }
         }
 
-        private ObservableCollection<Player> playersList;
-        public ObservableCollection<Player> PlayersList { get { return playersList; } set { SetValue(ref playersList, value); } }
+        private ObservableCollection<Player> m_playersList;
+        public ObservableCollection<Player> PlayersList { get { return m_playersList; } set { SetValue(ref m_playersList, value); } }
 
-        private string campaignsName;
+        private string m_campaignsName;
         public string CampaignsName 
         { 
-            get { return campaignsName; } 
+            get { return m_campaignsName; } 
             set 
             {
                 PlayerEnabled = false;
-                SetValue(ref campaignsName, value);
+                SetValue(ref m_campaignsName, value);
 
                 if(!string.IsNullOrWhiteSpace(value))
                 {
                     PlayersList?.Clear();
                     NotifyPropertyChanged(nameof(PlayersList));
 
-                    if (SelectedGame != null && validCampaign)
+                    if (SelectedGame != null && m_validCampaign)
                         PlayerEnabled = true;
                 }
             } 
         }
 
-        private string playersEmail;
+        private string m_playersEmail;
         public string PlayersEmail 
         { 
-            get { return playersEmail; } 
+            get { return m_playersEmail; } 
             set 
             {
                 AddPlayerEnabled = false;
-                SetValue(ref playersEmail, value);
-                if (!string.IsNullOrWhiteSpace(value) && SelectedTemplate != null && validPlayer)
+                SetValue(ref m_playersEmail, value);
+                if (!string.IsNullOrWhiteSpace(value) && SelectedTemplate != null && m_validPlayer)
                     AddPlayerEnabled = true;
             }
         }
 
-        private bool validCampaign;
-        private Visibility campaignWarningVisibility;
-        public Visibility CampaignWarningVisibility { get { return campaignWarningVisibility; } set { SetValue(ref campaignWarningVisibility, value); } }
+        private bool m_validCampaign;
+        private Visibility m_campaignWarningVisibility;
+        public Visibility CampaignWarningVisibility { get { return m_campaignWarningVisibility; } set { SetValue(ref m_campaignWarningVisibility, value); } }
 
-        private bool validPlayer;
-        private Visibility emailWarningVisibility;
-        public Visibility EmailWarningVisibility { get { return emailWarningVisibility; } set { SetValue(ref emailWarningVisibility, value); } }
+        private bool m_validPlayer;
+        private Visibility m_emailWarningVisibility;
+        public Visibility EmailWarningVisibility { get { return m_emailWarningVisibility; } set { SetValue(ref m_emailWarningVisibility, value); } }
 
         public new bool IsEnabled 
         { 
@@ -120,40 +119,40 @@ namespace RetiraTracker.ViewModels
             }
         }
 
-        private bool playerEnabled;
+        private bool m_playerEnabled;
         public bool PlayerEnabled 
         { 
             get 
             {
                 if (!IsEnabled)
                     return false;
-                return playerEnabled; 
+                return m_playerEnabled; 
             } 
-            set { SetValue(ref playerEnabled, value); } 
+            set { SetValue(ref m_playerEnabled, value); } 
         }
 
-        private bool addPlayerEnabled;
+        private bool m_addPlayerEnabled;
         public bool AddPlayerEnabled 
         { 
             get 
             {
                 if (!IsEnabled)
                     return false;
-                return addPlayerEnabled; 
+                return m_addPlayerEnabled; 
             } 
-            set { SetValue(ref addPlayerEnabled, value); } 
+            set { SetValue(ref m_addPlayerEnabled, value); } 
         }
 
-        private bool createCampaignEnabled;
+        private bool m_createCampaignEnabled;
         public bool CreateCampaignEnabled
         {
             get
             {
                 if (!IsEnabled)
                     return false;
-                return createCampaignEnabled;
+                return m_createCampaignEnabled;
             }
-            set { SetValue(ref createCampaignEnabled, value); }
+            set { SetValue(ref m_createCampaignEnabled, value); }
         }
 
         public ICommand ValidateCampaignNameCommand  { get { return new RelayCommand((e) => { ValidateCampaignName((TextChangedEventArgs)e); }); } }
@@ -173,7 +172,7 @@ namespace RetiraTracker.ViewModels
             EmailWarningVisibility = Visibility.Hidden;
         }
 
-        private ObservableCollection<ListItem> SetGamesList()
+        private static ObservableCollection<ListItem> SetGamesList()
         {
             List<ListItem> output = new();
             foreach(Games g in Enum.GetValues(typeof(Games)))
@@ -186,7 +185,7 @@ namespace RetiraTracker.ViewModels
             return output.ToObservableCollection();
         }
 
-        private ObservableCollection<ListItem> SetTemplatesList(Games game)
+        private static ObservableCollection<ListItem> SetTemplatesList(Games game)
         {
             List<ListItem> output = new();
             foreach (GameTemplates gt in game.GameTemplates())
@@ -202,7 +201,7 @@ namespace RetiraTracker.ViewModels
         private void ValidateCampaignName(TextChangedEventArgs e)
         {
             CampaignWarningVisibility = Visibility.Hidden;
-            validCampaign = true;
+            m_validCampaign = true;
             Settings setting = Terminal.Instance.Main.SelectedSetting.GetContent<Settings>();
             TextBox sender = (TextBox)e.OriginalSource;
             string text = sender.Text;
@@ -220,7 +219,7 @@ namespace RetiraTracker.ViewModels
                     if(cmp.Name.ToUpper() == text.ToUpper())
                     {
                         CampaignWarningVisibility = Visibility.Visible;
-                        validCampaign = false;
+                        m_validCampaign = false;
                         return;
                     }
                 }
@@ -230,7 +229,7 @@ namespace RetiraTracker.ViewModels
         private void ValidateEmail(TextChangedEventArgs e)
         {
             EmailWarningVisibility = Visibility.Hidden;
-            validPlayer = true;
+            m_validPlayer = true;
             TextBox sender = (TextBox)e.OriginalSource;
             string text = sender.Text;
 
@@ -247,7 +246,7 @@ namespace RetiraTracker.ViewModels
                 if(firstSplit.Length != 2)
                 {
                     EmailWarningVisibility = Visibility.Visible;
-                    validPlayer = false;
+                    m_validPlayer = false;
                     return;
                 }
 
@@ -256,14 +255,14 @@ namespace RetiraTracker.ViewModels
                 if(secondSplit.Length != 2)
                 {
                     EmailWarningVisibility = Visibility.Visible;
-                    validPlayer = false;
+                    m_validPlayer = false;
                     return;
                 }
 
                 if(secondSplit[0].Length == 0 || secondSplit[1].Length == 0)
                 {
                     EmailWarningVisibility = Visibility.Visible;
-                    validPlayer = false;
+                    m_validPlayer = false;
                 }
             }
         }

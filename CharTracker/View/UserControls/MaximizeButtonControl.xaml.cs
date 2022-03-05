@@ -21,12 +21,12 @@ namespace RetiraTracker.View.UserControls
     /// </summary>
     public partial class MaximizeButtonControl : UserControl
     {
+        public SolidColorBrush DarkGruen { get { return SetDarkGruen(); } }
+
         public MaximizeButtonControl()
         {
             InitializeComponent();
         }
-
-        public SolidColorBrush DarkGruen { get { return SetDarkGruen(); } }
 
         public static DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(MaximizeButtonControl));
         public ICommand Command

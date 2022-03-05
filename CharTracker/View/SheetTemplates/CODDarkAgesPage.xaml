@@ -80,47 +80,47 @@
 
                     <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1" Margin="0,4">
                         <TextBlock Text="Intelligence:" Style="{StaticResource CoDText}" Width="120" />
-                        <controls:DotNumberControl Number="{Binding CurrentSheet.Intelligence, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.IntelligenceBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        <controls:DotNumberControl MinNumber="1" MaxNumber="10" AcceptsBonuses="True" Number="{Binding CurrentSheet.Intelligence, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.IntelligenceBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="2" Margin="0,4">
                         <TextBlock Text="Wits:" Style="{StaticResource CoDText}" Width="120" />
-                        <controls:DotNumberControl Number="{Binding CurrentSheet.Wits, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.WitsBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        <controls:DotNumberControl MinNumber="1" MaxNumber="10" AcceptsBonuses="True" Number="{Binding CurrentSheet.Wits, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.WitsBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="3" Margin="0,4">
                         <TextBlock Text="Resolve:" Style="{StaticResource CoDText}" Width="120" />
-                        <controls:DotNumberControl Number="{Binding CurrentSheet.Resolve, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.ResolveBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        <controls:DotNumberControl MinNumber="1" MaxNumber="10" AcceptsBonuses="True" Number="{Binding CurrentSheet.Resolve, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.ResolveBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1" Margin="0,4">
                         <TextBlock Text="Strength:" Style="{StaticResource CoDText}" Width="120" />
-                        <controls:DotNumberControl Number="{Binding CurrentSheet.Strength, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.StrengthBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        <controls:DotNumberControl MinNumber="1" MaxNumber="10" AcceptsBonuses="True" Number="{Binding CurrentSheet.Strength, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.StrengthBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="2" Margin="0,4">
                         <TextBlock Text="Dexterity:" Style="{StaticResource CoDText}" Width="120" />
-                        <controls:DotNumberControl Number="{Binding CurrentSheet.Dexterity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.DexterityBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        <controls:DotNumberControl MinNumber="1" MaxNumber="10" AcceptsBonuses="True" Number="{Binding CurrentSheet.Dexterity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.DexterityBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="3" Margin="0,4">
                         <TextBlock Text="Stamina:" Style="{StaticResource CoDText}" Width="120" />
-                        <controls:DotNumberControl Number="{Binding CurrentSheet.Stamina, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.StaminaBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        <controls:DotNumberControl MinNumber="1" MaxNumber="10" AcceptsBonuses="True" Number="{Binding CurrentSheet.Stamina, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.StaminaBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="1" Margin="0,4">
                         <TextBlock Text="Presence:" Style="{StaticResource CoDText}" Width="120" />
-                        <controls:DotNumberControl Number="{Binding CurrentSheet.Presence, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.PresenceBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        <controls:DotNumberControl MinNumber="1" MaxNumber="10" AcceptsBonuses="True" Number="{Binding CurrentSheet.Presence, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.PresenceBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="2" Margin="0,4">
                         <TextBlock Text="Manipulation:" Style="{StaticResource CoDText}" Width="120" />
-                        <controls:DotNumberControl Number="{Binding CurrentSheet.Manipulation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.ManipulationBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        <controls:DotNumberControl MinNumber="1" MaxNumber="10" AcceptsBonuses="True" Number="{Binding CurrentSheet.Manipulation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.ManipulationBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Grid.Column="2" Grid.Row="3" Margin="0,4">
                         <TextBlock Text="Composure:" Style="{StaticResource CoDText}" Width="120" />
-                        <controls:DotNumberControl Number="{Binding CurrentSheet.Composure, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.ComposureBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        <controls:DotNumberControl MinNumber="1" MaxNumber="10" AcceptsBonuses="True" Number="{Binding CurrentSheet.Composure, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.ComposureBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                     </StackPanel>
 
                 </Grid>
@@ -162,42 +162,42 @@
 
                         <StackPanel Orientation="Horizontal" Margin="0,4">
                             <TextBlock Text="Academics:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
-                            <controls:DotNumberControl Number="{Binding CurrentSheet.Academics, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.AcademicsBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                            <controls:DotNumberControl MinNumber="0" MaxNumber="10" AcceptsBonuses="True" Number="{Binding CurrentSheet.Academics, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.AcademicsBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0,4">
                             <TextBlock Text="Enigmas:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
-                            <controls:DotNumberControl Number="{Binding CurrentSheet.Enigmas, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.EnigmasBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                            <controls:DotNumberControl MinNumber="0" MaxNumber="10" AcceptsBonuses="True" Number="{Binding CurrentSheet.Enigmas, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.EnigmasBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0,4">
                             <TextBlock Text="Crafts:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
-                            <controls:DotNumberControl Number="{Binding CurrentSheet.Crafts, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.CraftsBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                            <controls:DotNumberControl MinNumber="0" MaxNumber="10" AcceptsBonuses="True" Number="{Binding CurrentSheet.Crafts, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.CraftsBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0,4">
                             <TextBlock Text="Investigation:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
-                            <controls:DotNumberControl Number="{Binding CurrentSheet.Investigation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.InvestigationBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                            <controls:DotNumberControl MinNumber="0" MaxNumber="10" AcceptsBonuses="True" Number="{Binding CurrentSheet.Investigation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.InvestigationBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0,4">
                             <TextBlock Text="Medicine:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
-                            <controls:DotNumberControl Number="{Binding CurrentSheet.Medicine, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.MedicineBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                            <controls:DotNumberControl MinNumber="0" MaxNumber="10" AcceptsBonuses="True" Number="{Binding CurrentSheet.Medicine, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.MedicineBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0,4">
                             <TextBlock Text="Occult:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
-                            <controls:DotNumberControl Number="{Binding CurrentSheet.Occult, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.OccultBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                            <controls:DotNumberControl MinNumber="0" MaxNumber="10" AcceptsBonuses="True" Number="{Binding CurrentSheet.Occult, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.OccultBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0,4">
                             <TextBlock Text="Politics:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
-                            <controls:DotNumberControl Number="{Binding CurrentSheet.Politics, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.PoliticsBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                            <controls:DotNumberControl MinNumber="0" MaxNumber="10" AcceptsBonuses="True" Number="{Binding CurrentSheet.Politics, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.PoliticsBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0,4">
                             <TextBlock Text="Science:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
-                            <controls:DotNumberControl Number="{Binding CurrentSheet.Science, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.ScienceBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                            <controls:DotNumberControl MinNumber="0" MaxNumber="10" AcceptsBonuses="True" Number="{Binding CurrentSheet.Science, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.ScienceBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,8,0,0">
@@ -207,42 +207,42 @@
 
                         <StackPanel Orientation="Horizontal" Margin="0,4">
                             <TextBlock Text="Athletics:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
-                            <controls:DotNumberControl Number="{Binding CurrentSheet.Athletics, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.AthleticsBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                            <controls:DotNumberControl MinNumber="0" MaxNumber="10" AcceptsBonuses="True" Number="{Binding CurrentSheet.Athletics, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.AthleticsBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0,4">
                             <TextBlock Text="Brawl:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
-                            <controls:DotNumberControl Number="{Binding CurrentSheet.Brawl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.BrawlBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                            <controls:DotNumberControl MinNumber="0" MaxNumber="10" AcceptsBonuses="True" Number="{Binding CurrentSheet.Brawl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.BrawlBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0,4">
                             <TextBlock Text="Ride:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
-                            <controls:DotNumberControl Number="{Binding CurrentSheet.Ride, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.RideBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                            <controls:DotNumberControl MinNumber="0" MaxNumber="10" AcceptsBonuses="True" Number="{Binding CurrentSheet.Ride, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.RideBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0,4">
                             <TextBlock Text="Archery:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
-                            <controls:DotNumberControl Number="{Binding CurrentSheet.Archery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.ArcheryBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                            <controls:DotNumberControl MinNumber="0" MaxNumber="10" AcceptsBonuses="True" Number="{Binding CurrentSheet.Archery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.ArcheryBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0,4">
                             <TextBlock Text="Larceny:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
-                            <controls:DotNumberControl Number="{Binding CurrentSheet.Larceny, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.LarcenyBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                            <controls:DotNumberControl MinNumber="0" MaxNumber="10" AcceptsBonuses="True" Number="{Binding CurrentSheet.Larceny, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.LarcenyBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0,4">
                             <TextBlock Text="Stealth:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
-                            <controls:DotNumberControl Number="{Binding CurrentSheet.Stealth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.StealthBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                            <controls:DotNumberControl MinNumber="0" MaxNumber="10" AcceptsBonuses="True" Number="{Binding CurrentSheet.Stealth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.StealthBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0,4">
                             <TextBlock Text="Survival:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
-                            <controls:DotNumberControl Number="{Binding CurrentSheet.Survival, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.SurvivalBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                            <controls:DotNumberControl MinNumber="0" MaxNumber="10" AcceptsBonuses="True" Number="{Binding CurrentSheet.Survival, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.SurvivalBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0,4">
                             <TextBlock Text="Weaponry:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
-                            <controls:DotNumberControl Number="{Binding CurrentSheet.Weaponry, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.WeaponryBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                            <controls:DotNumberControl MinNumber="0" MaxNumber="10" AcceptsBonuses="True" Number="{Binding CurrentSheet.Weaponry, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.WeaponryBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,8,0,0">
@@ -252,42 +252,42 @@
 
                         <StackPanel Orientation="Horizontal" Margin="0,4">
                             <TextBlock Text="Animal Ken:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
-                            <controls:DotNumberControl Number="{Binding CurrentSheet.AnimalKen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.AnimalKenBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                            <controls:DotNumberControl MinNumber="0" MaxNumber="10" AcceptsBonuses="True" Number="{Binding CurrentSheet.AnimalKen, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.AnimalKenBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0,4">
                             <TextBlock Text="Empathy:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
-                            <controls:DotNumberControl Number="{Binding CurrentSheet.Empathy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.EmpathyBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                            <controls:DotNumberControl MinNumber="0" MaxNumber="10" AcceptsBonuses="True" Number="{Binding CurrentSheet.Empathy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.EmpathyBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0,4">
                             <TextBlock Text="Expression:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
-                            <controls:DotNumberControl Number="{Binding CurrentSheet.Expression, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.ExpressionBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                            <controls:DotNumberControl MinNumber="0" MaxNumber="10" AcceptsBonuses="True" Number="{Binding CurrentSheet.Expression, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.ExpressionBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0,4">
                             <TextBlock Text="Intimidation:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
-                            <controls:DotNumberControl Number="{Binding CurrentSheet.Intimidation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.IntimidationBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                            <controls:DotNumberControl MinNumber="0" MaxNumber="10" AcceptsBonuses="True" Number="{Binding CurrentSheet.Intimidation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.IntimidationBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0,4">
                             <TextBlock Text="Persuasion:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
-                            <controls:DotNumberControl Number="{Binding CurrentSheet.Persuasion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.PersuasionBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                            <controls:DotNumberControl MinNumber="0" MaxNumber="10" AcceptsBonuses="True" Number="{Binding CurrentSheet.Persuasion, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.PersuasionBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0,4">
                             <TextBlock Text="Socialize:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
-                            <controls:DotNumberControl Number="{Binding CurrentSheet.Socialize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.SocializeBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                            <controls:DotNumberControl MinNumber="0" MaxNumber="10" AcceptsBonuses="True" Number="{Binding CurrentSheet.Socialize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.SocializeBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0,4">
                             <TextBlock Text="Streetwise:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
-                            <controls:DotNumberControl Number="{Binding CurrentSheet.Streetwise, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.StreetwiseBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                            <controls:DotNumberControl MinNumber="0" MaxNumber="10" AcceptsBonuses="True" Number="{Binding CurrentSheet.Streetwise, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.StreetwiseBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0,4">
                             <TextBlock Text="Subterfuge:" Style="{StaticResource CoDText}" Width="104" VerticalAlignment="Center" />
-                            <controls:DotNumberControl Number="{Binding CurrentSheet.Subterfuge, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.SubterfugeBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                            <controls:DotNumberControl MinNumber="0" MaxNumber="10" AcceptsBonuses="True" Number="{Binding CurrentSheet.Subterfuge, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Bonus="{Binding CurrentSheet.SubterfugeBonus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                         </StackPanel>
                     </StackPanel>
                 </Border>
@@ -303,7 +303,7 @@
                                     <StackPanel Orientation="Horizontal">
                                         <controls:CircleButtonControl Diameter="16" Command="{Binding Terminal.Campaign.Commands.RemoveIntValueCommand, Source={StaticResource Locator}}" BorderBackground="{StaticResource Rot}" Data="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" CustomParameter="{x:Reference MeritList}" Margin="0,0,8,0" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                                         <TextBox Text="{Binding Key, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource CoDEntry}" core:TextBehaviour.TextChangedCommand="{Binding Terminal.Campaign.UpdateSheetCommand, Source={StaticResource Locator}}" Margin="0,0,8,0" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
-                                        <controls:Dot5NumberControl Number="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand, Source={StaticResource Locator}}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                                        <controls:DotNumberControl MinNumber="0" MaxNumber="5" AcceptsBonuses="False" Number="{Binding Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding Terminal.Campaign.UpdateSheetCommand, Source={StaticResource Locator}}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
@@ -340,7 +340,7 @@
 
                         <StackPanel Orientation="Horizontal" Margin="0,4">
                             <TextBlock Text="Beats:" Style="{StaticResource CoDText}" Width="120" VerticalAlignment="Center" />
-                            <controls:Rect5NumberControl Number="{Binding CurrentSheet.Beats, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                            <controls:RectNumberControl Number="{Binding CurrentSheet.Beats, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxNumber="5" ValueChanged="{Binding UpdateSheetCommand}" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0,4">
@@ -383,7 +383,7 @@
 
                     <StackPanel Margin="8,8,8,0">
                         <TextBlock Text="Integrity" Style="{StaticResource CoDTitle}" />
-                        <controls:DotNumberControl Number="{Binding CurrentSheet.Integrity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" Margin="0,8,0,0" HorizontalAlignment="Center" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
+                        <controls:DotNumberControl MinNumber="1" MaxNumber="10" AcceptsBonuses="False" Number="{Binding CurrentSheet.Integrity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ValueChanged="{Binding UpdateSheetCommand}" Margin="0,8,0,0" HorizontalAlignment="Center" IsEnabled="{Binding Source={StaticResource Locator}, Path=Terminal.Navigation.IsEnabled}" />
                     </StackPanel>
 
                     <StackPanel Margin="8,8,8,0">

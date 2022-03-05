@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using RetiraTracker.Core;
 using RetiraTracker.Core.Abstracts;
+using RetiraTracker.Extensions;
 using RetiraTracker.Model;
 using RetiraTracker.Model.DataTransfer;
 using RetiraTracker.Model.Domain;
@@ -15,9 +16,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Navigation;
 
 namespace RetiraTracker.ViewModels
 {
@@ -26,19 +25,19 @@ namespace RetiraTracker.ViewModels
         private Campaign CurrentCampaign { get; set; }
         public ITemplateCommand Commands { get; set; }
 
-        private string campaignsName;
-        public string CampaignsName { get { return campaignsName; } set { SetValue(ref campaignsName, value); } }
+        private string m_campaignsName;
+        public string CampaignsName { get { return m_campaignsName; } set { SetValue(ref m_campaignsName, value); } }
 
-        private ObservableCollection<ListItem> sheetList;
-        public ObservableCollection<ListItem> SheetList { get { return sheetList; } set { SetValue(ref sheetList, value); } }
+        private ObservableCollection<ListItem> m_sheetList;
+        public ObservableCollection<ListItem> SheetList { get { return m_sheetList; } set { SetValue(ref m_sheetList, value); } }
 
-        private ListItem selectedSheet;
+        private ListItem m_selectedSheet;
         public ListItem SelectedSheet
         {
-            get { return selectedSheet; }
+            get { return m_selectedSheet; }
             set
             {
-                SetValue(ref selectedSheet, value);
+                SetValue(ref m_selectedSheet, value);
                 if(value != null)
                 {
                     AppSheet sheet = value.GetContent<AppSheet>();
@@ -59,11 +58,11 @@ namespace RetiraTracker.ViewModels
 
         private ObservableCollection<ISheet> Sheets { get; set; }
 
-        private ISheet currentSheet;
-        public ISheet CurrentSheet { get { return currentSheet; } set { SetValue(ref currentSheet, value); } }
+        private ISheet m_currentSheet;
+        public ISheet CurrentSheet { get { return m_currentSheet; } set { SetValue(ref m_currentSheet, value); } }
 
-        private Visibility changeSheetButtonVisibility;
-        public Visibility ChangeSheetButtonVisibility { get { return changeSheetButtonVisibility; } set { SetValue(ref changeSheetButtonVisibility, value); } }
+        private Visibility m_changeSheetButtonVisibility;
+        public Visibility ChangeSheetButtonVisibility { get { return m_changeSheetButtonVisibility; } set { SetValue(ref m_changeSheetButtonVisibility, value); } }
 
         public new bool IsEnabled
         {

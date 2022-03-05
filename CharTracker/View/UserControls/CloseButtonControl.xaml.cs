@@ -21,12 +21,12 @@ namespace RetiraTracker.View.UserControls
     /// </summary>
     public partial class CloseButtonControl : UserControl
     {
+        public SolidColorBrush DarkRot { get { return SetDarkRot(); } }
+
         public CloseButtonControl()
         {
             InitializeComponent();
         }
-
-        public SolidColorBrush DarkRot { get { return SetDarkRot(); } }
 
         public static DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(CloseButtonControl));
         public ICommand Command

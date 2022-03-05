@@ -6,24 +6,21 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using GFile = Google.Apis.Drive.v3.Data.File;
 using File = System.IO.File;
 using GoogleExplorer.Extensions;
-using System.Diagnostics;
 using Google.Apis.Drive.v3.Data;
+using GFile = Google.Apis.Drive.v3.Data.File;
 using GoogleExplorer.DataTransfer;
-using Google.Apis.Upload;
 
 namespace GoogleExplorer
 {
     public class Explorer
     {
-        private readonly string[] scopes = new string[] { DriveService.Scope.Drive };
-        private const string credentials = "credentials.json";
-        private const string fileSearchProperties = "files(id, name, parents, mimeType, permissions)";
+        private readonly string[] m_scopes = new string[] { DriveService.Scope.Drive };
+        private const string m_credentials = "credentials.json";
+        private const string m_fileSearchProperties = "files(id, name, parents, mimeType, permissions)";
 
         public string ApplicationName { get; init; }
         public string UserMail { get; private set; }
@@ -36,7 +33,7 @@ namespace GoogleExplorer
         {
             UserCredential credential;
 
-            using FileStream fs = new FileStream(credentials, FileMode.Open, FileAccess.Read);
+            using FileStream fs = new FileStream(m_credentials, FileMode.Open, FileAccess.Read);
 
             string credPath = "token.json";
 
@@ -47,7 +44,7 @@ namespace GoogleExplorer
             {
                 credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.FromStream(fs).Secrets,
-                    scopes,
+                    m_scopes,
                     "user",
                     token,
                     new FileDataStore(credPath, true)
@@ -101,7 +98,7 @@ namespace GoogleExplorer
         {
             UserCredential credential;
 
-            using FileStream fs = new FileStream(credentials, FileMode.Open, FileAccess.Read);
+            using FileStream fs = new FileStream(m_credentials, FileMode.Open, FileAccess.Read);
 
             string credPath = "token.json";
 
@@ -114,7 +111,7 @@ namespace GoogleExplorer
             {
                 credential = await GoogleWebAuthorizationBroker.AuthorizeAsync(
                     GoogleClientSecrets.FromStream(fs).Secrets,
-                    scopes,
+                    m_scopes,
                     "user",
                     token,
                     new FileDataStore(credPath, true)
@@ -146,7 +143,7 @@ namespace GoogleExplorer
             Explorer explorer;
             try
             {
-                await File.ReadAllTextAsync(credentials);
+                await File.ReadAllTextAsync(m_credentials);
                 explorer = new(name);
             }
             catch(FileNotFoundException)
@@ -171,7 +168,7 @@ namespace GoogleExplorer
             do
             {
                 FilesResource.ListRequest list = DriveService.Files.List();
-                list.Fields = $"nextPageToken, {fileSearchProperties}";
+                list.Fields = $"nextPageToken, {m_fileSearchProperties}";
                 list.PageSize = 100;
                 list.PageToken = pageToken;
 
@@ -259,7 +256,7 @@ namespace GoogleExplorer
             FilesResource.CreateMediaUpload request = DriveService.Files
                 .Create(gfile, ms, mimeType.GetMimeType());
 
-            request.Fields = fileSearchProperties;
+            request.Fields = m_fileSearchProperties;
             await request.UploadAsync();
 
             GFile nFile = await GetFileByNameAsync(filename, folderId);

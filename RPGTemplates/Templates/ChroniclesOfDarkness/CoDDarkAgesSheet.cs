@@ -1,5 +1,4 @@
-﻿using System;
-using SheetDrama.Abstracts;
+﻿using SheetDrama.Abstracts;
 using SheetDrama.DataTransfer;
 using System.Collections.Generic;
 using System.Linq;
@@ -85,52 +84,52 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
         public int Weaponry { get; set; }
         public int WeaponryBonus { get; set; }
 
-        private List<KeyStringValue> specialties;
+        private List<KeyStringValue> m_specialties;
         public List<KeyStringValue> Specialties 
         {
             get
             {
-                if (specialties == null)
-                    specialties = new();
-                return specialties;
+                if (m_specialties == null)
+                    m_specialties = new();
+                return m_specialties;
             }
-            set { specialties = value; }
+            set { m_specialties = value; }
         }
 
-        private List<KeyIntValue> merits;
+        private List<KeyIntValue> m_merits;
         public List<KeyIntValue> Merits 
         {
             get 
             {
-                if (merits == null)
-                    merits = new();
-                return merits;
+                if (m_merits == null)
+                    m_merits = new();
+                return m_merits;
             }
-            set { merits = value; }
+            set { m_merits = value; }
         }
 
-        private List<KeyStringValue> conditions;
+        private List<KeyStringValue> m_conditions;
         public List<KeyStringValue> Conditions 
         {
             get
             {
-                if (conditions == null)
-                    conditions = new();
-                return conditions;
+                if (m_conditions == null)
+                    m_conditions = new();
+                return m_conditions;
             }
-            set { conditions = value; }
+            set { m_conditions = value; }
         }
 
-        private List<KeyStringValue> aspirations;
+        private List<KeyStringValue> m_aspirations;
         public List<KeyStringValue> Aspirations 
         {
             get
             {
-                if (aspirations == null)
-                    aspirations = new();
-                return aspirations;
+                if (m_aspirations == null)
+                    m_aspirations = new();
+                return m_aspirations;
             }
-            set { aspirations = value; }
+            set { m_aspirations = value; }
         }
 
         public int Size { get; set; }
@@ -170,17 +169,17 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
             }
         }
 
-        private List<char> damage;
+        private List<char> m_damage;
         public List<char> Damage 
         {
             get
             {
-                if(damage == null)
-                    damage = new();
+                if(m_damage == null)
+                    m_damage = new();
 
-                return damage;
+                return m_damage;
             }
-            set { damage = value; }
+            set { m_damage = value; }
         }
 
         public int Willpower 
@@ -197,16 +196,16 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
 
         public int Integrity { get; set; }
 
-        private List<KeyStringValue> inventory;
+        private List<KeyStringValue> m_inventory;
         public List<KeyStringValue> Inventory 
         {
             get
             {
-                if (inventory == null)
-                    inventory = new();
-                return inventory;
+                if (m_inventory == null)
+                    m_inventory = new();
+                return m_inventory;
             }
-            set { inventory = value; }
+            set { m_inventory = value; }
         }
 
         public CoDDarkAgesSheet(string frame, string[] styles, string[] scripts) : base(frame, styles, scripts)

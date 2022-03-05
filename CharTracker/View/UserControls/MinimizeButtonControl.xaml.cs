@@ -21,12 +21,12 @@ namespace RetiraTracker.View.UserControls
     /// </summary>
     public partial class MinimizeButtonControl : UserControl
     {
+        public SolidColorBrush DarkOrange { get { return SetDarkOrange(); } }
+
         public MinimizeButtonControl()
         {
             InitializeComponent();
         }
-
-        public SolidColorBrush DarkOrange { get { return SetDarkOrange(); } }
 
         public static DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(MinimizeButtonControl));
         public ICommand Command

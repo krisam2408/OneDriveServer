@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace SheetDrama.Templates.ChroniclesOfDarkness
 {
-    public class WtFDarkAgesSheet:ISheet
+    public class WtFDarkAgesSheet : ISheet
     {
         public string Age { get; set; }
         public string Concept { get; set; }
@@ -16,7 +16,7 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
         public string Tribe { get; set; }
         public string Lodge { get; set; }
 
-        public WerewolfForms Forms { get; set; }
+        public WerewolfForms Form { get; set; }
         
         public int Intelligence { get; set; }
         public int IntelligenceBonus { get; set; }
@@ -31,7 +31,7 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
         {
             get
             {
-                return Forms switch
+                return Form switch
                 {
                     WerewolfForms.Hishu or WerewolfForms.Urhan => 0,
                     WerewolfForms.Dalu => 1,
@@ -47,7 +47,7 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
         {
             get
             {
-                return Forms switch
+                return Form switch
                 {
                     WerewolfForms.Hishu or WerewolfForms.Dalu => 0,
                     WerewolfForms.Gauru => 1,
@@ -62,7 +62,7 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
         {
             get
             {
-                return Forms switch
+                return Form switch
                 {
                     WerewolfForms.Hishu => 0,
                     WerewolfForms.Dalu or WerewolfForms.Urhan => 1,
@@ -80,7 +80,7 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
         {
             get
             {
-                return Forms switch
+                return Form switch
                 {
                     WerewolfForms.Hishu or WerewolfForms.Gauru => 0,
                     WerewolfForms.Dalu or WerewolfForms.Urshul or WerewolfForms.Urhan => -1,
@@ -143,61 +143,61 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
         public int Weaponry { get; set; }
         public int WeaponryBonus { get; set; }
 
-        private List<KeyStringValue> specialties;
+        private List<KeyStringValue> m_specialties;
         public List<KeyStringValue> Specialties
         {
             get
             {
-                if (specialties == null)
-                    specialties = new();
-                return specialties;
+                if (m_specialties == null)
+                    m_specialties = new();
+                return m_specialties;
             }
-            set { specialties = value; }
+            set { m_specialties = value; }
         }
 
-        private List<KeyIntValue> merits;
+        private List<KeyIntValue> m_merits;
         public List<KeyIntValue> Merits
         {
             get
             {
-                if (merits == null)
-                    merits = new();
-                return merits;
+                if (m_merits == null)
+                    m_merits = new();
+                return m_merits;
             }
-            set { merits = value; }
+            set { m_merits = value; }
         }
 
-        private List<KeyStringValue> conditions;
+        private List<KeyStringValue> m_conditions;
         public List<KeyStringValue> Conditions
         {
             get
             {
-                if (conditions == null)
-                    conditions = new();
-                return conditions;
+                if (m_conditions == null)
+                    m_conditions = new();
+                return m_conditions;
             }
-            set { conditions = value; }
+            set { m_conditions = value; }
         }
 
-        private List<KeyStringValue> aspirations;
+        private List<KeyStringValue> m_aspirations;
         public List<KeyStringValue> Aspirations
         {
             get
             {
-                if (aspirations == null)
-                    aspirations = new();
-                return aspirations;
+                if (m_aspirations == null)
+                    m_aspirations = new();
+                return m_aspirations;
             }
-            set { aspirations = value; }
+            set { m_aspirations = value; }
         }
 
-        private int size;
-        public int Size { get { return size + SizeAutoBonus; } set { size = value; } }
+        private int m_size;
+        public int Size { get { return m_size + SizeAutoBonus; } set { m_size = value; } }
         public int SizeAutoBonus
         {
             get
             {
-                return Forms switch
+                return Form switch
                 {
                     WerewolfForms.Hishu => 0,
                     WerewolfForms.Dalu or WerewolfForms.Urshul => 1,
@@ -211,7 +211,7 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
         {
             get
             {
-                return Forms switch 
+                return Form switch 
                 { 
                     WerewolfForms.Hishu or WerewolfForms.Dalu or WerewolfForms.Gauru => Strength + StrengthBonus + StrengthAutoBonus + Dexterity + DexterityBonus + DexterityAutoBonus + 5,
                     WerewolfForms.Urshul or WerewolfForms.Urhan => Strength + StrengthBonus + StrengthAutoBonus + Dexterity + DexterityBonus + DexterityAutoBonus + 8,
@@ -223,7 +223,7 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
         {
             get
             {
-                return Forms switch
+                return Form switch
                 {
                     WerewolfForms.Hishu => 1,
                     WerewolfForms.Dalu => 2,
@@ -262,17 +262,17 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
             }
         }
 
-        private List<char> damage;
+        private List<char> m_damage;
         public List<char> Damage
         {
             get
             {
-                if (damage == null)
-                    damage = new();
+                if (m_damage == null)
+                    m_damage = new();
 
-                return damage;
+                return m_damage;
             }
-            set { damage = value; }
+            set { m_damage = value; }
         }
 
         public int Willpower
@@ -287,17 +287,17 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
         }
         public int CurrentWillpower { get; set; }
 
-        public int primalUrge;
+        public int m_primalUrge;
         public int PrimalUrge 
         {
-            get { return primalUrge; }
+            get { return m_primalUrge; }
             set
             {
                 if(value < 1)
-                    primalUrge = 1;
+                    m_primalUrge = 1;
                 if(value > 10)
-                    primalUrge = 10;
-                primalUrge = value;
+                    m_primalUrge = 10;
+                m_primalUrge = value;
             }
         }
         public int Essence { get; set; }
@@ -331,95 +331,95 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
         public int Wisdom { get; set; }
         public int Cunning { get; set; }
 
-        private List<KeyStringValue> passiveKuruthTriggers;
+        private List<KeyStringValue> m_passiveKuruthTriggers;
         public List<KeyStringValue> PassiveKuruthTriggers
         {
             get
             {
-                if (passiveKuruthTriggers == null)
-                    passiveKuruthTriggers = new();
-                return passiveKuruthTriggers;
+                if (m_passiveKuruthTriggers == null)
+                    m_passiveKuruthTriggers = new();
+                return m_passiveKuruthTriggers;
             }
-            set { passiveKuruthTriggers = value; }
+            set { m_passiveKuruthTriggers = value; }
         }
-        private List<KeyStringValue> commonKuruthTriggers;
+        private List<KeyStringValue> m_commonKuruthTriggers;
         public List<KeyStringValue> CommonKuruthTriggers
         {
             get
             {
-                if (commonKuruthTriggers == null)
-                    commonKuruthTriggers = new();
-                return commonKuruthTriggers;
+                if (m_commonKuruthTriggers == null)
+                    m_commonKuruthTriggers = new();
+                return m_commonKuruthTriggers;
             }
-            set { commonKuruthTriggers = value; }
+            set { m_commonKuruthTriggers = value; }
         }
-        private List<KeyStringValue> specificKuruthTriggers;
+        private List<KeyStringValue> m_specificKuruthTriggers;
         public List<KeyStringValue> SpecificKuruthTriggers
         {
             get
             {
-                if (specificKuruthTriggers == null)
-                    specificKuruthTriggers = new();
-                return specificKuruthTriggers;
+                if (m_specificKuruthTriggers == null)
+                    m_specificKuruthTriggers = new();
+                return m_specificKuruthTriggers;
             }
-            set { specificKuruthTriggers = value; }
+            set { m_specificKuruthTriggers = value; }
         }
 
-        private List<KeyStringValue> inventory;
+        private List<KeyStringValue> m_inventory;
         public List<KeyStringValue> Inventory
         {
             get
             {
-                if (inventory == null)
-                    inventory = new();
-                return inventory;
+                if (m_inventory == null)
+                    m_inventory = new();
+                return m_inventory;
             }
-            set { inventory = value; }
+            set { m_inventory = value; }
         }
 
-        private List<KeyIntValue> moonGifts;
+        private List<KeyIntValue> m_moonGifts;
         public List<KeyIntValue> MoonGifts
         {
             get
             {
-                if(moonGifts == null)
-                    moonGifts = new();
-                return moonGifts;
+                if(m_moonGifts == null)
+                    m_moonGifts = new();
+                return m_moonGifts;
             }
-            set { moonGifts = value; }
+            set { m_moonGifts = value; }
         }
-        private List<KeyStringValue> shadowGifts;
+        private List<KeyStringValue> m_shadowGifts;
         public List<KeyStringValue> ShadowGifts
         {
             get
             {
-                if (shadowGifts == null)
-                    shadowGifts = new();
-                return shadowGifts;
+                if (m_shadowGifts == null)
+                    m_shadowGifts = new();
+                return m_shadowGifts;
             }
-            set { shadowGifts = value; }
+            set { m_shadowGifts = value; }
         }
-        private List<KeyStringValue> wolfGifts;
+        private List<KeyStringValue> m_wolfGifts;
         public List<KeyStringValue> WolfGifts
         {
             get
             {
-                if (wolfGifts == null)
-                    wolfGifts = new();
-                return wolfGifts;
+                if (m_wolfGifts == null)
+                    m_wolfGifts = new();
+                return m_wolfGifts;
             }
-            set { wolfGifts = value; }
+            set { m_wolfGifts = value; }
         }
-        private List<KeyStringValue> rites;
+        private List<KeyStringValue> m_rites;
         public List<KeyStringValue> Rites
         {
             get
             {
-                if (rites == null)
-                    rites = new();
-                return rites;
+                if (m_rites == null)
+                    m_rites = new();
+                return m_rites;
             }
-            set { rites = value; }
+            set { m_rites = value; }
         }
 
         public WtFDarkAgesSheet(string frame, string[] styles, string[] scripts) : base(frame, styles, scripts)
@@ -441,7 +441,7 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
 
             Harmony = 7;
 
-            Forms = WerewolfForms.Hishu;
+            Form = WerewolfForms.Hishu;
             PrimalUrge = 1;
             Essence = 7;
         }
@@ -458,7 +458,7 @@ namespace SheetDrama.Templates.ChroniclesOfDarkness
             Age = sheet.Age;
             Concept = sheet.Concept;
 
-            Forms = WerewolfForms.Hishu;
+            Form = WerewolfForms.Hishu;
 
             Intelligence = sheet.Intelligence;
             Wits = sheet.Wits;

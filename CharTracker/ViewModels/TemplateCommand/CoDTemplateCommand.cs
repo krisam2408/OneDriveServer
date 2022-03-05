@@ -1,14 +1,9 @@
 ﻿using RetiraTracker.Core;
 using RetiraTracker.Core.Abstracts;
-using RetiraTracker.Model;
 using SheetDrama.DataTransfer;
-using SheetDrama.Templates.ChroniclesOfDarkness;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -31,7 +26,7 @@ namespace RetiraTracker.ViewModels.TemplateCommand
             Parent = parent;
         }
 
-        private void AddIntValueToList(MouseEventArgs e)
+        private static void AddIntValueToList(MouseEventArgs e)
         {
             ListView listControl = null;
             FrameworkElement source = (FrameworkElement)e.OriginalSource;
@@ -59,7 +54,7 @@ namespace RetiraTracker.ViewModels.TemplateCommand
             listControl.ItemsSource = list;
         }
 
-        private void RemoveIntValueFromList(MouseEventArgs e)
+        private static void RemoveIntValueFromList(MouseEventArgs e)
         {
             ListView listControl = null;
             FrameworkElement source = (FrameworkElement)e.OriginalSource;
@@ -93,7 +88,7 @@ namespace RetiraTracker.ViewModels.TemplateCommand
             ((CampaignViewModel)Parent).UpdateSheetCommand.Execute(null);
         }
 
-        private void AddStringValueToList(MouseEventArgs e)
+        private static void AddStringValueToList(MouseEventArgs e)
         {
             ListView listControl = null;
             FrameworkElement source = (FrameworkElement)e.OriginalSource;
@@ -121,7 +116,7 @@ namespace RetiraTracker.ViewModels.TemplateCommand
             listControl.ItemsSource = list;
         }
 
-        private void RemoveStringValueFromList(MouseEventArgs e)
+        private static void RemoveStringValueFromList(MouseEventArgs e)
         {
             ListView listControl = null;
             FrameworkElement source = (FrameworkElement)e.OriginalSource;
@@ -155,7 +150,7 @@ namespace RetiraTracker.ViewModels.TemplateCommand
             ((CampaignViewModel)Parent).UpdateSheetCommand.Execute(null);
         }
 
-        private void AddTransmutationValueToList(MouseEventArgs e)
+        private static void AddTransmutationValueToList(MouseEventArgs e)
         {
             ListView listControl = null;
             FrameworkElement source = (FrameworkElement)e.OriginalSource;
@@ -183,7 +178,7 @@ namespace RetiraTracker.ViewModels.TemplateCommand
             listControl.ItemsSource = list;
         }
 
-        private void RemoveTransmutationValueFromList(MouseEventArgs e)
+        private static void RemoveTransmutationValueFromList(MouseEventArgs e)
         {
             ListView listControl = null;
             FrameworkElement source = (FrameworkElement)e.OriginalSource;

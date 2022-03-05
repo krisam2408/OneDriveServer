@@ -1,5 +1,4 @@
-﻿using RetiraTracker.Core;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,12 +20,11 @@ namespace RetiraTracker.View.UserControls
     /// </summary>
     public partial class DotNumberControl : UserControl
     {
-        private readonly SolidColorBrush transparent = new SolidColorBrush(Color.FromArgb(30, 0, 0, 0));
-        private readonly SolidColorBrush dark = (SolidColorBrush)Application.Current.Resources["Dark"];
-        private readonly SolidColorBrush orange = (SolidColorBrush)Application.Current.Resources["Orange"];
-        private readonly SolidColorBrush gruen = (SolidColorBrush)Application.Current.Resources["Gruen"];
-        private readonly SolidColorBrush rot = (SolidColorBrush)Application.Current.Resources["Rot"];
-        private Ellipse[] Dots;
+        private readonly SolidColorBrush m_transparent = new SolidColorBrush(Color.FromArgb(30, 0, 0, 0));
+        private readonly SolidColorBrush m_dark = (SolidColorBrush)Application.Current.Resources["Dark"];
+        private readonly SolidColorBrush m_orange = (SolidColorBrush)Application.Current.Resources["Orange"];
+        private readonly SolidColorBrush m_gruen = (SolidColorBrush)Application.Current.Resources["Gruen"];
+        private readonly SolidColorBrush m_rot = (SolidColorBrush)Application.Current.Resources["Rot"];
 
         public EventHandler NumberChanged;
 
@@ -34,9 +32,28 @@ namespace RetiraTracker.View.UserControls
         {
             InitializeComponent();
 
-            Dots = new Ellipse[10] { Dot0, Dot1, Dot2, Dot3, Dot4, Dot5, Dot6, Dot7, Dot8, Dot9 };
+            NumberChanged += (sender, e) =>
+            {
+                SetDotFills();
+                ValueChanged?.Execute(null);
+            };
 
-            NumberChanged += OnValuesChanged;
+            SetDotFills();
+        }
+
+        public static DependencyProperty MinNumberProperty = DependencyProperty.Register("MinNumber", typeof(int), typeof(DotNumberControl), new PropertyMetadata(0, OnNumberChanged));
+        public int MinNumber
+        {
+            get
+            {
+                int val = (int)GetValue(MinNumberProperty);
+                return val;
+            }
+            set
+            {
+                int input = value;
+                SetValue(MinNumberProperty, input);
+            }
         }
 
         public static DependencyProperty NumberProperty = DependencyProperty.Register("Number", typeof(int), typeof(DotNumberControl), new PropertyMetadata(0, OnNumberChanged));
@@ -96,6 +113,20 @@ namespace RetiraTracker.View.UserControls
             }
         }
 
+        public static DependencyProperty MaxNumberProperty = DependencyProperty.Register("MaxNumber", typeof(int), typeof(DotNumberControl), new PropertyMetadata(10, OnNumberChanged));
+        public int MaxNumber
+        {
+            get { return (int)GetValue(MaxNumberProperty); }
+            set { SetValue(MaxNumberProperty, value); }
+        }
+
+        public static DependencyProperty AcceptsBonusesProperty = DependencyProperty.Register("AcceptsBonuses", typeof(bool), typeof(DotNumberControl), new PropertyMetadata(false));
+        public bool AcceptsBonuses
+        {
+            get { return (bool)GetValue(AcceptsBonusesProperty); }
+            set { SetValue(AcceptsBonusesProperty, value); }
+        }
+
         public static DependencyProperty ValueChangedProperty = DependencyProperty.Register("ValueChanged", typeof(ICommand), typeof(DotNumberControl));
         public ICommand ValueChanged
         {
@@ -103,98 +134,57 @@ namespace RetiraTracker.View.UserControls
             set { SetValue(ValueChangedProperty, value); }
         }
 
-        public ICommand Dot0Command
-        {
-            get
-            {
-                return new RelayCommand((e) =>
-                {
-                    if(Number >= 1)
-                    {
-                        Number = 0;
-                        return;
-                    }
-                    Number = 1;
-                });
-            }
-        }
-        public ICommand Dot1Command { get { return new RelayCommand((e) => { Number = 2; }); } }
-        public ICommand Dot2Command { get { return new RelayCommand((e) => { Number = 3; }); } }
-        public ICommand Dot3Command { get { return new RelayCommand((e) => { Number = 4; }); } }
-        public ICommand Dot4Command { get { return new RelayCommand((e) => { Number = 5; }); } }
-        public ICommand Dot5Command { get { return new RelayCommand((e) => { Number = 6; }); } }
-        public ICommand Dot6Command { get { return new RelayCommand((e) => { Number = 7; }); } }
-        public ICommand Dot7Command { get { return new RelayCommand((e) => { Number = 8; }); } }
-        public ICommand Dot8Command { get { return new RelayCommand((e) => { Number = 9; }); } }
-        public ICommand Dot9Command { get { return new RelayCommand((e) => { Number = 10; }); } }
-
-        public ICommand BonusDot0Command { get { return new RelayCommand((e) => { Bonus = CalculateBonus(1); }); } }
-        public ICommand BonusDot1Command { get { return new RelayCommand((e) => { Bonus = CalculateBonus(2); }); } }
-        public ICommand BonusDot2Command { get { return new RelayCommand((e) => { Bonus = CalculateBonus(3); }); } }
-        public ICommand BonusDot3Command { get { return new RelayCommand((e) => { Bonus = CalculateBonus(4); }); } }
-        public ICommand BonusDot4Command { get { return new RelayCommand((e) => { Bonus = CalculateBonus(5); }); } }
-        public ICommand BonusDot5Command { get { return new RelayCommand((e) => { Bonus = CalculateBonus(6); }); } }
-        public ICommand BonusDot6Command { get { return new RelayCommand((e) => { Bonus = CalculateBonus(7); }); } }
-        public ICommand BonusDot7Command { get { return new RelayCommand((e) => { Bonus = CalculateBonus(8); }); } }
-        public ICommand BonusDot8Command { get { return new RelayCommand((e) => { Bonus = CalculateBonus(9); }); } }
-        public ICommand BonusDot9Command { get { return new RelayCommand((e) => { Bonus = CalculateBonus(10); }); } }
-
         public void SetDotFills()
         {
-            for (int i = 0; i < Dots.Length; i++)
-                Dots[i].Fill = transparent;
+            Panel.Children.Clear();
 
-            for (int i = 0; i < Number && i < 10; i++)
-                Dots[i].Fill = dark;
+            int val = 0;
+            int numberValue = Number;
+            int totalBonuses = Bonus + AutoBonus;
+            if (totalBonuses < 0)
+                numberValue += totalBonuses;
 
-            SetAutoBonusDots();
-
-            SetBonusDots();
-        }
-
-        public void SetAutoBonusDots()
-        {
-            if(AutoBonus < 0)
+            for(int i = val; i < numberValue && i < MaxNumber; i++)
             {
-                for (int i = Number + AutoBonus; i < Number && i < 10; i++)
-                    Dots[i].Fill = rot;
-                return;
+                val++;
+                Panel.Children.Add(DefaultDot(m_dark, val));
             }
 
-            for (int i = Number; i < Number + AutoBonus && i < 10; i++)
-                Dots[i].Fill = gruen;
-        }
-
-        private void SetBonusDots()
-        {
-            if(AutoBonus < 0)
+            for(int i = 0; totalBonuses < 0 && i < Math.Abs(totalBonuses) && i < MaxNumber; i++)
             {
-                for (int i = Number + AutoBonus; i < Number + AutoBonus + Bonus && i < 10; i++)
-                    Dots[i].Fill = orange;
-                return;
+                val++;
+                Panel.Children.Add(DefaultDot(m_rot, val));
             }
 
-            if(Bonus < 0)
+            for(int i = 0; totalBonuses > 0 && i < AutoBonus && i < MaxNumber; i++)
             {
-                for (int i = Number + AutoBonus + Bonus; i < Number + AutoBonus && i < 10; i++)
-                    Dots[i].Fill = rot;
-                return;
+                val++;
+                Panel.Children.Add(DefaultDot(m_gruen, val));
             }
 
-            for (int i = Number + AutoBonus; i < Number + AutoBonus + Bonus && i < 10; i++)
-                Dots[i].Fill = orange;
+            for(int i = 0; totalBonuses > 0 && i < Bonus && i < MaxNumber; i++)
+            {
+                val++;
+                Panel.Children.Add(DefaultDot(m_orange, val));
+            }
+
+            for(int i = val; i < MaxNumber; i++)
+            {
+                val++;
+                Panel.Children.Add(DefaultDot(m_transparent, val));
+            }
         }
 
         private int CalculateValue(int val, DotNumberControlValueType type = DotNumberControlValueType.Number)
         {
-            int maxLimit = 10;
+            int maxLimit = MaxNumber;
             int input = val;
 
             switch(type)
             {
                 case DotNumberControlValueType.Number:
-                    if (input < 0)
-                        input = 0;
+                    if (input < MinNumber)
+                        input = MinNumber;
                     break;
                 case DotNumberControlValueType.AutoBonus:
                     maxLimit -= Number;
@@ -231,10 +221,58 @@ namespace RetiraTracker.View.UserControls
             return input;
         }
 
-        private void OnValuesChanged(object sender, EventArgs e)
+        private int CalculateNumber(int val)
         {
-            SetDotFills();
-            ValueChanged?.Execute(null);
+            if (val == MinNumber + 1 && Number > MinNumber)
+                return MinNumber;
+            return val;
         }
+
+        private Ellipse DefaultDot(Brush fill, int val)
+        {
+            Ellipse dot = new();
+            dot.Stroke = (SolidColorBrush)Application.Current.Resources["Dark"];
+            dot.StrokeThickness = 1.5;
+            dot.Width = 16;
+            dot.Height = 16;
+            dot.Fill = fill;
+            dot.Margin = new Thickness(1);
+
+            if(val > MinNumber || AcceptsBonuses)
+            {
+                dot.Cursor = Cursors.Hand;
+                dot.IsMouseDirectlyOverChanged += (sender, e) =>
+                {
+                    Ellipse d = (Ellipse)sender;
+                    bool mouseOver = (bool)e.NewValue;
+                    if(mouseOver)
+                    {
+                        d.Opacity = 0.8;
+                        return;
+                    }
+                    d.Opacity = 1;
+                };
+            }
+
+            if(val > MinNumber)
+            {
+                dot.MouseLeftButtonUp += (sender, e) =>
+                {
+                    Number = CalculateNumber(val);
+                };
+            }
+
+            if(AcceptsBonuses)
+            {
+                dot.MouseRightButtonUp += (sender, e) =>
+                {
+                    Bonus = CalculateBonus(val);
+                };
+            }
+
+            return dot;
+        }
+
+        private enum DotNumberControlValueType { Number, Bonus, AutoBonus }
     }
 }

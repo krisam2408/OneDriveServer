@@ -1,11 +1,11 @@
 ﻿using RetiraTracker.Core;
 using RetiraTracker.Core.Abstracts;
+using RetiraTracker.Extensions;
 using RetiraTracker.Model;
 using RetiraTracker.Model.Domain;
 using RetiraTracker.View.Popups;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -14,31 +14,31 @@ namespace RetiraTracker.ViewModels
 {
     public class MainViewModel:BaseViewModel
     {
-        private ObservableCollection<ListItem> settingsList;
-        public ObservableCollection<ListItem> SettingsList { get { return settingsList; } set { SetValue(ref settingsList, value); } }
+        private ObservableCollection<ListItem> m_settingsList;
+        public ObservableCollection<ListItem> SettingsList { get { return m_settingsList; } set { SetValue(ref m_settingsList, value); } }
 
-        private ListItem selectedSetting;
+        private ListItem m_selectedSetting;
         public ListItem SelectedSetting 
         { 
-            get { return selectedSetting; } 
+            get { return m_selectedSetting; } 
             set
             { 
-                SetValue(ref selectedSetting, value);
+                SetValue(ref m_selectedSetting, value);
                 if(value != null)
                     SelectCampaigns();
             } 
         }
 
-        private ObservableCollection<ListItem> campaignsList;
-        public ObservableCollection<ListItem> CampaignsList { get { return campaignsList; } set { SetValue(ref campaignsList, value); } }
+        private ObservableCollection<ListItem> m_campaignsList;
+        public ObservableCollection<ListItem> CampaignsList { get { return m_campaignsList; } set { SetValue(ref m_campaignsList, value); } }
 
-        private ListItem selectedCampaign;
+        private ListItem m_selectedCampaign;
         public ListItem SelectedCampaign 
         {
-            get { return selectedCampaign; } 
+            get { return m_selectedCampaign; } 
             set 
             {
-                if (SetValue(ref selectedCampaign, value))
+                if (SetValue(ref m_selectedCampaign, value))
                     GoEnabled = true;
             }
         }
@@ -53,20 +53,20 @@ namespace RetiraTracker.ViewModels
             }
         }
 
-        private bool goEnabled;
+        private bool m_goEnabled;
         public bool GoEnabled
         {
             get
             {
                 if (!IsEnabled)
                     return false;
-                return goEnabled;
+                return m_goEnabled;
             }
-            set { SetValue(ref goEnabled, value); }
+            set { SetValue(ref m_goEnabled, value); }
         }
 
-        private Visibility cancelButtonVisibility;
-        public Visibility CancelButtonVisibility { get { return cancelButtonVisibility; } set { SetValue(ref cancelButtonVisibility, value); } }
+        private Visibility m_cancelButtonVisibility;
+        public Visibility CancelButtonVisibility { get { return m_cancelButtonVisibility; } set { SetValue(ref m_cancelButtonVisibility, value); } }
 
         public ICommand LogInCommand
         {
@@ -216,7 +216,7 @@ namespace RetiraTracker.ViewModels
 
             if(ownSetting)
             {
-                InfoPopup alert = new InfoPopup("You already own a Setting!");
+                InfoPopup alert = new("You already own a Setting!");
                 alert.Show();
                 return;
             }

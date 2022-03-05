@@ -1,28 +1,20 @@
 ﻿using RetiraTracker.Core;
 using RetiraTracker.Core.Abstracts;
+using RetiraTracker.Extensions;
 using RetiraTracker.Model;
-using ColorRoseLib;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace RetiraTracker.ViewModels
 {
-    public class NavigationViewModel:BaseViewModel
+    public class NavigationViewModel : BaseViewModel
     {
-        private string frameDestination;
-        public string FrameDestination { get { return frameDestination; } set { SetValue(ref frameDestination, value); } }
+        private string m_frameDestination;
+        public string FrameDestination { get { return m_frameDestination; } set { SetValue(ref m_frameDestination, value); } }
 
-        private string userMail;
-        public string UserMail { get { return userMail; } set { SetValue(ref userMail, value); } }
+        private string m_userMail;
+        public string UserMail { get { return m_userMail; } set { SetValue(ref m_userMail, value); } }
 
         public ICommand AppCloseCommand { get { return new RelayCommand(e => AppClose()); } }
         public ICommand AppMinimizeCommand { get { return new RelayCommand(e => AppMinimize()); } }
@@ -31,19 +23,19 @@ namespace RetiraTracker.ViewModels
         public ICommand AppHomeCommand { get { return new RelayCommand(async (e) => await AppHomeAsync()); } }
         public ICommand SignOutCommand { get { return new RelayCommand(async (e) => await SignOut()); } }
 
-        private Visibility menuVisible;
-        public Visibility MenuVisibility { get { return menuVisible; } set { SetValue(ref menuVisible, value); } }
+        private Visibility m_menuVisible;
+        public Visibility MenuVisibility { get { return m_menuVisible; } set { SetValue(ref m_menuVisible, value); } }
 
-        private Visibility indicatorVisible;
-        public Visibility IndicatorVisible { get { return indicatorVisible; } set { SetValue(ref indicatorVisible, value); } }
+        private Visibility m_indicatorVisible;
+        public Visibility IndicatorVisible { get { return m_indicatorVisible; } set { SetValue(ref m_indicatorVisible, value); } }
 
-        private bool isEnabled;
+        private bool m_isEnabled;
         public new bool IsEnabled
         {
-            get { return isEnabled; }
+            get { return m_isEnabled; }
             set
             {
-                if(SetValue(ref isEnabled, value))
+                if(SetValue(ref m_isEnabled, value))
                 {
                     if(!Terminal.Instance.Campaign.IsNull())
                         Terminal.Instance.Campaign.IsEnabled = value;
@@ -108,17 +100,17 @@ namespace RetiraTracker.ViewModels
             IndicatorVisible = isVisible ? Visibility.Visible : Visibility.Hidden;
         }
 
-        private void AppClose()
+        private static void AppClose()
         {
             Application.Current.Shutdown();
         }
 
-        private void AppMinimize()
+        private static void AppMinimize()
         {
             Application.Current.MainWindow.WindowState = WindowState.Minimized;
         }
 
-        private void AppMaximize()
+        private static void AppMaximize()
         {
             if (Application.Current.MainWindow.WindowState == WindowState.Maximized)
             {
@@ -130,7 +122,7 @@ namespace RetiraTracker.ViewModels
             Application.Current.MainWindow.WindowState = WindowState.Maximized;
         }
 
-        private void AppMove(MouseEventArgs e)
+        private static void AppMove(MouseEventArgs e)
         {
             if(Application.Current.MainWindow.WindowState == WindowState.Maximized)
             {
@@ -144,7 +136,7 @@ namespace RetiraTracker.ViewModels
 
         private async Task AppHomeAsync()
         {
-            if (menuVisible == Visibility.Hidden)
+            if (m_menuVisible == Visibility.Hidden)
             {
                 await Navigation(Pages.LogIn);
                 return;
@@ -160,7 +152,7 @@ namespace RetiraTracker.ViewModels
             await Navigation(Pages.LogIn);
         }
 
-        private double GetCurrentScreenWorkAreaHeight()
+        private static double GetCurrentScreenWorkAreaHeight()
         {
             return SystemParameters.MaximizedPrimaryScreenHeight;
         }

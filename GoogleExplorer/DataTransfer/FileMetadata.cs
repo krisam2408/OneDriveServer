@@ -1,9 +1,5 @@
 ﻿using GoogleExplorer.Extensions;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GFile = Google.Apis.Drive.v3.Data.File;
 
 namespace GoogleExplorer.DataTransfer

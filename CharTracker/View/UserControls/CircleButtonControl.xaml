@@ -29,7 +29,7 @@
             </Style.Setters>
             <Style.Triggers>
                 <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Fill" Value="{StaticResource Grau}" />
+                    <Setter Property="Fill" Value="{StaticResource DarkLight}" />
                 </Trigger>
             </Style.Triggers>
         </Style>

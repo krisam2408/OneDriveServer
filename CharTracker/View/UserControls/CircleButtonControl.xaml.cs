@@ -21,14 +21,14 @@ namespace RetiraTracker.View.UserControls
     /// </summary>
     public partial class CircleButtonControl : UserControl
     {
+        public SolidColorBrush BorderBackground { get; set; }
+        public SolidColorBrush MouseOverBorderBackground { get { return SetMouseOverColor(); } }
+        public SolidColorBrush DisabledBorderBackground { get { return SetDisabledColor(); } }
+        
         public CircleButtonControl()
         {
             InitializeComponent();
         }
-
-        public SolidColorBrush BorderBackground { get; set; }
-        public SolidColorBrush MouseOverBorderBackground { get { return SetMouseOverColor(); } }
-        public SolidColorBrush DisabledBorderBackground { get { return SetDisabledColor(); } }
 
         public string Data { get; set; }
 

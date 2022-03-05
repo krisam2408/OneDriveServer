@@ -21,25 +21,24 @@ namespace RetiraTracker.View.UserControls
     /// </summary>
     public partial class CoDWillpowerControl : UserControl
     {
-        private readonly SolidColorBrush transparent = new SolidColorBrush(Color.FromArgb(30, 0, 0, 0));
-        private readonly SolidColorBrush dark = (SolidColorBrush)Application.Current.Resources["Dark"];
-        private readonly LinearGradientBrush slash;
+        private readonly SolidColorBrush m_transparent = new SolidColorBrush(Color.FromArgb(30, 0, 0, 0));
+        private readonly SolidColorBrush m_dark = (SolidColorBrush)Application.Current.Resources["Dark"];
+        private readonly LinearGradientBrush m_slash;
 
-        private Ellipse[] Dots;
-        private Rectangle[] Rects;
+        private readonly Ellipse[] m_dots;
+        private readonly Rectangle[] m_rects;
 
         public EventHandler MaxWillpowerChanged;
         public EventHandler WillpowerChanged;
-
 
         public CoDWillpowerControl()
         {
             InitializeComponent();
 
-            Color darkColor = dark.Color;
-            Color transparentColor = transparent.Color;
+            Color darkColor = m_dark.Color;
+            Color transparentColor = m_transparent.Color;
 
-            slash = new LinearGradientBrush(new GradientStopCollection(new List<GradientStop>
+            m_slash = new LinearGradientBrush(new GradientStopCollection(new List<GradientStop>
                 {
                     new GradientStop(transparentColor, 0.4),
                     new GradientStop(darkColor, 0.47),
@@ -50,8 +49,8 @@ namespace RetiraTracker.View.UserControls
                 new Point(1, 1)
             );
 
-            Dots = new Ellipse[10] { Dot0, Dot1, Dot2, Dot3, Dot4, Dot5, Dot6, Dot7, Dot8, Dot9 };
-            Rects = new Rectangle[10] { Rect0, Rect1, Rect2, Rect3, Rect4, Rect5, Rect6, Rect7, Rect8, Rect9 };
+            m_dots = new Ellipse[10] { Dot0, Dot1, Dot2, Dot3, Dot4, Dot5, Dot6, Dot7, Dot8, Dot9 };
+            m_rects = new Rectangle[10] { Rect0, Rect1, Rect2, Rect3, Rect4, Rect5, Rect6, Rect7, Rect8, Rect9 };
 
             MaxWillpowerChanged += (sender, e) =>
             {
@@ -142,20 +141,20 @@ namespace RetiraTracker.View.UserControls
 
         private void SetDotFills(int val = 0)
         {
-            for (int i = 0; i < Dots.Length; i++)
-                Dots[i].Fill = transparent;
+            for (int i = 0; i < m_dots.Length; i++)
+                m_dots[i].Fill = m_transparent;
 
             for (int i = 0; i < val; i++)
-                Dots[i].Fill = dark;
+                m_dots[i].Fill = m_dark;
         }
 
         private void SetRectFills(int val = 0)
         {
-            for (int i = 0; i < Rects.Length; i++)
-                Rects[i].Fill = transparent;
+            for (int i = 0; i < m_rects.Length; i++)
+                m_rects[i].Fill = m_transparent;
 
             for (int i = 0; i < val; i++)
-                Rects[i].Fill = slash;
+                m_rects[i].Fill = m_slash;
         }
 
         private void SetCurrentWillpower(int val)

@@ -5,11 +5,9 @@ using GoogleExplorer.DataTransfer;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Timers;
 using Timer = System.Timers.Timer;
 
 namespace RetiraTracker.Model
@@ -19,14 +17,14 @@ namespace RetiraTracker.Model
         private Explorer Explorer { get; set; }
         private Timer Timer { get; set; }
 
-        private static ExplorerManager instance;
+        private static ExplorerManager m_instance;
         public static ExplorerManager Instance
         {
             get
             {
-                if (instance == null)
-                    instance = new();
-                return instance;
+                if (m_instance == null)
+                    m_instance = new();
+                return m_instance;
             }
         }
 
@@ -44,7 +42,7 @@ namespace RetiraTracker.Model
                 Timer = null;
             }
 
-            instance = null;
+            m_instance = null;
         }
 
         public async Task<string> LogInAsync()
@@ -52,23 +50,18 @@ namespace RetiraTracker.Model
             Explorer = await Explorer.CreateAsync("Retira");
 
             if (Explorer == null)
-            {
                 return "## Application credetials are missing. Please contact your administrator.";
-            }
 
             RequestResult authTry = await Explorer.Authenticate();
 
             if (authTry != RequestResult.Success)
             {
-                switch (authTry)
+                return authTry switch
                 {
-                    case RequestResult.Cancelled:
-                        return "## Operation canceled.";
-                    case RequestResult.TokenExpired:
-                        return "## There was an authentication problem. Please try again.";
-                    default:
-                        return "## 100";
-                }
+                    RequestResult.Cancelled => "## Operation canceled.",
+                    RequestResult.TokenExpired => "## There was an authentication problem. Please try again.",
+                    _ => "## 100",
+                };
             }
 
             return Explorer.UserMail;

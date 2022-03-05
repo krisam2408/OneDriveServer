@@ -9,11 +9,10 @@
     <UserControl.Resources>
         <Style x:Key="FormButton" TargetType="{x:Type Border}">
             <Style.Setters>
-                <Setter Property="Cursor" Value="Hand" />
                 <Setter Property="Height" Value="32" />
-                <Setter Property="CornerRadius" Value="4" />
-                <Setter Property="Margin" Value="4,0" />
-                <Setter Property="BorderThickness" Value="2" />
+                <Setter Property="CornerRadius" Value="8" />
+                <Setter Property="Margin" Value="2,0" />
+                <Setter Property="Background" Value="{StaticResource Blau}" />
             </Style.Setters>
         </Style>
         <Style x:Key="ButtonText" TargetType="{x:Type TextBlock}">
@@ -22,10 +21,11 @@
                 <Setter Property="VerticalAlignment" Value="Center" />
                 <Setter Property="FontFamily" Value="Consolas" />
                 <Setter Property="FontWeight" Value="ExtraBold" />
+                <Setter Property="Foreground" Value="{StaticResource Light}" />
             </Style.Setters>
         </Style>
     </UserControl.Resources>
-    <Grid>
+    <Grid Margin="4,0,0,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />

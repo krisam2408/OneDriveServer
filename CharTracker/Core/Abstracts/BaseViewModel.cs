@@ -3,8 +3,8 @@ namespace RetiraTracker.Core.Abstracts
 {
     public abstract class BaseViewModel:BaseNotifyPropertyChanged
     {
-        private bool isEnabled;
-        public bool IsEnabled { get { return isEnabled; } set { SetValue(ref isEnabled, value); } }
+        private bool m_isEnabled;
+        public bool IsEnabled { get { return m_isEnabled; } set { SetValue(ref m_isEnabled, value); } }
 
         protected BaseViewModel() 
         {

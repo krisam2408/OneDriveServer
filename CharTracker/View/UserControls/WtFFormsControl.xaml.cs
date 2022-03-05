@@ -22,10 +22,11 @@ namespace RetiraTracker.View.UserControls
     /// </summary>
     public partial class WtFFormsControl : UserControl
     {
-        private readonly SolidColorBrush transparent = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
-        private readonly SolidColorBrush activated = (SolidColorBrush)Application.Current.Resources["Orange"];
-        private readonly SolidColorBrush light = (SolidColorBrush)Application.Current.Resources["Light"];
-        private Border[] Buttons;
+        private readonly SolidColorBrush m_activated = (SolidColorBrush)Application.Current.Resources["Gruen"];
+        private readonly SolidColorBrush m_original = (SolidColorBrush)Application.Current.Resources["Blau"];
+        private readonly SolidColorBrush m_mouseOver = (SolidColorBrush)Application.Current.Resources["Orange"];
+        private readonly SolidColorBrush m_disabled = (SolidColorBrush)Application.Current.Resources["DarkLight"];
+        private readonly Border[] m_buttons;
 
         public EventHandler FormsChanged;
 
@@ -33,18 +34,33 @@ namespace RetiraTracker.View.UserControls
         {
             InitializeComponent();
 
-            Buttons = new Border[5] { HishuButton, DaluButton, GauruButton, UrshulButton, UrhanButton };
+            m_buttons = new Border[5] { HishuButton, DaluButton, GauruButton, UrshulButton, UrhanButton };
 
-            foreach(Border border in Buttons)
-                border.BorderBrush = activated;
-
-            SetButtonsColors(WerewolfForms.Hishu);
+            SetButtonMouseOver();
 
             FormsChanged += (sender, e) =>
             {
-                SetButtonsColors(Forms);
+                SetButtonsColors();
                 ValueChanged?.Execute(null);
             };
+
+            IsEnabledChanged += (sender, e) =>
+            {
+                bool enabled = (bool)e.NewValue;
+                if(enabled)
+                {
+                    SetButtonsColors();
+                    return;
+                }
+
+                for(int i = 0; i < m_buttons.Length;i++)
+                {
+                    m_buttons[i].Background = m_disabled;
+                    m_buttons[i].Cursor = Cursors.Arrow;
+                }
+            };
+            
+            SetButtonsColors();
         }
 
         public static DependencyProperty FormsProperty = DependencyProperty.Register("Forms", typeof(WerewolfForms), typeof(WtFFormsControl), new PropertyMetadata(WerewolfForms.Hishu, OnFormsChanged));
@@ -79,27 +95,63 @@ namespace RetiraTracker.View.UserControls
         public ICommand Button03Command { get { return new RelayCommand((e) => { Forms = WerewolfForms.Urshul; }); } }
         public ICommand Button04Command { get { return new RelayCommand((e) => { Forms = WerewolfForms.Urhan; }); } }
 
-        private void SetButtonsColors(WerewolfForms form)
+        private void SetButtonsColors()
         {
-            for(int i = 0; i < Buttons.Length; i++)
-            {
-                Buttons[i].Background = transparent;
-                GetButtonText(Buttons[i]).Foreground = activated;
-            }
-
-            for(int i = 0; i < Buttons.Length; i++)
-            {
-                if(i == (int)form)
-                {
-                    Buttons[i].Background = activated;
-                    GetButtonText(Buttons[i]).Foreground = light;
-                }
-            }
+            for(int i = 0; i < m_buttons.Length; i++)
+                SetButtonColors(i);
         }
 
-        private TextBlock GetButtonText(Border button)
+        private void SetButtonColors(int index)
         {
-            return (TextBlock)button.Child;
+            if (index == (int)Forms)
+            {
+                m_buttons[index].Background = m_activated;
+                m_buttons[index].Cursor = Cursors.Arrow;
+                return;
+            }
+
+            m_buttons[index].Background = m_original;
+            m_buttons[index].Cursor = Cursors.Hand;
+        }
+
+        private void SetButtonMouseOver()
+        {
+            for(int i = 0; i < m_buttons.Length; i++)
+            {
+                m_buttons[i].IsMouseDirectlyOverChanged += (sender, e) =>
+                {
+                    Border btn = (Border)sender;
+                    TextBlock text = (TextBlock)btn.Child;
+                    if (text.Text != Forms.ToString())
+                    {
+                        bool mouseOver = (bool)e.NewValue;
+                        if (mouseOver)
+                        {
+                            btn.Background = m_mouseOver;
+                            return;
+                        }
+
+                        btn.Background = m_original;
+                    }
+                };
+
+                m_buttons[i].Child.IsMouseDirectlyOverChanged += (sender, e) =>
+                {
+                    TextBlock text = (TextBlock)sender;
+                    if (text.Text != Forms.ToString())
+                    {
+                        Border parent = (Border)text.Parent;
+                        bool mouseOver = (bool)e.NewValue;
+                        if (mouseOver)
+                        {
+                            parent.Background = m_mouseOver;
+                            return;
+                        }
+
+                        parent.Background = m_original;
+                    }
+                };
+            }
         }
     }
 }

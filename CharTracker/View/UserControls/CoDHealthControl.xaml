@@ -18,27 +18,18 @@
         </Style>
 
         <Style x:Key="RectDot" TargetType="{x:Type Rectangle}">
-            <Style.Setters>
-                <Setter Property="Stroke" Value="{StaticResource Dark}" />
-                <Setter Property="StrokeThickness" Value="1.5" />
-                <Setter Property="Width" Value="16" />
-                <Setter Property="Height" Value="16" />
-            </Style.Setters>
-        </Style>
-
-        <Style x:Key="PathButton" TargetType="{x:Type Path}">
-            <Style.Setters>
-                <Setter Property="Fill" Value="{StaticResource Blau}" />
-                <Setter Property="Stretch" Value="UniformToFill" />
-                <Setter Property="Cursor" Value="Hand" />
-                <Setter Property="Width" Value="16" />
-                <Setter Property="Height" Value="16" />
-            </Style.Setters>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Opacity" Value="0.8" />
                 </Trigger>
             </Style.Triggers>
+            <Style.Setters>
+                <Setter Property="Stroke" Value="{StaticResource Dark}" />
+                <Setter Property="StrokeThickness" Value="1.5" />
+                <Setter Property="Width" Value="16" />
+                <Setter Property="Height" Value="16" />
+                <Setter Property="Cursor" Value="Hand" />
+            </Style.Setters>
         </Style>
 
         <Style x:Key="HealthDotListItem" TargetType="{x:Type ListViewItem}">
@@ -60,6 +51,7 @@
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderBrush" Value="Transparent" />
             <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Height" Value="80" />
             <Setter Property="Focusable" Value="False" />
             <Setter Property="ItemContainerStyle" Value="{StaticResource HealthDotListItem}" />
             <Setter Property="ItemsPanel">
@@ -81,13 +73,11 @@
                 <DataTemplate>
                     <Grid Margin="0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="24" />
+                            <ColumnDefinition Width="16" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="24" />
                             <RowDefinition Height="8" />
-                            <RowDefinition Height="24" />
-                            <RowDefinition Height="24" />
                             <RowDefinition Height="24" />
                         </Grid.RowDefinitions>
                         
@@ -95,30 +85,14 @@
 
                         <TextBlock Grid.Row="1" Visibility="Collapsed" Text="{Binding Enumerator}" />
 
-                        <Path Grid.Row="2" Data="M288.662 352H31.338c-17.818 0-26.741-21.543-14.142-34.142l128.662-128.662c7.81-7.81 20.474-7.81 28.284 0l128.662 128.662c12.6 12.599 3.676 34.142-14.142 34.142z" Style="{StaticResource PathButton}" core:MouseBehaviour.MouseLeftUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDHealthControl}}, Path=HealthUpCommand}">
-                            <Path.LayoutTransform>
-                                <TransformGroup>
-                                    <RotateTransform Angle="225" />
-                                </TransformGroup>
-                            </Path.LayoutTransform>
-                        </Path>
-                        
-                        <Rectangle Grid.Row="3" Style="{StaticResource RectDot}" Fill="{Binding Brush}" />
-
-                        <Path Grid.Row="4" Data="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"  Style="{StaticResource PathButton}" core:MouseBehaviour.MouseLeftUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDHealthControl}}, Path=HealthDownCommand}">
-                            <Path.LayoutTransform>
-                                <TransformGroup>
-                                    <RotateTransform Angle="135" />
-                                </TransformGroup>
-                            </Path.LayoutTransform>
-                        </Path>
+                        <Rectangle Grid.Row="2" Style="{StaticResource RectDot}" Fill="{Binding Brush}" core:MouseBehaviour.MouseLeftUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDHealthControl}}, Path=HealthUpCommand}" core:MouseBehaviour.MouseRightUpCommand="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:CoDHealthControl}}, Path=HealthDownCommand}" />
 
                     </Grid>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListView>
 
-        <Ellipse Grid.Column="1" Fill="Transparent" Stroke="{StaticResource Dark}" StrokeThickness="4" Stretch="UniformToFill" />
+        <Ellipse Grid.Column="1" Fill="Transparent" Stroke="{StaticResource Dark}" StrokeThickness="4" Stretch="UniformToFill" Margin="8,0,0,0" />
         <TextBlock x:Name="PenTextBlock" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" TextAlignment="Center" FontFamily="Consolas" FontSize="48" Margin="8,0,0,0" />
         
     </Grid>

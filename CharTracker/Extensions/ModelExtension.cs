@@ -3,9 +3,9 @@ using System.Collections.ObjectModel;
 using MediaColor = System.Windows.Media.Color;
 using Color = System.Drawing.Color;
 
-namespace RetiraTracker.Model
+namespace RetiraTracker.Extensions
 {
-    public static class Extension
+    public static class ModelExtension
     {
         public static List<T> RemoveDuplicates<T>(this IEnumerable<T> list)
         {
