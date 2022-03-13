@@ -17,27 +17,27 @@ using System.Windows.Shapes;
 namespace RetiraTracker.View.UserControls
 {
     /// <summary>
-    /// Interaction logic for CloseButtonControl.xaml
+    /// Interaction logic for UpdateButtonControl.xaml
     /// </summary>
-    public partial class CloseButtonControl : UserControl
+    public partial class UpdateButtonControl : UserControl
     {
-        public SolidColorBrush DarkRot { get { return SetDarkRot(); } }
+        public SolidColorBrush DarkBlaugruen { get { return SetDarkBlaugruen(); } }
 
-        public CloseButtonControl()
+        public UpdateButtonControl()
         {
             InitializeComponent();
         }
 
-        public static DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(CloseButtonControl));
+        public static DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(UpdateButtonControl));
         public ICommand Command
         {
             get { return (ICommand)GetValue(CommandProperty); }
             set { SetValue(CommandProperty, value); }
         }
 
-        private static SolidColorBrush SetDarkRot()
+        private static SolidColorBrush SetDarkBlaugruen()
         {
-            Color rotColor = (Color)Application.Current.Resources["RotColor"];
+            Color rotColor = (Color)Application.Current.Resources["BlaugruenColor"];
             HSBColor activeColor = HSBColor.FromARGB(255, rotColor.R, rotColor.G, rotColor.B);
             activeColor.Darken(16);
             byte[] color = activeColor.ToARGB();

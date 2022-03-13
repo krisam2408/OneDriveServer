@@ -1,0 +1,33 @@
+﻿<Window x:Class="RetiraTracker.View.Popups.ConfirmUpdatePopup"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:RetiraTracker.View.Popups"
+        xmlns:controls="clr-namespace:RetiraTracker.View.UserControls"
+        mc:Ignorable="d"
+        Height="140" Width="350"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        WindowStartupLocation="CenterScreen">
+    <Border CornerRadius="16" Background="{StaticResource Dark}" BorderBrush="{StaticResource DarkLight}" BorderThickness="2" Padding="8">
+        <StackPanel>
+            <StackPanel HorizontalAlignment="Right">
+                <controls:CloseButtonControl Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ConfirmUpdatePopup}}, Path=CloseCommand}" />
+            </StackPanel>
+            <StackPanel Margin="16,0">
+                <TextBlock Style="{StaticResource StandardText}" Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ConfirmUpdatePopup}}, Path=Message}" HorizontalAlignment="Center" Margin="8" TextWrapping="Wrap" />
+                <Grid Margin="0,8,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <controls:ButtonControl Grid.Column="0" Text="No" BorderBackground="{StaticResource Rot}" BorderHeight="40" BorderWidth="126" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ConfirmUpdatePopup}}, Path=CloseCommand}" />
+                    <controls:ButtonControl Grid.Column="2" Text="Yes!" BorderBackground="{StaticResource Gruen}" BorderHeight="40" BorderWidth="126" Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ConfirmUpdatePopup}}, Path=UpdateCommand}" />
+                </Grid>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</Window>

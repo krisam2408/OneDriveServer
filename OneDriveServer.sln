@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31424.327
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RetiraTracker", "CharTracker\RetiraTracker.csproj", "{A74F7378-32F9-4B12-86E5-A7EEE44B3821}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ColorRoseLib", "..\ColorRose\ColorRoseLib\ColorRoseLib.csproj", "{6C4F9724-90B3-4735-969F-8B9094D7D97B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SheetDrama", "RPGTemplates\SheetDrama.csproj", "{C3724733-CE53-4A15-B869-F37A3EA3F99A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RetiraUpdater", "RetiraUpdater\RetiraUpdater.csproj", "{B000F988-F6AE-45D9-9033-1AF12499B488}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{C3724733-CE53-4A15-B869-F37A3EA3F99A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3724733-CE53-4A15-B869-F37A3EA3F99A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3724733-CE53-4A15-B869-F37A3EA3F99A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B000F988-F6AE-45D9-9033-1AF12499B488}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B000F988-F6AE-45D9-9033-1AF12499B488}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B000F988-F6AE-45D9-9033-1AF12499B488}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B000F988-F6AE-45D9-9033-1AF12499B488}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

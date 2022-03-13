@@ -12,6 +12,8 @@ namespace GoogleExplorer
         GoogleSpreadSheet,
         [MimeType("text/plain")]
         Text,
+        [MimeType("application/json")]
+        JSON,
         [MimeType("application/pdf")]
         PDF,
         [MimeType("aplication/vnd.openxmlformats-officedocument.wordprocessingml.document")]

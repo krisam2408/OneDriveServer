@@ -1,7 +1,11 @@
-﻿using RetiraTracker.Core;
+﻿using Newtonsoft.Json;
+using RetiraTracker.Core;
 using RetiraTracker.Core.Abstracts;
 using RetiraTracker.Extensions;
 using RetiraTracker.Model;
+using RetiraTracker.Model.DataTransfer;
+using RetiraTracker.View.Popups;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -21,13 +25,17 @@ namespace RetiraTracker.ViewModels
         public ICommand AppMaximizeCommand { get { return new RelayCommand(e => AppMaximize()); } }
         public ICommand AppMoveDownCommand { get { return new RelayCommand(e => AppMove((MouseEventArgs)e)); } }
         public ICommand AppHomeCommand { get { return new RelayCommand(async (e) => await AppHomeAsync()); } }
-        public ICommand SignOutCommand { get { return new RelayCommand(async (e) => await SignOut()); } }
+        public ICommand SignOutCommand { get { return new RelayCommand(async (e) => await SignOutAsync()); } }
+        public ICommand UpdateCommand { get { return new RelayCommand(async (e) => await CheckLatestVersionAsync()); } }
 
         private Visibility m_menuVisible;
         public Visibility MenuVisibility { get { return m_menuVisible; } set { SetValue(ref m_menuVisible, value); } }
 
         private Visibility m_indicatorVisible;
         public Visibility IndicatorVisible { get { return m_indicatorVisible; } set { SetValue(ref m_indicatorVisible, value); } }
+
+        private Visibility m_updaterVisible;
+        public Visibility UpdaterVisible { get { return m_updaterVisible; } set { SetValue(ref m_updaterVisible, value); } }
 
         private bool m_isEnabled;
         public new bool IsEnabled
@@ -92,6 +100,7 @@ namespace RetiraTracker.ViewModels
         public void IsMenuVisible(bool isVisible)
         {
             MenuVisibility = isVisible ? Visibility.Visible : Visibility.Hidden;
+            UpdaterVisible = isVisible ? Visibility.Visible : Visibility.Hidden;
         }
 
         public void IsLoading(bool isVisible)
@@ -145,11 +154,43 @@ namespace RetiraTracker.ViewModels
             await Navigation(Pages.Settings);
         }
 
-        private async Task SignOut()
+        private async Task SignOutAsync()
         {
             await ExplorerManager.Instance.DisposeAsync();
             IsMenuVisible(false);
             await Navigation(Pages.LogIn);
+        }
+
+        private async Task CheckLatestVersionAsync()
+        {
+            IsLoading(true);
+
+            AppVersion local = await GetLocalAppVersion();
+            AppVersion online = await GetOnlineAppVersion();
+
+            if(local < online)
+            {
+                ConfirmUpdatePopup updateAlert = new(online);
+                updateAlert.Show();
+                return;
+            }
+
+            InfoPopup alert = new("There is no application updates available.");
+            alert.Show();
+        }
+
+        private async Task<AppVersion> GetLocalAppVersion()
+        {
+            string json = await File.ReadAllTextAsync("retiraVersion.json");
+            AppVersion appVersion = JsonConvert.DeserializeObject<AppVersion>(json);
+            return appVersion;
+        }
+
+        private async Task<AppVersion> GetOnlineAppVersion()
+        {
+            string json = await ExplorerManager.Instance.GetOnlineVersionAsync();
+            AppVersion appVersion = JsonConvert.DeserializeObject<AppVersion>(json);
+            return appVersion;
         }
 
         private static double GetCurrentScreenWorkAreaHeight()

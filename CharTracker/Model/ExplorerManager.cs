@@ -8,14 +8,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Timer = System.Timers.Timer;
 
 namespace RetiraTracker.Model
 {
     public class ExplorerManager
     {
         private Explorer Explorer { get; set; }
-        private Timer Timer { get; set; }
 
         private static ExplorerManager m_instance;
         public static ExplorerManager Instance
@@ -35,13 +33,6 @@ namespace RetiraTracker.Model
             await Explorer.Dispose();
             Explorer = null;
 
-            if (Timer != null)
-            {
-                Timer.Stop();
-                Timer.Dispose();
-                Timer = null;
-            }
-
             m_instance = null;
         }
 
@@ -50,7 +41,7 @@ namespace RetiraTracker.Model
             Explorer = await Explorer.CreateAsync("Retira");
 
             if (Explorer == null)
-                return "## Application credetials are missing. Please contact your administrator.";
+                return "## Application credentials are missing. Please contact your administrator.";
 
             RequestResult authTry = await Explorer.Authenticate();
 
@@ -74,7 +65,7 @@ namespace RetiraTracker.Model
 
         public async Task<ListItem[]> GetSettingsAsync()
         {
-            FileMetadata[] metadata = await Explorer.GetAllFilesAsync("retiraSettings.json");
+            FileMetadata[] metadata = await Explorer.GetAllFileMetadaOfNameAsync("retiraSettings.json");
 
             if (metadata.Length == 0)
             {
@@ -132,7 +123,7 @@ namespace RetiraTracker.Model
                 ParentFolder = new string[] { settings.FolderId }
             };
 
-            FileMetadata[] metadata = await Explorer.GetAllFilesAsync("retiraSettings.json");
+            FileMetadata[] metadata = await Explorer.GetAllFileMetadaOfNameAsync("retiraSettings.json");
 
             foreach (FileMetadata mtdt in metadata)
                 if (mtdt.ParentFolder.Contains(settings.FolderId))
@@ -194,11 +185,23 @@ namespace RetiraTracker.Model
             return true;
         }
 
+        public async Task<string> GetOnlineVersionAsync()
+        {
+            FileMetadata[] metadata = await Explorer.GetAllFileMetadaOfNameAsync("retiraVersion.json");
+
+            byte[] fileBuffer = await Explorer.DownloadFileAsync(metadata[0].ID);
+
+            string output = ReadFileText(fileBuffer, metadata[0].MimeType);
+
+            return output;
+        }
+
         private static string ReadFileText(byte[] buffer, MimeTypes mimeType)
         {
             switch(mimeType)
             {
                 case MimeTypes.Text:
+                case MimeTypes.JSON:
                     return Encoding.UTF8.GetString(buffer);
                 case MimeTypes.OfficeWord:
                     string text = Encoding.UTF8.GetString(buffer);

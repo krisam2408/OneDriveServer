@@ -35,7 +35,7 @@ namespace RetiraTracker.View.UserControls
             set { SetValue(CommandProperty, value); }
         }
 
-        private SolidColorBrush SetDarkOrange()
+        private static SolidColorBrush SetDarkOrange()
         {
             Color orangeColor = (Color)Application.Current.Resources["OrangeColor"];
             HSBColor activeColor = HSBColor.FromARGB(255, orangeColor.R, orangeColor.G, orangeColor.B);

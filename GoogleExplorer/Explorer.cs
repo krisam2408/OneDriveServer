@@ -20,7 +20,10 @@ namespace GoogleExplorer
     {
         private readonly string[] m_scopes = new string[] { DriveService.Scope.Drive };
         private const string m_credentials = "credentials.json";
-        private const string m_fileSearchProperties = "files(id, name, parents, mimeType, permissions)";
+        private const string m_fileSearchProperties = "files(id, name, parents, mimeType, permissions, trashed)";
+
+        private string AlternativePath { get; init; }
+        private string Credentials { get { return $"{AlternativePath}{m_credentials}"; } }
 
         public string ApplicationName { get; init; }
         public string UserMail { get; private set; }
@@ -33,7 +36,7 @@ namespace GoogleExplorer
         {
             UserCredential credential;
 
-            using FileStream fs = new FileStream(m_credentials, FileMode.Open, FileAccess.Read);
+            using FileStream fs = new FileStream(Credentials, FileMode.Open, FileAccess.Read);
 
             string credPath = "token.json";
 
@@ -98,7 +101,7 @@ namespace GoogleExplorer
         {
             UserCredential credential;
 
-            using FileStream fs = new FileStream(m_credentials, FileMode.Open, FileAccess.Read);
+            using FileStream fs = new FileStream(Credentials, FileMode.Open, FileAccess.Read);
 
             string credPath = "token.json";
 
@@ -138,15 +141,36 @@ namespace GoogleExplorer
             ApplicationName = name;
         }
 
+        private Explorer(string name, string alt):this(name)
+        {
+            AlternativePath = alt;
+        }
+
         public static async Task<Explorer> CreateAsync(string name)
         {
             Explorer explorer;
             try
             {
-                await File.ReadAllTextAsync(m_credentials);
                 explorer = new(name);
+                await File.ReadAllTextAsync(explorer.Credentials);
             }
             catch(FileNotFoundException)
+            {
+                return null;
+            }
+
+            return explorer;
+        }
+
+        public static async Task<Explorer> CreateAsync(string name, string alt)
+        {
+            Explorer explorer;
+            try
+            {
+                explorer = new(name, alt);
+                await File.ReadAllTextAsync(explorer.Credentials);
+            }
+            catch (FileNotFoundException)
             {
                 return null;
             }
@@ -177,7 +201,9 @@ namespace GoogleExplorer
                 gfiles.AddRange(glist.Files);
             } while (pageToken != null && gfiles.Count < 3000);
 
-            return gfiles.Distinct(new FileEqualityComparer())
+            return gfiles
+                .Where(f => f.Trashed == false)
+                .Distinct(new FileEqualityComparer())
                 .ToArray();
         }
 
@@ -208,6 +234,15 @@ namespace GoogleExplorer
                 .FirstOrDefault();
         }
 
+        private async Task<GFile[]> GetAllFilesFromFolderAsync(string folderId)
+        {
+            GFile[] data = await GetAllFilesAsync();
+
+            return data
+                .Where(f => f.Parents != null && f.Parents.Contains(folderId))
+                .ToArray();
+        }
+
         public async Task<FileMetadata> GetFileMetaDataAsync(string filename, string folderId)
         {
             GFile gFile = await GetFileByNameAsync(filename, folderId);
@@ -218,12 +253,21 @@ namespace GoogleExplorer
             return new FileMetadata(gFile);
         }
 
-        public async Task<FileMetadata[]> GetAllFilesAsync(string filename)
+        public async Task<FileMetadata[]> GetAllFileMetadaOfNameAsync(string filename)
         {
             GFile[] data = await GetAllFilesOfNameAsync(filename);
 
             return data
                 .Select(f=> new FileMetadata(f))
+                .ToArray();
+        }
+
+        public async Task<FileMetadata[]> GetAllFileMetadataFromFolderAsync(string folderId)
+        {
+            GFile[] data = await GetAllFilesFromFolderAsync(folderId);
+
+            return data
+                .Select(f => new FileMetadata(f))
                 .ToArray();
         }
 
