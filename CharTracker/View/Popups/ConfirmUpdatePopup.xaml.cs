@@ -38,7 +38,7 @@ namespace RetiraTracker.View.Popups
         {
             get
             {
-                return $"Update {m_appVersion.Version} is available. Do you wish tu update now?";
+                return $"Update {m_appVersion.Version} is available. Do you wish to update now?";
             }
         }
 
