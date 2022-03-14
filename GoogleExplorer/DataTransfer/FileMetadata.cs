@@ -6,11 +6,13 @@ namespace GoogleExplorer.DataTransfer
 {
     public class FileMetadata
     {
+
         public string ID { get; set; }
         public string Name { get; set; }
         public string[] ParentFolder { get; set; }
         public MimeTypes MimeType { get; set; }
         public PermissionMetadata[] Permissions  { get; set; }
+        public byte[] FileBuffer { get; set; }
         public bool IsShared
         {
             get
@@ -20,10 +22,22 @@ namespace GoogleExplorer.DataTransfer
                 return false;
             }
         }
+        public int BufferSize
+        {
+            get
+            {
+                if (FileBuffer == null)
+                    return 0;
+                return FileBuffer.Length;
+            }
+        }
 
-        public FileMetadata() { }
+        public FileMetadata() 
+        {
+            FileBuffer = null;
+        }
 
-        public FileMetadata(GFile gFile)
+        public FileMetadata(GFile gFile) : this()
         {
             ID = gFile.Id;
             Name = gFile.Name;

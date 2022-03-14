@@ -33,9 +33,9 @@ namespace RetiraUpdater
             m_instance = null;
         }
 
-        public async Task LogInAsync()
+        public async Task LogInAsync(string alt = "")
         {
-            Explorer = await Explorer.CreateAsync("RetiraUpdater", "./");
+            Explorer = await Explorer.CreateAsync("RetiraUpdater", alt);
 
             if (Explorer == null)
                 throw new NullReferenceException("No credentials found.");
@@ -57,7 +57,15 @@ namespace RetiraUpdater
         {
             FileMetadata[] metadatas = await Explorer.GetAllFileMetadaOfNameAsync(foldername);
             FileMetadata[] output = await Explorer.GetAllFileMetadataFromFolderAsync(metadatas[0].ID);
-            return output;
+            return output
+                .Where(f => f.MimeType != MimeTypes.GoogleFolder)
+                .ToArray();
+        }
+
+        public async Task<byte[]> DownloadFile(FileMetadata file)
+        {
+            byte[] outputBuffer = await Explorer.DownloadFileAsync(file.ID);
+            return outputBuffer;
         }
     }
 }
